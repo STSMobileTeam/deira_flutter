@@ -1,7 +1,6 @@
 
 import 'package:deira_flutter/router.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'Helper/Colors.dart';
@@ -11,24 +10,8 @@ import 'View/screens/splashscreen.dart';
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
-  configLoading();
 }
 
-void configLoading() {
-  EasyLoading.instance
-    ..displayDuration = const Duration(milliseconds: 2000)
-    ..indicatorType = EasyLoadingIndicatorType.fadingCircle
-    ..loadingStyle = EasyLoadingStyle.custom
-    ..indicatorSize = 45.0
-    ..radius = 10.0
-    ..progressColor = Colors.white
-    ..backgroundColor = const Color(0xffe9e3f4)
-    ..indicatorColor = darkpurple
-    ..textColor = darkpurple
-    ..maskColor = Colors.blue.withOpacity(0.5)
-    ..userInteractions = false
-    ..dismissOnTap = false;
-}
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -40,6 +23,7 @@ class MyApp extends StatelessWidget {
       title: 'Deira Travel',
       debugShowCheckedModeBanner: false,
       navigatorKey: NavigationService.navigatorKey,
+
       theme: ThemeData(
         // This is the theme of your application.
         //
@@ -55,7 +39,6 @@ class MyApp extends StatelessWidget {
           Theme.of(context).textTheme,
         ),
       ),
-      builder: EasyLoading.init(),
       home: const SafeArea(
         child: SplashScreen(),
       ),

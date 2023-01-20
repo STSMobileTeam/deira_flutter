@@ -34,18 +34,16 @@ class _HomeViewState extends State<HomeView> {
                     bottom: new Radius.elliptical(
                         MediaQuery.of(context).size.width, 60.0)),
               ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Center(
-                    child: SvgPicture.asset(
-                      'assets/images/logo_white.svg',
-                      width: 50.0,
-                      height: 50.0,
-                    ),
-                  )
-                ],
+              child: Padding(
+                padding: EdgeInsets.only(bottom : SizeConfig.blockSizeVertical!*4),
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: SvgPicture.asset(
+                    'assets/images/logo_white.svg',
+                    width: 50.0,
+                    height: 50.0,
+                  ),
+                ),
               ),
             )
           ],
