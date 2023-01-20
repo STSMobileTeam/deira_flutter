@@ -19,8 +19,8 @@ Color pending = const Color(0xFFE3A532);
 Color rejected = const Color(0xFFC12828);
 
 
-
-
+Color primary_blue = const Color(0xFF3B62AB);
+Color secondary_blue = const Color(0xFF00A9EB);
 
 
 
