@@ -6,6 +6,7 @@ import 'package:flutter_svg/svg.dart';
 
 import '../../Helper/size_config.dart';
 import '../../Helper/utilities.dart';
+import '../../router.dart';
 import '../widgets/customtext.dart';
 import '../widgets/customtextfield.dart';
 
@@ -34,8 +35,12 @@ class _LoginState extends State<MyLogin> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: BlocListener<LoginScreenBloc, LoginScreenState>(
+        bloc: bloc,
         listener: (context, state) {
           // TODO: implement listener
+          if (state is LoginScreenBlocLoadingFinishedState) {
+            Navigator.pushNamedAndRemoveUntil(context, AppRoutes.homeScreen, (route) => false);
+          }
         },
         child: BlocBuilder<LoginScreenBloc, LoginScreenState>(
           builder: (context, state) {
@@ -55,7 +60,7 @@ class _LoginState extends State<MyLogin> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         SvgPicture.asset(
-                          'assets/images/logo_new_nw.svg',
+                          'assets/images/logo_new.svg',
                           width: 50.0,
                           height: 50.0,
                         )
@@ -189,7 +194,7 @@ class _LoginState extends State<MyLogin> {
                                   borderRadius: BorderRadius.circular(15.0)),
                               onPressed: () {
                                 if (_loginFormKey.currentState!.validate()) {
-                                  bloc.add(loginEvent());
+                                  bloc.add(LoginScreenBlocLoadingEvent());
                                 }
                               },
                             ),

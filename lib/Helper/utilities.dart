@@ -43,7 +43,20 @@ class Utilities {
       timeInSecForIosWeb: 1,
     );
   }
+
+
 }
+
+class ConstantVariableClass {
+  static String noResultString = 'Not added';
+
+  static String loadingString = 'Loading';
+
+  static bool dashboardScreenBoolean = false;
+
+  var familyHeadScrollBoolean = ValueNotifier<bool>(true);
+}
+
 
 
 

@@ -1,4 +1,7 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:deira_flutter/Helper/Colors.dart';
+import 'package:deira_flutter/View/widgets/customtext.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -11,10 +14,33 @@ class HomeView extends StatefulWidget {
   State<HomeView> createState() => _HomeViewState();
 }
 
+final List<String> imgList = [
+  'https://sarvtoday.com//admin/bestoffersimages/1/thumbnail/a1.jpg',
+  'https://i.imgur.com/yfT7XCY.jpg',
+  'https://ae.akbartravels.com/Content/Staticpages/AKAE/Static/images/amazing-discount-flight.jpg',
+  'https://vanphongvemaybay.vn/wp-content/uploads/air-asia-office-banner.jpg',
+  ];
+
+final List<Widget> imageSliders = imgList.map((item) =>
+    Container(child: Container(
+      margin: EdgeInsets.all(5.0),
+      child: ClipRRect(
+        borderRadius: BorderRadius.all(Radius.circular(5.0)),
+        child: Stack(
+          children: <Widget>[
+            Image.network(item, fit: BoxFit.cover, width: 1000.0)
+          ],
+        )),
+  ),
+    )).toList();
+
 class _HomeViewState extends State<HomeView> {
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
+    int _current = 0;
+    final CarouselController _controller = CarouselController();
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
@@ -23,7 +49,7 @@ class _HomeViewState extends State<HomeView> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
-              height: SizeConfig.blockSizeVertical!* 18,
+              height: SizeConfig.blockSizeVertical!* 17,
               alignment: Alignment.center,
               decoration: new BoxDecoration(
                 color: primary_blue,
@@ -32,23 +58,325 @@ class _HomeViewState extends State<HomeView> {
                 ],
                 borderRadius: new BorderRadius.vertical(
                     bottom: new Radius.elliptical(
-                        MediaQuery.of(context).size.width, 60.0)),
+                        25.0, 25.0)),
               ),
               child: Padding(
-                padding: EdgeInsets.only(bottom : SizeConfig.blockSizeVertical!*4),
+                padding: EdgeInsets.only(bottom : SizeConfig.blockSizeVertical!*3),
                 child: Align(
                   alignment: Alignment.bottomCenter,
                   child: SvgPicture.asset(
                     'assets/images/logo_white.svg',
-                    width: 50.0,
-                    height: 50.0,
+                    width: 44.0,
+                    height: 44.0,
                   ),
                 ),
               ),
-            )
-          ],
-        ),
+            ),
+            SizedBox(height: SizeConfig.blockSizeVertical!*2,),
+            Padding(
+              padding: EdgeInsets.only(left: SizeConfig.blockSizeVertical!* 2,right: SizeConfig.blockSizeVertical!* 2),
+              child: Material(
+                elevation: 5,
+                borderRadius: BorderRadius.all(Radius.circular(5)),
+                child: Container(
+                  height: SizeConfig.blockSizeVertical!* 11.5,
+                  alignment: Alignment.center,
+                  child: Image.network('https://static.vscdn.net/images/careers/demo/booking/1648625147::HeroCampaign_Motion_v2.gif')
+                  // child: CachedNetworkImage(
+                  //   progressIndicatorBuilder: (context, url, progress) => Container(
+                  //     child: CircularProgressIndicator(
+                  //       value: progress.progress,
+                  //     ),
+                  //   ),
+                  //   imageUrl:
+                  //   'https://www.bigbreaks.com/Content/Images/offers/Flights/bigbreaks-banners_1360_400_wed400.png',
+                  // ),
+                ),
+              ),
+            ),
+            SizedBox(height: SizeConfig.blockSizeVertical!*4,),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Expanded(child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Material(
+                      elevation: 3,
+                      child: SvgPicture.asset(
+                        'assets/images/flight.svg',
+                        width: 50.0,
+                        height: 50.0,
+                      ),
+                    ),
+                    SizedBox(height: SizeConfig.blockSizeVertical!*1,),
+                    CustomText(text: 'Flight',size: 14)
+                  ],
+                )),
+                Expanded(child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Material(
+                      elevation: 3,
+                      child: SvgPicture.asset(
+                        'assets/images/car.svg',
+                        width: 50.0,
+                        height: 50.0,
+                      ),
+                    ),
+                    SizedBox(height: SizeConfig.blockSizeVertical!*1,),
+                    CustomText(text: 'Hotel',size: 14,)
+                  ],
+                )),
+                Expanded(child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Material(
+                      elevation: 3,
+                      child: SvgPicture.asset(
+                        'assets/images/insurance.svg',
+                        width: 50.0,
+                        height: 50.0,
+                      ),
+                    ),
+                    SizedBox(height: SizeConfig.blockSizeVertical!*1,),
+                    CustomText(text: 'Insurance',size: 14,)
+                  ],
+                )),
+                Expanded(child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Material(
+                      elevation: 3,
+                      child: SvgPicture.asset(
+                        'assets/images/holiday.svg',
+                        width: 50.0,
+                        height: 50.0,
+                      ),
+                    ),
+                    SizedBox(height: SizeConfig.blockSizeVertical!*1,),
+                    CustomText(text: 'Holiday',size: 14,)
+                  ],
+                ))
+              ],
+            ),
+            SizedBox(height: SizeConfig.blockSizeVertical!*3,),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Expanded(child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Material(
+                      elevation: 3,
+                      borderRadius: BorderRadius.circular(5),
+                      child:SvgPicture.asset(
+                        'assets/images/car.svg',
+                        width: 50.0,
+                        height: 50.0,
+                      ),
+                    ),
+                    SizedBox(height: SizeConfig.blockSizeVertical!*1,),
+                    CustomText(text: 'Promotion',size: 14,)
+                  ],
+                )),
+                Expanded(child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Material(
+                      elevation: 3,
+                      child: SvgPicture.asset(
+                        'assets/images/car.svg',
+                        width: 50.0,
+                        height: 50.0,
+                      ),
+                    ),
+                    SizedBox(height: SizeConfig.blockSizeVertical!*1,),
+                    CustomText(text: 'Car',size: 14,)
+                  ],
+                )),
+                Expanded(child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Material(
+                      elevation: 3,
+                      child: SvgPicture.asset(
+                        'assets/images/cruise.svg',
+                        width: 50.0,
+                        height: 50.0,
+                      ),
+                    ),
+                    SizedBox(height: SizeConfig.blockSizeVertical!*1,),
+                    CustomText(text: 'Cruise',size: 14,)
+                  ],
+                )),
+                Expanded(child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Material(
+                      elevation: 3,
+                      child: SvgPicture.asset(
+                        'assets/images/visa.svg',
+                        width: 50.0,
+                        height: 50.0,
+                      ),
+                    ),
+                    SizedBox(height: SizeConfig.blockSizeVertical!*1,),
+                    CustomText(text: 'Visa',size: 14,)
+                  ],
+                ))
+              ],
+            ),
+            SizedBox(height: SizeConfig.blockSizeVertical!*3,),
+            Divider(height: 1,color: Colors.grey,),
+            SizedBox(height: SizeConfig.blockSizeVertical!*3,),
+            Padding(
+              padding: const EdgeInsets.only(left: 15.0),
+              child: CustomText(text: 'Latest Updates',weight: FontWeight.normal,),
+            ),
+            SizedBox(height: SizeConfig.blockSizeVertical!*2,),
+            CarouselSlider(
+                items: imageSliders,
+                options: CarouselOptions(
+                  height: 120,
+                  aspectRatio: 2,
+                  viewportFraction: 0.8,
+                  initialPage: 0,
+                  enableInfiniteScroll: true,
+                  reverse: false,
+                  autoPlay: true,
+                  autoPlayInterval: Duration(seconds: 3),
+                  autoPlayAnimationDuration: Duration(milliseconds: 800),
+                  autoPlayCurve: Curves.fastOutSlowIn,
+                  enlargeCenterPage: true,
+                  enlargeFactor: 0.3,
+                  scrollDirection: Axis.horizontal,
+                )
+            ),
+            SizedBox(height: SizeConfig.blockSizeVertical!*3,),
+            Padding(
+              padding: const EdgeInsets.only(left: 15.0),
+              child: CustomText(text: 'Quik Menu',weight: FontWeight.normal,),
+            ),
+            SizedBox(height: SizeConfig.blockSizeVertical!*2,),
+            Container(
+              height: 120,
+              child: ListView(
+                scrollDirection: Axis.horizontal,
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.only(left: 8.0),
+                    child: Container(
+                      width: SizeConfig.blockSizeHorizontal!* 22,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Material(
+                            elevation: 3,
+                            child: SvgPicture.asset(
+                              'assets/images/mybooking.svg',
+                              width: 50.0,
+                              height: 50.0,
+                            ),
+                          ),
+                          SizedBox(height: SizeConfig.blockSizeVertical!*2,),
+                          CustomText(text: 'My Booking',size: 14,)
+                        ],
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 8.0),
+                    child: Container(
+                      width: SizeConfig.blockSizeHorizontal!* 22,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Material(
+                            elevation: 3,
+                            child: SvgPicture.asset(
+                              'assets/images/flight.svg',
+                              width: 50.0,
+                              height: 50.0,
+                            ),
+                          ),
+                          SizedBox(height: SizeConfig.blockSizeVertical!*2,),
+                          CustomText(text: 'Upcoming Trip',size: 14,)
+                        ],
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 8.0),
+                    child: Container(
+                      width: SizeConfig.blockSizeHorizontal!* 22,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Material(
+                            elevation: 3,
+                            child: SvgPicture.asset(
+                              'assets/images/flight.svg',
+                              width: 50.0,
+                              height: 50.0,
+                            ),
+                          ),
+                          SizedBox(height: SizeConfig.blockSizeVertical!*2,),
+                          CustomText(text: 'My profile',size: 14,)
+                        ],
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 8.0),
+                    child: Container(
+                      width: SizeConfig.blockSizeHorizontal!* 22,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Material(
+                            elevation: 3,
+                            child: SvgPicture.asset(
+                              'assets/images/flight.svg',
+                              width: 50.0,
+                              height: 50.0,
+                            ),
+                          ),
+                          SizedBox(height: SizeConfig.blockSizeVertical!*2,),
+                          Align(
+                              alignment: Alignment.center,
+                              child: CustomText(text: 'View\nCancellation',size: 14,))
+                        ],
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 8.0),
+                    child: Container(
+                      width: SizeConfig.blockSizeHorizontal!* 22,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Material(
+                            elevation: 3,
+                            child: SvgPicture.asset(
+                              'assets/images/flight.svg',
+                              width: 50.0,
+                              height: 50.0,
+                            ),
+                          ),
+                          SizedBox(height: SizeConfig.blockSizeVertical!*2,),
+                          CustomText(text: 'Support',size: 14,)
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ]
       ),
-    );
+    ));
   }
 }

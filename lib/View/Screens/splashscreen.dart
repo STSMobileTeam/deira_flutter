@@ -16,7 +16,8 @@ class _SplashScreenState extends State<SplashScreen> {
 
   _movetonextscreen() async {
     await Future.delayed(Duration(seconds: 5));
-     Navigator.pushNamedAndRemoveUntil(context, AppRoutes.homeScreen, (route) => false);
+     Navigator.pushNamedAndRemoveUntil(context, AppRoutes.loginScreen, (route) => false);
+
   }
 
   @override
