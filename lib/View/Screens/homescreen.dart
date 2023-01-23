@@ -385,27 +385,49 @@ class _HomeViewState extends State<HomeView> {
             SizedBox(height: SizeConfig.blockSizeVertical!*2,),
             Container(
               height: SizeConfig.blockSizeVertical!*15,
-              color: Colors.lightBlueAccent,
+              color: litblue,
               child: Row(
                 children: [
-                  Expanded(flex:1, child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      CustomText(text: 'Share the App',color: Colors.blueAccent,weight: FontWeight.bold,),
-                      SizedBox(height: 5,),
-                      CustomText(text: 'Share the App',color: Colors.blueAccent,weight: FontWeight.bold,),
-                      SizedBox(height: 5,),
-                    ],
+                  Expanded(flex:1, child: Padding(
+                    padding: const EdgeInsets.only(left: 15),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        CustomText(text: 'Share the App',size:16,color: Colors.blueAccent,weight: FontWeight.bold,),
+                        SizedBox(height: SizeConfig.blockSizeVertical!*1,),
+                        CustomText(text: 'Spread the Love',size: 16,color: Colors.blueAccent,weight: FontWeight.bold,),
+                        SizedBox(height: SizeConfig.blockSizeVertical!*2,),
+                        MaterialButton(
+                          minWidth: SizeConfig.blockSizeHorizontal! * 14,
+                          height: SizeConfig.blockSizeVertical! * 3,
+                          padding: const EdgeInsets.only(
+                              left: 30, right: 30, top: 14, bottom: 14),
+                          child: const Text(
+                            'Share',
+                            style: TextStyle(fontSize: 12),
+                          ),
+                          color: primary_blue,
+                          textColor: Colors.white,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10.0)),
+                          onPressed: () {
+
+                          },
+                        )
+                      ],
+                    ),
                   )),
                   Expanded(flex:1, child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      CustomText(text: 'Share the App',color: Colors.blueAccent,weight: FontWeight.bold,),
-                      SizedBox(height: 5,),
-                      CustomText(text: 'Share the App',color: Colors.blueAccent,weight: FontWeight.bold,),
-                      SizedBox(height: 5,),
+                      Container(
+                        child: Image(
+                            image: AssetImage('assets/images/output.gif'),
+                            fit:BoxFit.cover
+                        ),
+                      ),
                     ],
                   ))
                 ],

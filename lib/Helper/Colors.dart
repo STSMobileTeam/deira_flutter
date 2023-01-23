@@ -31,5 +31,6 @@ Color textpink = const Color(0xFFC64AD8);
 Color bgpink = const Color(0xFFFDF3FF);
 
 Color textred = const Color(0xFFF03E3E);
+Color litblue = const Color(0xFFD5EBF8);
 
 
