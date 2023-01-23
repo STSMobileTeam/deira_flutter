@@ -119,7 +119,7 @@ class _HomeViewState extends State<HomeView> {
                     Material(
                       elevation: 3,
                       child: SvgPicture.asset(
-                        'assets/images/car.svg',
+                        'assets/images/hotel.svg',
                         width: 50.0,
                         height: 50.0,
                       ),
@@ -171,7 +171,7 @@ class _HomeViewState extends State<HomeView> {
                       elevation: 3,
                       borderRadius: BorderRadius.circular(5),
                       child:SvgPicture.asset(
-                        'assets/images/car.svg',
+                        'assets/images/promotion.svg',
                         width: 50.0,
                         height: 50.0,
                       ),
@@ -228,7 +228,10 @@ class _HomeViewState extends State<HomeView> {
               ],
             ),
             SizedBox(height: SizeConfig.blockSizeVertical!*3,),
-            Divider(height: 1,color: Colors.grey,),
+            Padding(
+              padding: const EdgeInsets.only(left:10,right: 10),
+              child: Divider(height: 1,color: Colors.grey,),
+            ),
             SizedBox(height: SizeConfig.blockSizeVertical!*3,),
             Padding(
               padding: const EdgeInsets.only(left: 15.0),
@@ -267,7 +270,7 @@ class _HomeViewState extends State<HomeView> {
                   Padding(
                     padding: const EdgeInsets.only(left: 8.0),
                     child: Container(
-                      width: SizeConfig.blockSizeHorizontal!* 22,
+                      width: SizeConfig.blockSizeHorizontal!* 25,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -288,14 +291,14 @@ class _HomeViewState extends State<HomeView> {
                   Padding(
                     padding: const EdgeInsets.only(left: 8.0),
                     child: Container(
-                      width: SizeConfig.blockSizeHorizontal!* 22,
+                      width: SizeConfig.blockSizeHorizontal!* 25,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Material(
                             elevation: 3,
                             child: SvgPicture.asset(
-                              'assets/images/flight.svg',
+                              'assets/images/upcomingtrips.svg',
                               width: 50.0,
                               height: 50.0,
                             ),
@@ -309,14 +312,14 @@ class _HomeViewState extends State<HomeView> {
                   Padding(
                     padding: const EdgeInsets.only(left: 8.0),
                     child: Container(
-                      width: SizeConfig.blockSizeHorizontal!* 22,
+                      width: SizeConfig.blockSizeHorizontal!* 25,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Material(
                             elevation: 3,
                             child: SvgPicture.asset(
-                              'assets/images/flight.svg',
+                              'assets/images/myprofile.svg',
                               width: 50.0,
                               height: 50.0,
                             ),
@@ -330,7 +333,7 @@ class _HomeViewState extends State<HomeView> {
                   Padding(
                     padding: const EdgeInsets.only(left: 8.0),
                     child: Container(
-                      width: SizeConfig.blockSizeHorizontal!* 22,
+                      width: SizeConfig.blockSizeHorizontal!* 25,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -338,15 +341,14 @@ class _HomeViewState extends State<HomeView> {
                           Material(
                             elevation: 3,
                             child: SvgPicture.asset(
-                              'assets/images/flight.svg',
+                              'assets/images/viewcancellation.svg',
                               width: 50.0,
                               height: 50.0,
                             ),
                           ),
                           SizedBox(height: SizeConfig.blockSizeVertical!*2,),
-                          Align(
-                              alignment: Alignment.center,
-                              child: CustomText(text: 'View\nCancellation',size: 14,))
+                          Text('View Cancellation', maxLines: 2,
+                            textAlign: TextAlign.center,),
                         ],
                       ),
                     ),
@@ -354,14 +356,14 @@ class _HomeViewState extends State<HomeView> {
                   Padding(
                     padding: const EdgeInsets.only(left: 8.0),
                     child: Container(
-                      width: SizeConfig.blockSizeHorizontal!* 22,
+                      width: SizeConfig.blockSizeHorizontal!* 25,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Material(
                             elevation: 3,
                             child: SvgPicture.asset(
-                              'assets/images/flight.svg',
+                              'assets/images/support.svg',
                               width: 50.0,
                               height: 50.0,
                             ),
@@ -375,6 +377,40 @@ class _HomeViewState extends State<HomeView> {
                 ],
               ),
             ),
+            SizedBox(height: SizeConfig.blockSizeVertical!*2,),
+            Padding(
+              padding: const EdgeInsets.only(left:10,right: 10),
+              child: Divider(height: 1,color: Colors.grey,),
+            ),
+            SizedBox(height: SizeConfig.blockSizeVertical!*2,),
+            Container(
+              height: SizeConfig.blockSizeVertical!*15,
+              color: Colors.lightBlueAccent,
+              child: Row(
+                children: [
+                  Expanded(flex:1, child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      CustomText(text: 'Share the App',color: Colors.blueAccent,weight: FontWeight.bold,),
+                      SizedBox(height: 5,),
+                      CustomText(text: 'Share the App',color: Colors.blueAccent,weight: FontWeight.bold,),
+                      SizedBox(height: 5,),
+                    ],
+                  )),
+                  Expanded(flex:1, child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      CustomText(text: 'Share the App',color: Colors.blueAccent,weight: FontWeight.bold,),
+                      SizedBox(height: 5,),
+                      CustomText(text: 'Share the App',color: Colors.blueAccent,weight: FontWeight.bold,),
+                      SizedBox(height: 5,),
+                    ],
+                  ))
+                ],
+              ),
+            )
           ]
       ),
     ));
