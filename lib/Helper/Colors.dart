@@ -21,7 +21,8 @@ Color rejected = const Color(0xFFC12828);
 
 Color primary_blue = const Color(0xFF3B62AB);
 Color secondary_blue = const Color(0xFF00A9EB);
-
+Color greyline = const Color(0xFFDEDEDE);
+Color textgrey = const Color(0xFF38444C);
 
 
 Color textblue = const Color(0xFF0035FF);
@@ -32,5 +33,7 @@ Color bgpink = const Color(0xFFFDF3FF);
 
 Color textred = const Color(0xFFF03E3E);
 Color litblue = const Color(0xFFD5EBF8);
-
+Color ashblue = const Color(0xFFD0D8DF);
+Color greyblue = const Color(0xFFEBEFF2);
+Color greyash = const Color(0xFFA0A2A3);
 

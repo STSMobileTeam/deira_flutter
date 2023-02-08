@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 import '../../Helper/size_config.dart';
+import '../../router.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({Key? key}) : super(key: key);
@@ -98,20 +99,25 @@ class _HomeViewState extends State<HomeView> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Expanded(child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Material(
-                      elevation: 3,
-                      child: SvgPicture.asset(
-                        'assets/images/flight.svg',
-                        width: 50.0,
-                        height: 50.0,
+                Expanded(child: InkWell(
+                  onTap: () {
+                    Navigator.pushNamed(context, AppRoutes.flightSearch);
+                  },
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Material(
+                        elevation: 3,
+                        child: SvgPicture.asset(
+                          'assets/images/flight.svg',
+                          width: 50.0,
+                          height: 50.0,
+                        ),
                       ),
-                    ),
-                    SizedBox(height: SizeConfig.blockSizeVertical!*1,),
-                    CustomText(text: 'Flight',size: 14)
-                  ],
+                      SizedBox(height: SizeConfig.blockSizeVertical!*1,),
+                      CustomText(text: 'Flight',size: 14)
+                    ],
+                  ),
                 )),
                 Expanded(child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -400,7 +406,7 @@ class _HomeViewState extends State<HomeView> {
                         SizedBox(height: SizeConfig.blockSizeVertical!*2,),
                         MaterialButton(
                           minWidth: SizeConfig.blockSizeHorizontal! * 14,
-                          height: SizeConfig.blockSizeVertical! * 3,
+                          height: SizeConfig.blockSizeVertical! * 2,
                           padding: const EdgeInsets.only(
                               left: 30, right: 30, top: 14, bottom: 14),
                           child: const Text(
@@ -423,6 +429,7 @@ class _HomeViewState extends State<HomeView> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Container(
+                        height: SizeConfig.blockSizeVertical! * 15,
                         child: Image(
                             image: AssetImage('assets/images/output.gif'),
                             fit:BoxFit.cover
@@ -432,7 +439,76 @@ class _HomeViewState extends State<HomeView> {
                   ))
                 ],
               ),
-            )
+            ),
+            SizedBox(height: SizeConfig.blockSizeVertical!*2,),
+            Container(
+              color: ashblue,
+              height: SizeConfig.blockSizeVertical!*7,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  MaterialButton(
+                    minWidth: SizeConfig.blockSizeHorizontal! * 4,
+                    height: SizeConfig.blockSizeVertical! * 5,
+                    padding: const EdgeInsets.only(
+                        left: 25, right: 25, top: 14, bottom: 14),
+                    child: SvgPicture.asset(
+                      'assets/images/fb.svg',
+                      width: 20,
+                      height: 20,
+                      color: greyash,
+                    ),
+                    color: greyblue,
+                    textColor: Colors.white,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0)),
+                    onPressed: () {
+
+                    },
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 8.0),
+                    child: MaterialButton(
+                      minWidth: SizeConfig.blockSizeHorizontal! * 5,
+                      height: SizeConfig.blockSizeVertical! * 5,
+                      padding: const EdgeInsets.only(
+                          left: 20, right: 20, top: 14, bottom: 14),
+                      child: SvgPicture.asset(
+                        'assets/images/ig.svg',
+                        width: 20,
+                        height: 20,
+                        color: greyash,
+                      ),
+                      color: greyblue,
+                      textColor: Colors.white,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10.0)),
+                      onPressed: () {
+
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(height: SizeConfig.blockSizeVertical!*2,),
+            Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  CustomText(
+                    text: 'Copyrights 2022 https://deiratravel.com/',
+                    size: 12,
+                  ),
+                  CustomText(
+                    text: 'All Rights Reserved',
+                    size: 12,
+                  )
+                ],
+              ),
+            ),
+            SizedBox(height: SizeConfig.blockSizeVertical!*3,),
           ]
       ),
     ));

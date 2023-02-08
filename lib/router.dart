@@ -7,12 +7,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'Helper/CustomPageRoute.dart';
+import 'View/Screens/FlightsearchScreen.dart';
+import 'View/bloc/flightSearchbloc/flight_search_bloc.dart';
 import 'View/bloc/homescreenbloc/home_screen_bloc.dart';
 
 class AppRoutes {
 
   static const String loginScreen = "Login";
   static const String homeScreen = "HomeView";
+  static const String flightSearch = "FlightSearch";
+
 
 }
 
@@ -22,6 +26,8 @@ Route<dynamic> getRoute(RouteSettings settings) {
       return _buildLoginScreen(settings);
     case AppRoutes.homeScreen:
       return _buildHomeScreen(settings);
+    case AppRoutes.flightSearch:
+      return _buildFlightSearch(settings);
   }
   return _buildLoginScreen(settings);
 }
@@ -32,6 +38,10 @@ Route<dynamic> _buildLoginScreen(RouteSettings settings) {
 
 Route<dynamic> _buildHomeScreen(RouteSettings settings) {
   return CustomPageRoute(child: PageBuilder.buildHomeScreen(settings));
+}
+
+Route<dynamic> _buildFlightSearch(RouteSettings settings) {
+  return CustomPageRoute(child: PageBuilder.buildFlightSearch(settings));
 }
 
 
@@ -46,6 +56,12 @@ class PageBuilder {
     return BlocProvider(
       create: (BuildContext context) => HomeScreenBloc(),
       child: const HomeView(),
+    );
+  }
+  static Widget buildFlightSearch(RouteSettings settings) {
+    return BlocProvider(
+      create: (BuildContext context) => FlightSearchBloc(),
+      child: const FlightSearchScreen(),
     );
   }
 }
