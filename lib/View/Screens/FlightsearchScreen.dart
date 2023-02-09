@@ -1,5 +1,6 @@
 import 'package:deira_flutter/View/widgets/customtextfield.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
 import '../../Helper/Colors.dart';
 import '../../Helper/size_config.dart';
@@ -83,22 +84,162 @@ class _FlightSearchScreenState extends State<FlightSearchScreen> {
               ),
             ),
             SizedBox(height: SizeConfig.blockSizeVertical! * 3,),
+            Stack(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Expanded(
+                      flex: 1,
+                      child: Container(
+                        height: SizeConfig.blockSizeHorizontal! * 22,
+                        padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 6.0),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10.0),
+                            border: Border.all(color: greyline),
+                            color: Colors.white,
+                            boxShadow: <BoxShadow>[
+                              BoxShadow(
+                                color: greyline,
+                                blurRadius: 0.0,
+                                offset: Offset(0.0, 0.0),
+                              ),
+                            ]
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            CustomText(text: "From",size: 16,color: textgrey),
+                            SizedBox(height: SizeConfig.blockSizeVertical!*0.5,),
+                            CustomText(text: "BOM",size: 22,weight: FontWeight.bold,color: Colors.black87),
+                            SizedBox(height: SizeConfig.blockSizeVertical!*0.5,),
+                            CustomText(text: "Bombay",size: 16,color: textgrey),
+                          ],
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      flex: 1,
+                      child: Container(
+                        height: SizeConfig.blockSizeHorizontal! * 22,
+                        padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 6.0),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10.0),
+                            border: Border.all(color: greyline),
+                            color: Colors.white,
+                            boxShadow: <BoxShadow>[
+                              BoxShadow(
+                                color: greyline,
+                                blurRadius: 0.0,
+                                offset: Offset(0.0, 0.0),
+                              ),
+                            ]
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            CustomText(text: "From",size: 16,color: textgrey),
+                            SizedBox(height: SizeConfig.blockSizeVertical!*0.5,),
+                            CustomText(text: "BOM",size: 22,weight: FontWeight.bold,color: Colors.black87),
+                            SizedBox(height: SizeConfig.blockSizeVertical!*0.5,),
+                            CustomText(text: "Bombay",size: 16,color: textgrey),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                Positioned(
+                  top: 20,
+                  left: SizeConfig.blockSizeHorizontal!*42,
+                  child: Container(
+                    padding: const EdgeInsets.all(10),
+                    width: 50,
+                    height: 50,
+                    child: SvgPicture.asset(
+                      'assets/images/left_right_arrow.svg',
+                      width: 10,
+                      height: 10,
+                    ),
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Color(0xFFFFFFFF),
+                      border: Border.all(color: Colors.black),
+                    ),
+                  ),
+                )
+              ],
+            ),
+            SizedBox(height: SizeConfig.blockSizeVertical! * 3,),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Stack(
-                  children: [
-                    Center(
-                      child: Container(
-                        margin: EdgeInsets.all(10.0),
-                        decoration: BoxDecoration(
-                            color: Colors.orange,
-                            shape: BoxShape.circle
-                        ),
-                      ),
-                    )
-                  ],
+                Expanded(
+                  flex: 1,
+                  child: Container(
+                    height: SizeConfig.blockSizeHorizontal! * 22,
+                    padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 6.0),
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        boxShadow: <BoxShadow>[
+                          BoxShadow(
+                            color: greyline,
+                            blurRadius: 0.0,
+                            offset: Offset(0.0, 0.0),
+                          ),
+                        ]
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        CustomText(text: "From",size: 16,color: textgrey),
+                        SizedBox(height: SizeConfig.blockSizeVertical!*0.5,),
+                        CustomText(text: "BOM",size: 22,weight: FontWeight.bold,color: Colors.black87),
+                        SizedBox(height: SizeConfig.blockSizeVertical!*0.5,),
+                        CustomText(text: "Bombay",size: 16,color: textgrey),
+                      ],
+                    ),
+                  ),
                 ),
+                Expanded(
+                  flex: 1,
+                  child: Container(
+                    height: SizeConfig.blockSizeHorizontal! * 22,
+                    padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 6.0),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10.0),
+                        border: Border.all(color: greyline),
+                        color: Colors.white,
+                        boxShadow: <BoxShadow>[
+                          BoxShadow(
+                            color: greyline,
+                            blurRadius: 0.0,
+                            offset: Offset(0.0, 0.0),
+                          ),
+                        ]
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        CustomText(text: "From",size: 16,color: textgrey),
+                        SizedBox(height: SizeConfig.blockSizeVertical!*0.5,),
+                        CustomText(text: "BOM",size: 22,weight: FontWeight.bold,color: Colors.black87),
+                        SizedBox(height: SizeConfig.blockSizeVertical!*0.5,),
+                        CustomText(text: "Bombay",size: 16,color: textgrey),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: SizeConfig.blockSizeVertical! * 2,),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
                 Expanded(
                   flex: 1,
                   child: Container(
@@ -150,17 +291,18 @@ class _FlightSearchScreenState extends State<FlightSearchScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
-                        CustomText(text: "To",size: 16,color: textgrey),
+                        CustomText(text: "From",size: 16,color: textgrey),
                         SizedBox(height: SizeConfig.blockSizeVertical!*0.5,),
-                        CustomText(text: "DEL",size: 22,weight: FontWeight.bold,color: Colors.black87),
+                        CustomText(text: "BOM",size: 22,weight: FontWeight.bold,color: Colors.black87),
                         SizedBox(height: SizeConfig.blockSizeVertical!*0.5,),
-                        CustomText(text: "Delhi",size: 16,color: textgrey),
+                        CustomText(text: "Bombay",size: 16,color: textgrey),
                       ],
                     ),
                   ),
                 ),
               ],
-            )
+            ),
+            SizedBox(height: SizeConfig.blockSizeVertical! * 2,),
           ],
         ),
       ),
