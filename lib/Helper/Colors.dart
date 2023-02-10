@@ -23,6 +23,7 @@ Color primary_blue = const Color(0xFF3B62AB);
 Color secondary_blue = const Color(0xFF00A9EB);
 Color greyline = const Color(0xFFDEDEDE);
 Color textgrey = const Color(0xFF38444C);
+Color smokewhite = const Color(0xFFF5F5F5);
 
 
 Color textblue = const Color(0xFF0035FF);
