@@ -280,16 +280,24 @@ class _HomeViewState extends State<HomeView> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Material(
-                            elevation: 3,
-                            child: SvgPicture.asset(
-                              'assets/images/mybooking.svg',
-                              width: 50.0,
-                              height: 50.0,
+                          Expanded(
+                            flex: 1,
+                            child: Align(
+                              alignment: Alignment.bottomCenter,
+                              child: Material(
+                                elevation: 3,
+                                child: SvgPicture.asset(
+                                  'assets/images/mybooking.svg',
+                                  width: 50.0,
+                                  height: 50.0,
+                                ),
+                              ),
                             ),
                           ),
-                          SizedBox(height: SizeConfig.blockSizeVertical!*2,),
-                          CustomText(text: 'My Booking',size: 14,)
+                          // SizedBox(height: SizeConfig.blockSizeVertical!*2,),
+                          Expanded(
+                            flex: 1,
+                              child: Center(child: CustomText(text: 'My Booking',size: 14,)))
                         ],
                       ),
                     ),
@@ -301,16 +309,22 @@ class _HomeViewState extends State<HomeView> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Material(
-                            elevation: 3,
-                            child: SvgPicture.asset(
-                              'assets/images/upcomingtrips.svg',
-                              width: 50.0,
-                              height: 50.0,
+                          Expanded(
+                            flex: 1,
+                            child: Align(
+                              alignment: Alignment.bottomCenter,
+                              child: Material(
+                                elevation: 3,
+                                child: SvgPicture.asset(
+                                  'assets/images/upcomingtrips.svg',
+                                  width: 50.0,
+                                  height: 50.0,
+                                ),
+                              ),
                             ),
                           ),
-                          SizedBox(height: SizeConfig.blockSizeVertical!*2,),
-                          CustomText(text: 'Upcoming Trip',size: 14,)
+                          // SizedBox(height: SizeConfig.blockSizeVertical!*2,),
+                          Expanded(child: Center(child: CustomText(text: 'Upcoming Trip',size: 14,)))
                         ],
                       ),
                     ),
@@ -322,16 +336,24 @@ class _HomeViewState extends State<HomeView> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Material(
-                            elevation: 3,
-                            child: SvgPicture.asset(
-                              'assets/images/myprofile.svg',
-                              width: 50.0,
-                              height: 50.0,
+                          Expanded(
+                            flex: 1,
+                            child: Align(
+                              alignment: Alignment.bottomCenter,
+                              child: Material(
+                                elevation: 3,
+                                child: SvgPicture.asset(
+                                  'assets/images/myprofile.svg',
+                                  width: 50.0,
+                                  height: 50.0,
+                                ),
+                              ),
                             ),
                           ),
-                          SizedBox(height: SizeConfig.blockSizeVertical!*2,),
-                          CustomText(text: 'My profile',size: 14,)
+                          // SizedBox(height: SizeConfig.blockSizeVertical!*2,),
+                          Expanded(
+                            flex: 1,
+                              child: Center(child: CustomText(text: 'My profile',size: 14,)))
                         ],
                       ),
                     ),
@@ -344,17 +366,28 @@ class _HomeViewState extends State<HomeView> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Material(
-                            elevation: 3,
-                            child: SvgPicture.asset(
-                              'assets/images/viewcancellation.svg',
-                              width: 50.0,
-                              height: 50.0,
+                          Expanded(
+                            flex: 1,
+                            child: Align(
+                              alignment: Alignment.bottomCenter,
+                              child: Material(
+                                elevation: 3,
+                                child: SvgPicture.asset(
+                                  'assets/images/viewcancellation.svg',
+                                  width: 50.0,
+                                  height: 50.0,
+                                ),
+                              ),
                             ),
                           ),
-                          SizedBox(height: SizeConfig.blockSizeVertical!*2,),
-                          Text('View Cancellation', maxLines: 2,
-                            textAlign: TextAlign.center,),
+                          //SizedBox(height: SizeConfig.blockSizeVertical!*2,),
+                          Expanded(
+                            flex: 1,
+                            child: Center(
+                              child: Text('View Cancellation', maxLines: 2,
+                                textAlign: TextAlign.center,),
+                            ),
+                          ),
                         ],
                       ),
                     ),
@@ -366,16 +399,21 @@ class _HomeViewState extends State<HomeView> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Material(
-                            elevation: 3,
-                            child: SvgPicture.asset(
-                              'assets/images/support.svg',
-                              width: 50.0,
-                              height: 50.0,
+                          Expanded(
+                            child: Align(
+                              alignment: Alignment.bottomCenter,
+                              child: Material(
+                                elevation: 3,
+                                child: SvgPicture.asset(
+                                  'assets/images/support.svg',
+                                  width: 50.0,
+                                  height: 50.0,
+                                ),
+                              ),
                             ),
                           ),
-                          SizedBox(height: SizeConfig.blockSizeVertical!*2,),
-                          CustomText(text: 'Support',size: 14,)
+                          // SizedBox(height: SizeConfig.blockSizeVertical!*2,),
+                          Expanded(child: Center(child: CustomText(text: 'Support',size: 14,)))
                         ],
                       ),
                     ),

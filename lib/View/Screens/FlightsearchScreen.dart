@@ -126,8 +126,8 @@ class _FlightSearchScreenState extends State<FlightSearchScreen> with SingleTick
                               child: Padding(
                                 padding: EdgeInsets.only(right: SizeConfig.blockSizeHorizontal!*2),
                                 child: Container(
-                                  height: SizeConfig.blockSizeVertical! * 11.7,
-                                  padding: EdgeInsets.symmetric(horizontal: SizeConfig.blockSizeHorizontal!*3, vertical: SizeConfig.blockSizeVertical!*1),
+                                  // height: SizeConfig.blockSizeVertical! * 11.7,
+                                  padding: EdgeInsets.symmetric(horizontal: SizeConfig.blockSizeHorizontal!*3, vertical: SizeConfig.blockSizeVertical!*1.3),
                                   decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(10.0),
                                       border: Border.all(color: greyline),
@@ -163,8 +163,8 @@ class _FlightSearchScreenState extends State<FlightSearchScreen> with SingleTick
                               child: Padding(
                                 padding: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal!*2),
                                 child: Container(
-                                  height: SizeConfig.blockSizeVertical! * 11.7,
-                                  padding: EdgeInsets.symmetric(horizontal: SizeConfig.blockSizeHorizontal!*3, vertical: SizeConfig.blockSizeVertical!*1),
+                                  // height: SizeConfig.blockSizeVertical! * 11.7,
+                                  padding: EdgeInsets.symmetric(horizontal: SizeConfig.blockSizeHorizontal!*3, vertical: SizeConfig.blockSizeVertical!*1.3),
                                   decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(10.0),
                                       border: Border.all(color: greyline),
