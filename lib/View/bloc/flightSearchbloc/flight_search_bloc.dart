@@ -7,9 +7,13 @@ part 'flight_search_event.dart';
 part 'flight_search_state.dart';
 
 class FlightSearchBloc extends Bloc<FlightSearchEvent, FlightSearchState> {
+
+  bool roundtripshow = false;
+
+
   FlightSearchBloc() : super(FlightSearchInitial()) {
     on<FlightSearchEvent>((event, emit) {
-      // TODO: implement event handler
+
     });
   }
 }

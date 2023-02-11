@@ -53,7 +53,7 @@ class _LoginState extends State<MyLogin> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     SizedBox(
-                      height: SizeConfig.blockSizeVertical! * 11,
+                      height: SizeConfig.blockSizeVertical! * 10,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -67,7 +67,7 @@ class _LoginState extends State<MyLogin> {
                       ],
                     ),
                     SizedBox(
-                      height: SizeConfig.blockSizeVertical! * 6,
+                      height: SizeConfig.blockSizeVertical! * 5,
                     ),
                     const CustomText(
                       text: 'Sign In',
@@ -174,8 +174,8 @@ class _LoginState extends State<MyLogin> {
                               },
                             ),
                           ),
-                          const SizedBox(
-                            height: 25,
+                          SizedBox(
+                            height: SizeConfig.blockSizeVertical!*1,
                           ),
                           Align(
                             alignment: Alignment.center,
@@ -263,7 +263,7 @@ class _LoginState extends State<MyLogin> {
                           ),
                         ),
                         SizedBox(
-                          height: SizeConfig.blockSizeVertical! * 5,
+                          height: SizeConfig.blockSizeVertical! * 2.5,
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,

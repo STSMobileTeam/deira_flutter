@@ -84,6 +84,7 @@ class _HomeViewState extends State<HomeView> {
                   alignment: Alignment.center,
                   child: Image.network('https://static.vscdn.net/images/careers/demo/booking/1648625147::HeroCampaign_Motion_v2.gif')
                   // child: CachedNetworkImage(
+                  // child: CachedNetworkImage(
                   //   progressIndicatorBuilder: (context, url, progress) => Container(
                   //     child: CircularProgressIndicator(
                   //       value: progress.progress,
@@ -428,7 +429,7 @@ class _HomeViewState extends State<HomeView> {
             ),
             SizedBox(height: SizeConfig.blockSizeVertical!*2,),
             Container(
-              height: SizeConfig.blockSizeVertical!*15,
+              padding: EdgeInsets.symmetric(vertical: SizeConfig.blockSizeVertical!*1.5),
               color: litblue,
               child: Row(
                 children: [
@@ -481,7 +482,7 @@ class _HomeViewState extends State<HomeView> {
             SizedBox(height: SizeConfig.blockSizeVertical!*2,),
             Container(
               color: ashblue,
-              height: SizeConfig.blockSizeVertical!*7,
+              padding: EdgeInsets.symmetric(vertical: SizeConfig.blockSizeVertical!*1.5),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
