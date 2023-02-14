@@ -16,24 +16,37 @@ class _CitySearchState extends State<CitySearch> {
     SizeConfig().init(context);
     return Scaffold(
       backgroundColor: primary_blue,
-      body: Container(
-        child: SafeArea(
-          child: Column(
-            children: [
-              Container(
-                height: SizeConfig.blockSizeVertical!*8,
-                color: primary_blue,
-                child: Container(
-                  color: primary_blue,
-                  height: SizeConfig.blockSizeVertical!*2,
-                  padding: EdgeInsets.symmetric(vertical: SizeConfig.blockSizeVertical!*1,horizontal: SizeConfig.blockSizeHorizontal!*1),
-                  child: Row(
+      body: SafeArea(
+        child: Column(
+          children: [
+            Container(
+              height: SizeConfig.blockSizeVertical!*8,
+              color: primary_blue,
+              padding: EdgeInsets.symmetric(vertical: SizeConfig.blockSizeVertical!*1.5,horizontal: SizeConfig.blockSizeHorizontal!*2.3),
+              child: Container(
+                color: Colors.white,
+                height: SizeConfig.blockSizeVertical!*2,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    IconButton(
+                      icon: Icon(
+                        Icons.arrow_back,
+                      ),
+                      color: Colors.black,
+                      onPressed: () {
 
-                  ),
+                      },
+                    )
+                  ],
                 ),
-              )
-            ],
-          ),
+              ),
+            ),
+            Expanded(child: Container(
+              color: Colors.white,
+            ))
+          ],
         ),
       ),
     );
