@@ -3,6 +3,7 @@
 import 'dart:async';
 
 
+import 'package:deira_flutter/Models/CitySearch.dart';
 import 'package:deira_flutter/Models/Login.dart';
 import 'package:dio/dio.dart';
 
@@ -32,6 +33,24 @@ class ApiService {
     }
   }
 
+
+  Future<CityRS> postCity(CityRQ requestModel) async {
+
+    var url = ApiUrls.fetchCity;
+
+    final response = await dio()
+        .post(url,data: requestModel.toJson(),)
+        .catchError((error) {
+      DioError dioError = error;
+      print(dioError.response!.statusCode);
+    });
+
+    if (response.statusCode == 200) {
+      return CityRS.fromJson(response.data as Map<String,dynamic>);
+    } else {
+      throw Exception(response.statusCode.toString());
+    }
+  }
 
 
 

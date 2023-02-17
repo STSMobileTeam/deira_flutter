@@ -20,6 +20,7 @@ Color rejected = const Color(0xFFC12828);
 
 
 Color primary_blue = const Color(0xFF3B62AB);
+Color primary_blue_lte = const Color(0xFFEFF3FF);
 Color secondary_blue = const Color(0xFF00A9EB);
 Color greyline = const Color(0xFFDEDEDE);
 Color textgrey = const Color(0xFF38444C);

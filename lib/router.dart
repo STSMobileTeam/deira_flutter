@@ -1,7 +1,9 @@
 
 
+import 'package:deira_flutter/View/Screens/calendarScreen.dart';
 import 'package:deira_flutter/View/Screens/homescreen.dart';
 import 'package:deira_flutter/View/Screens/login.dart';
+import 'package:deira_flutter/View/bloc/calendarScreenbloc/calendar_bloc.dart';
 import 'package:deira_flutter/View/bloc/citysearchbloc/citysearch_bloc.dart';
 import 'package:deira_flutter/View/bloc/loginscreenbloc/login_screen_bloc.dart';
 import 'package:flutter/material.dart';
@@ -19,6 +21,7 @@ class AppRoutes {
   static const String homeScreen = "HomeView";
   static const String flightSearch = "FlightSearch";
   static const String citysearch = "Citysearch";
+  static const String calendarflight = "Calendar";
 
 
 
@@ -34,6 +37,8 @@ Route<dynamic> getRoute(RouteSettings settings) {
       return _buildFlightSearch(settings);
     case AppRoutes.citysearch:
       return _buildCitySearch(settings);
+    case AppRoutes.calendarflight:
+      return _buildCalendar(settings);
   }
   return _buildLoginScreen(settings);
 }
@@ -52,6 +57,10 @@ Route<dynamic> _buildFlightSearch(RouteSettings settings) {
 
 Route<dynamic> _buildCitySearch(RouteSettings settings) {
   return CustomPageRoute(child: PageBuilder.buildCitySearch(settings));
+}
+
+Route<dynamic> _buildCalendar(RouteSettings settings) {
+  return CustomPageRoute(child: PageBuilder.buildCalendar(settings));
 }
 
 
@@ -78,6 +87,12 @@ class PageBuilder {
     return BlocProvider(
       create: (BuildContext context) => CitysearchBloc(),
       child: const CitySearch(),
+    );
+  }
+  static Widget buildCalendar(RouteSettings settings) {
+    return BlocProvider(
+      create: (BuildContext context) => CalendarBloc(),
+      child: const CalendarScreen(),
     );
   }
 }

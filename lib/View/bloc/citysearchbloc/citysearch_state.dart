@@ -4,3 +4,5 @@ part of 'citysearch_bloc.dart';
 abstract class CitysearchState {}
 
 class CitysearchInitial extends CitysearchState {}
+
+class CitysearchBlocLoadingFinishedState extends CitysearchState {}

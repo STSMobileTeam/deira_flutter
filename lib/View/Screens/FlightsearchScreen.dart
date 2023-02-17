@@ -416,46 +416,49 @@ class _FlightSearchScreenState extends State<FlightSearchScreen>
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
                               Expanded(
-                                child: Container(
-                                  height: SizeConfig.blockSizeVertical! * 10,
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal:
-                                          SizeConfig.blockSizeHorizontal! * 3,
-                                      vertical:
-                                          SizeConfig.blockSizeVertical! * 1),
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10.0),
-                                      border: Border.all(color: greyline),
-                                      color: Colors.white,
-                                      boxShadow: <BoxShadow>[
-                                        BoxShadow(
-                                          color: greyline,
-                                          blurRadius: 0.0,
-                                          offset: Offset(0.0, 0.0),
+                                child: GestureDetector(
+                                  onTap: () {
+                                    Navigator.pushNamed(context, AppRoutes.calendarflight);
+                                  },
+                                  child: Container(
+                                    height: SizeConfig.blockSizeVertical! * 10,
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal:
+                                            SizeConfig.blockSizeHorizontal! * 3,
+                                        vertical:
+                                            SizeConfig.blockSizeVertical! * 1),
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10.0),
+                                        border: Border.all(color: greyline),
+                                        color: Colors.white,
+                                        boxShadow: <BoxShadow>[
+                                          BoxShadow(
+                                            color: greyline,
+                                            blurRadius: 0.0,
+                                            offset: Offset(0.0, 0.0),
+                                          ),
+                                        ]),
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        CustomText(
+                                            text: "Depature",
+                                            size: SizeConfig.screenWidth!*0.035,
+                                            color: textgrey),
+                                        SizedBox(
+                                          height:
+                                              SizeConfig.blockSizeVertical! * 0.7,
                                         ),
-                                      ]),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      CustomText(
-                                          text: "Depature",
-                                          size: ScreenScale.convertFontSize(16,
-                                              allowFontScaling: true),
-                                          color: textgrey),
-                                      SizedBox(
-                                        height:
-                                            SizeConfig.blockSizeVertical! * 0.7,
-                                      ),
-                                      CustomText(
-                                        text: "Wed, 8 Feb 2023",
-                                        size: ScreenScale.convertFontSize(20,
-                                            allowFontScaling: true),
-                                        color: Colors.black87,
-                                        weight: FontWeight.bold,
-                                      )
-                                    ],
+                                        CustomText(
+                                          text: "Wed, 5 Feb 2023",
+                                          size: SizeConfig.screenWidth!*0.05,
+                                          color: Colors.black87,
+                                          weight: FontWeight.bold,
+                                        )
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),
@@ -487,8 +490,7 @@ class _FlightSearchScreenState extends State<FlightSearchScreen>
                                       children: [
                                         CustomText(
                                             text: "Depature",
-                                            size: ScreenScale.convertFontSize(16,
-                                                allowFontScaling: true),
+                                            size: SizeConfig.screenWidth!*0.035,
                                             color: textgrey),
                                         SizedBox(
                                           height:
@@ -496,8 +498,7 @@ class _FlightSearchScreenState extends State<FlightSearchScreen>
                                         ),
                                         CustomText(
                                           text: "Wed, 8 Feb 2023",
-                                          size: ScreenScale.convertFontSize(20,
-                                              allowFontScaling: true),
+                                          size: SizeConfig.screenWidth!*0.05,
                                           color: Colors.black87,
                                           weight: FontWeight.bold,
                                         )

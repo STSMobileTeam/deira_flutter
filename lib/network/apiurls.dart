@@ -8,8 +8,8 @@ class ApiUrls {
    static String baseUrl_Login = "http://40.64.34.184/DEIRA_SERVICE/DE_WEB_SUPPORT_WCF/CtrlPanelService.svc/";
    static String baseurl_PG = "http://40.64.34.184/DEIRA_SERVICE/DE_WEB_SUPPORT_WCF/Service.svc/";
 
- // Method
-
+  // Method
    static String login = "B2CMobileGetDetails";
+   static String fetchCity = "FetchCity";
 
 }
