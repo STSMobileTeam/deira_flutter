@@ -1,11 +1,13 @@
 
 
+import 'package:deira_flutter/View/Screens/FlightOnewayScreen.dart';
 import 'package:deira_flutter/View/Screens/calendarScreen.dart';
 import 'package:deira_flutter/View/Screens/homescreen.dart';
 import 'package:deira_flutter/View/Screens/login.dart';
 import 'package:deira_flutter/View/bloc/calendarScreenbloc/calendar_bloc.dart';
 import 'package:deira_flutter/View/bloc/citysearchbloc/citysearch_bloc.dart';
 import 'package:deira_flutter/View/bloc/loginscreenbloc/login_screen_bloc.dart';
+import 'package:deira_flutter/View/bloc/onewayscreenbloc/oneway_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -22,6 +24,7 @@ class AppRoutes {
   static const String flightSearch = "FlightSearch";
   static const String citysearch = "Citysearch";
   static const String calendarflight = "Calendar";
+  static const String oneway = "Oneway";
 
 
 
@@ -39,6 +42,8 @@ Route<dynamic> getRoute(RouteSettings settings) {
       return _buildCitySearch(settings);
     case AppRoutes.calendarflight:
       return _buildCalendar(settings);
+    case AppRoutes.oneway:
+      return _buildOneway(settings);
   }
   return _buildLoginScreen(settings);
 }
@@ -63,6 +68,9 @@ Route<dynamic> _buildCalendar(RouteSettings settings) {
   return CustomPageRoute(child: PageBuilder.buildCalendar(settings));
 }
 
+Route<dynamic> _buildOneway(RouteSettings settings) {
+  return CustomPageRoute(child: PageBuilder.buildOneway(settings));
+}
 
 class PageBuilder {
   static Widget buildLoginScreen(RouteSettings settings) {
@@ -93,6 +101,12 @@ class PageBuilder {
     return BlocProvider(
       create: (BuildContext context) => CalendarBloc(),
       child: const CalendarScreen(),
+    );
+  }
+  static Widget buildOneway(RouteSettings settings) {
+    return BlocProvider(
+      create: (BuildContext context) => OnewayBloc(),
+      child: const OnewayScreen(),
     );
   }
 }

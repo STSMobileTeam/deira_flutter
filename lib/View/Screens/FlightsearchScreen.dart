@@ -791,7 +791,9 @@ class _FlightSearchScreenState extends State<FlightSearchScreen>
                               textColor: Colors.white,
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(15.0)),
-                              onPressed: () {},
+                              onPressed: () {
+                                Navigator.pushNamed(context, AppRoutes.oneway);
+                              },
                             ),
                           ),
                         ],
