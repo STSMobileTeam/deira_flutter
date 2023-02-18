@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:bloc/bloc.dart';
+import 'package:deira_flutter/Models/Availability.dart';
 import 'package:deira_flutter/Models/CitySearch.dart';
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
@@ -27,30 +28,66 @@ class CitysearchBloc extends Bloc<CitysearchEvent, CitysearchState> {
 
       if(event is CitysearchLoadingEvent){
 
-        CityRQ request = CityRQ();
-        Agent agent = Agent();
+        AvailibiltyRQ request = AvailibiltyRQ();
 
-        agent.agentID = '';
-        agent.terminalId = '';
-        agent.posId = '';
-        agent.postId = '';
-        agent.userName = '';
-        agent.appType = 'B2B';
-        agent.version = '1.0.1';
-        agent.branchId = '';
-        agent.environment = 'M';
-        agent.clientId = '';
-        agent.winyatraId = '';
-        agent.agentType = '';
-        agent.issuingPosId = '';
-        agent.issuingPosTId = '';
-        agent.issuingBranchId = '';
-        agent.userTrackId = '';
+        AGD agent = AGD();
+        agent.cID = 'CSMAA00116';
+        agent.uN = 'Abdul';
+        agent.aPP = 'B2C';
+        agent.sID = 'I';
+        agent.vER = '';
+        agent.eNV = 'Android';
+        agent.bID = 'CSMAA00116';
+        agent.bTID = 'CSMAA0011601';
+        agent.aGTYP = 'CS';
+        agent.cORID = '';
+        agent.bRID = 'BNH001';
+        agent.iBRID = 'BNH001';
+        agent.eMID = '';
+        agent.cTCTR = '';
+        agent.platform = 'B';
+        agent.projectID = 'INSA02';
+        agent.groupID = '';
+        agent.aPPCurrency = 'AED';
 
-        request.agent = agent;
-        request.name = cityname.text.trim();
-        request.type = 'name';
-        request.category = 'Airline';
+        PSG pax = PSG();
+
+        PXR px = PXR();
+        px.pXT = "Adult";
+        px.pXQ = "1";
+
+        pax.pXR = px as List<PXR>?;
+        pax.pXC = 1;
+
+        AVR avr = AVR();
+
+        avr.dSN = "BOM";
+        avr.aSN = "DXB";
+        avr.fLD = "20230321";
+        avr.fCO = "E";
+        avr.fTE = "N";
+        avr.isStudentFare = "false";
+        avr.isArmyFare = "false";
+        avr.isSnrCitizenFare = "false";
+        avr.isLabourFare = "false";
+
+        request.aGD = agent;
+        request.pSG = pax;
+        request.cYC = "AED";
+        request.tRP = "O";
+        request.sEG = "I";
+        request.hOS = "true";
+        request.mRF = "false";
+        request.stock = "1A";
+        request.wTL = "false";
+        request.dSC = "false";
+        request.dCF = "N";
+        request.cMF = "Y";
+        request.paxfare = true;
+        request.dFT = false;
+        request.cAT = "SG";
+        request.fLO = ["SG"];
+
 
         await apiService.postCity(request).then((value) async {
 
@@ -89,3 +126,5 @@ class CitysearchBloc extends Bloc<CitysearchEvent, CitysearchState> {
     });
   }
 }
+
+

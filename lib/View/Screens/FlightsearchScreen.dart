@@ -10,6 +10,8 @@ import '../../router.dart';
 import '../widgets/customtext.dart';
 import 'package:flutter_screen_scaling/flutter_screen_scaling.dart';
 
+import 'DummyOneway.dart';
+
 class FlightSearchScreen extends StatefulWidget {
   const FlightSearchScreen({Key? key}) : super(key: key);
 
@@ -793,6 +795,9 @@ class _FlightSearchScreenState extends State<FlightSearchScreen>
                                   borderRadius: BorderRadius.circular(15.0)),
                               onPressed: () {
                                 Navigator.pushNamed(context, AppRoutes.oneway);
+                                //Navigator.pushNamedAndRemoveUntil(context, AppRoutes.dummy, (route) => false);
+                                // Navigator.of(context).push(MaterialPageRoute(builder: (context) => MyWidget()));
+
                               },
                             ),
                           ),

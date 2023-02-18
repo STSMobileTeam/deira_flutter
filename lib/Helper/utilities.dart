@@ -12,9 +12,12 @@ const double defaultPadding = 16.0;
 const double gapTextFieldToText = 20.0;
 const double gapTextToTextField = 8.0;
 
+const double small_text= 0.035;
+const double medium_text= 0.04;
 
 
 class Utilities {
+
 
   static String noDataMsg(String moduleName) {
     return 'No $moduleName Found';

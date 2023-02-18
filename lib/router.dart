@@ -1,5 +1,6 @@
 
 
+import 'package:deira_flutter/View/Screens/DummyOneway.dart';
 import 'package:deira_flutter/View/Screens/FlightOnewayScreen.dart';
 import 'package:deira_flutter/View/Screens/calendarScreen.dart';
 import 'package:deira_flutter/View/Screens/homescreen.dart';
@@ -25,6 +26,7 @@ class AppRoutes {
   static const String citysearch = "Citysearch";
   static const String calendarflight = "Calendar";
   static const String oneway = "Oneway";
+  static const String dummy = "DummyOne";
 
 
 
@@ -71,6 +73,9 @@ Route<dynamic> _buildCalendar(RouteSettings settings) {
 Route<dynamic> _buildOneway(RouteSettings settings) {
   return CustomPageRoute(child: PageBuilder.buildOneway(settings));
 }
+
+
+
 
 class PageBuilder {
   static Widget buildLoginScreen(RouteSettings settings) {
