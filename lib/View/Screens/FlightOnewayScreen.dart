@@ -37,6 +37,11 @@ class _OnewayScreenState extends State<OnewayScreen> {
         child: BlocListener<OnewayBloc, OnewayState>(
           listener: (context, state) {
             // TODO: implement listener
+            bloc.responseStream.listen((response) {
+              print(response); // bind the response here
+            });
+
+            // Don't forget to dispose of the bloc when you're done with it
           },
           child: BlocBuilder<OnewayBloc, OnewayState>(
             builder: (context, state) {

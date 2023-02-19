@@ -24,6 +24,7 @@ class _CitySearchState extends State<CitySearch> {
     bloc = BlocProvider.of<CitysearchBloc>(context);
   }
 
+
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);

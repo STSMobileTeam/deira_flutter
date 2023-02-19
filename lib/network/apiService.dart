@@ -53,7 +53,7 @@ class ApiService {
     }
   }
 
-  Future<CityRS> postAvailability(CityRQ requestModel) async {
+  Future<AvailabilityRS> postAvailability(AvailibiltyRQ requestModel) async {
 
     var url = ApiUrls.availability;
 
@@ -65,7 +65,7 @@ class ApiService {
     });
 
     if (response.statusCode == 200) {
-      return CityRS.fromJson(response.data as Map<String,dynamic>);
+      return AvailabilityRS.fromJson(response.data as Map<String,dynamic>);
     } else {
       throw Exception(response.statusCode.toString());
     }

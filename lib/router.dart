@@ -110,7 +110,7 @@ class PageBuilder {
   }
   static Widget buildOneway(RouteSettings settings) {
     return BlocProvider(
-      create: (BuildContext context) => OnewayBloc(),
+      create: (BuildContext context) => OnewayBloc()..add(OnewayInitialEvent()),
       child: const OnewayScreen(),
     );
   }
