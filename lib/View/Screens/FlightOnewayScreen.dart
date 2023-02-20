@@ -8,6 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../Helper/Colors.dart';
 import '../../Helper/utilities.dart';
+import '../../Widget/Carview_OnewayAvailbility.dart';
 
 class OnewayScreen extends StatefulWidget {
   const OnewayScreen({Key? key}) : super(key: key);
@@ -21,6 +22,9 @@ class _OnewayScreenState extends State<OnewayScreen> {
   DateTime _selectedValue = DateTime.now();
 
   late OnewayBloc bloc;
+
+
+  String ResultCode = "0";
 
   @override
   void initState() {
@@ -38,9 +42,10 @@ class _OnewayScreenState extends State<OnewayScreen> {
           listener: (context, state) {
             // TODO: implement listener
             bloc.responseStream.listen((response) {
-              print(response); // bind the response here
-            });
+              print('--'+response.toString()); // bind the response here
+              print('----RESULT CODE-----'+response.resultCode.toString());
 
+            });
             // Don't forget to dispose of the bloc when you're done with it
           },
           child: BlocBuilder<OnewayBloc, OnewayState>(
@@ -156,6 +161,18 @@ class _OnewayScreenState extends State<OnewayScreen> {
                         });
                       },
                     ),
+                  ),
+                  Expanded(
+                      child: Container(color: grayBg, child: ListView.builder(
+                          padding: const EdgeInsets.only(
+                              bottom: kFloatingActionButtonMargin + 48),
+                          shrinkWrap: true,
+                          itemCount: 20,
+                          itemBuilder: (context, index) {
+                            return OnewayAvilCard(carrierCode: 'SG',carriername: 'Spicejet',depTime: '23:05',depCity: 'BOM',
+                            journeyHrs: '3h 20m',stops: '1 Stops',arrTime: '09:45',arrCity: 'DXB',amount: '353.25',seatCount: '2',baggage: '45 KG',
+                            refund: 'N',);
+                          }),)
                   )
                 ],
               );

@@ -28,68 +28,34 @@ class CitysearchBloc extends Bloc<CitysearchEvent, CitysearchState> {
 
       if(event is CitysearchLoadingEvent){
 
-        AvailibiltyRQ request = AvailibiltyRQ();
+        CityRQ req = CityRQ();
 
-        AGD agent = AGD();
-        agent.cID = 'CSMAA00116';
-        agent.uN = 'Abdul';
-        agent.aPP = 'B2C';
-        agent.sID = 'I';
-        agent.vER = '';
-        agent.eNV = 'Android';
-        agent.bID = 'CSMAA00116';
-        agent.bTID = 'CSMAA0011601';
-        agent.aGTYP = 'CS';
-        agent.cORID = '';
-        agent.bRID = 'BNH001';
-        agent.iBRID = 'BNH001';
-        agent.eMID = '';
-        agent.cTCTR = '';
-        agent.platform = 'B';
-        agent.projectID = 'INSA02';
-        agent.groupID = '';
-        agent.aPPCurrency = 'AED';
+        Agent agent = Agent();
 
-        PSG pax = PSG();
+        agent.agentID = '';
+        agent.terminalId = '';
+        agent.posId = '';
+        agent.postId = '';
+        agent.userName = '';
+        agent.appType = 'B2B';
+        agent.version = '1.0.1';
+        agent.branchId = '';
+        agent.environment = 'M';
+        agent.clientId = '';
+        agent.winyatraId = '';
+        agent.agentID = '';
+        agent.agentType = '';
+        agent.issuingPosId = '';
+        agent.issuingPosTId = '';
+        agent.issuingBranchId = '';
+        agent.userTrackId = '';
 
-        PXR px = PXR();
-        px.pXT = "Adult";
-        px.pXQ = "1";
+        req.agent = agent;
+        req.name = cityname.text.trim();
+        req.type = "name";
+        req.category = "Airline";
 
-        pax.pXR = px as List<PXR>?;
-        pax.pXC = 1;
-
-        AVR avr = AVR();
-
-        avr.dSN = "BOM";
-        avr.aSN = "DXB";
-        avr.fLD = "20230321";
-        avr.fCO = "E";
-        avr.fTE = "N";
-        avr.isStudentFare = "false";
-        avr.isArmyFare = "false";
-        avr.isSnrCitizenFare = "false";
-        avr.isLabourFare = "false";
-
-        request.aGD = agent;
-        request.pSG = pax;
-        request.cYC = "AED";
-        request.tRP = "O";
-        request.sEG = "I";
-        request.hOS = "true";
-        request.mRF = "false";
-        request.stock = "1A";
-        request.wTL = "false";
-        request.dSC = "false";
-        request.dCF = "N";
-        request.cMF = "Y";
-        request.paxfare = true;
-        request.dFT = false;
-        request.cAT = "SG";
-        request.fLO = ["SG"];
-
-
-        await apiService.postCity(request).then((value) async {
+        await apiService.postCity(req).then((value) async {
 
           IsResponceCame = true;
 

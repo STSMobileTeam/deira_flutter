@@ -4,3 +4,5 @@ part of 'oneway_bloc.dart';
 abstract class OnewayState {}
 
 class OnewayInitial extends OnewayState {}
+
+class OnewayBlocLoadingFinishedState extends OnewayState {}

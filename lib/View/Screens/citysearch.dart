@@ -85,8 +85,8 @@ class _CitySearchState extends State<CitySearch> {
                     ),
                   ),
                   Expanded(
-                      child: bloc.IsResponceCame ? Container(color: grayBg,
-                      child: ListView.builder(
+                      child: bloc.IsResponceCame ?
+                      Container(color: grayBg, child: ListView.builder(
                           padding: const EdgeInsets.only(
                               bottom: kFloatingActionButtonMargin + 48),
                           shrinkWrap: true,

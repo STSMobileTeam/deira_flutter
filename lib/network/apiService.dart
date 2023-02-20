@@ -35,7 +35,7 @@ class ApiService {
   }
 
 
-  Future<CityRS> postCity(AvailibiltyRQ requestModel) async {
+  Future<CityRS> postCity(CityRQ requestModel) async {
 
     var url = ApiUrls.fetchCity;
 

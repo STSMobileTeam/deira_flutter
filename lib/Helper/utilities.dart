@@ -14,6 +14,7 @@ const double gapTextToTextField = 8.0;
 
 const double small_text= 0.035;
 const double medium_text= 0.04;
+const double tiny_text= 0.030;
 
 
 class Utilities {
