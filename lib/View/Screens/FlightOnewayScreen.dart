@@ -8,6 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../Helper/Colors.dart';
 import '../../Helper/utilities.dart';
+import '../../Models/Availability.dart';
 import '../../Widget/Carview_OnewayAvailbility.dart';
 
 class OnewayScreen extends StatefulWidget {
@@ -23,6 +24,8 @@ class _OnewayScreenState extends State<OnewayScreen> {
 
   late OnewayBloc bloc;
 
+  List<FAvail> AvailMain = [];
+  List<Flights> flightsDetails = [];
 
   String ResultCode = "0";
 
@@ -44,6 +47,23 @@ class _OnewayScreenState extends State<OnewayScreen> {
             bloc.responseStream.listen((response) {
               print('--'+response.toString()); // bind the response here
               print('----RESULT CODE-----'+response.resultCode.toString());
+              ResultCode = response.resultCode.toString();
+              AvailMain = response.lFAvail!;
+
+              for(int i=0; i<AvailMain.length; i++){
+
+                AvailMain.add(AvailMain[i]);
+
+                for(int j=0;i<AvailMain.length;j++){
+                  flightsDetails.add(AvailMain[j].flights![j]);
+                }
+
+              }
+
+
+              setState(() {
+
+              });
 
             });
             // Don't forget to dispose of the bloc when you're done with it
@@ -163,16 +183,17 @@ class _OnewayScreenState extends State<OnewayScreen> {
                     ),
                   ),
                   Expanded(
-                      child: Container(color: grayBg, child: ListView.builder(
+                      child: Container(color: grayBg, child: flightsDetails.isNotEmpty ? ListView.builder(
                           padding: const EdgeInsets.only(
                               bottom: kFloatingActionButtonMargin + 48),
                           shrinkWrap: true,
-                          itemCount: 20,
+                          itemCount: flightsDetails.length,
                           itemBuilder: (context, index) {
-                            return OnewayAvilCard(carrierCode: 'SG',carriername: 'Spicejet',depTime: '23:05',depCity: 'BOM',
-                            journeyHrs: '3h 20m',stops: '1 Stops',arrTime: '09:45',arrCity: 'DXB',amount: '353.25',seatCount: '2',baggage: '45 KG',
+                            return OnewayAvilCard(carrierCode: flightsDetails[index].platingCarrier,carriername: 'Spicejet',depTime: flightsDetails[index].departureTime,
+                              depCity: flightsDetails[index].destination, journeyHrs: '3h 20m',stops: flightsDetails[index].stops,arrTime: flightsDetails[index].arrivalTime,
+                              arrCity: 'DXB',amount: flightsDetails[index].netFare,seatCount: ResultCode, baggage: flightsDetails[index].baggage,
                             refund: 'N',);
-                          }),)
+                          }) : CircularProgressIndicator(),)
                   )
                 ],
               );
