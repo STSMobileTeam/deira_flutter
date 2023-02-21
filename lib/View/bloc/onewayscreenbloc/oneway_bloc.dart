@@ -60,7 +60,7 @@ class OnewayBloc extends Bloc<OnewayEvent, OnewayState> {
         pXRArray.add(PXR(pXQ: "1",pXT: "ADT"));
         psg.pXR = pXRArray;
 
-        aVRArray.add(AVR(dSN: "BOM",aSN: "DXB",fLD: "20230321",fCO: "E",fTE: "N",isStudentFare: "false",isArmyFare: "false",isSnrCitizenFare: "false",isLabourFare: "false"));
+        aVRArray.add(AVR(dSN: "HYD",aSN: "DXB",fLD: "20230321",fCO: "E",fTE: "N",isStudentFare: "false",isArmyFare: "false",isSnrCitizenFare: "false",isLabourFare: "false"));
 
         req.aGD = agd;
         req.pSG = psg;

@@ -50,15 +50,41 @@ class _OnewayScreenState extends State<OnewayScreen> {
               ResultCode = response.resultCode.toString();
               AvailMain = response.lFAvail!;
 
-              for(int i=0; i<AvailMain.length; i++){
+              for(int j=0;j<AvailMain.length;j++){
 
-                AvailMain.add(AvailMain[i]);
+                print('---FLIGHT LENGTH--'+AvailMain[j].flights!.length.toString());
 
-                for(int j=0;i<AvailMain.length;j++){
-                  flightsDetails.add(AvailMain[j].flights![j]);
+                if(AvailMain[j].flights!.length > 1) {
+
+                  print('---FLIGHT LENGTH--TRUE');
+
+                  flightsDetails.add(AvailMain[j].flights![0]);
+
+                  int tot_size = AvailMain[j].flights!.length-1;
+
+                  print('---FLIGHT LENGTH--tot_size'+tot_size.toString());
+
+                  
+                  List<Flights> flightsDetailsx = [];
+
+                  flightsDetailsx.add(AvailMain[j].flights![tot_size]);
+
+                  print('---FLIGHT LENGTH--FIRST'+flightsDetails[0].arrivalTime.toString());
+                  print('---FLIGHT LENGTH--SECON'+flightsDetailsx[0].arrivalTime.toString());
+
+                  flightsDetails[0].arrivalTime = flightsDetailsx[0].arrivalTime;
+
+                }else
+                {
+                  flightsDetails.add(AvailMain[j].flights![0]);
                 }
-
               }
+
+              // for(int i=0; i < AvailMain.length; i++) {
+              //   for(int j=0; j < AvailMain[i].flights[j]!.lenghth;j ++) {
+              //     Array. Add(subarray[j]) ;
+              //   }
+              // }
 
 
               setState(() {
@@ -189,11 +215,16 @@ class _OnewayScreenState extends State<OnewayScreen> {
                           shrinkWrap: true,
                           itemCount: flightsDetails.length,
                           itemBuilder: (context, index) {
-                            return OnewayAvilCard(carrierCode: flightsDetails[index].platingCarrier,carriername: 'Spicejet',depTime: flightsDetails[index].departureTime,
+                            return OnewayAvilCard(carrierCode: flightsDetails[index].platingCarrier,carriername: flightsDetails[index].airlineName,depTime: flightsDetails[index].departureTime,
                               depCity: flightsDetails[index].destination, journeyHrs: '3h 20m',stops: flightsDetails[index].stops,arrTime: flightsDetails[index].arrivalTime,
                               arrCity: 'DXB',amount: flightsDetails[index].netFare,seatCount: ResultCode, baggage: flightsDetails[index].baggage,
                             refund: 'N',);
-                          }) : CircularProgressIndicator(),)
+                          }) : Column(
+                            children: [
+                              Container(child: Center(child: SizedBox(child: CircularProgressIndicator(),height: 30,width: 30,))),
+                            ],
+                          )
+                      )
                   )
                 ],
               );

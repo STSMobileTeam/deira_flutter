@@ -55,7 +55,7 @@ class OnewayAvilCard extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           FadeInImage(
-                              image: NetworkImage('https://imgak.goibibo.com/flights-gi-assets/images/v2/app-img/SG.png'),
+                              image: NetworkImage('https://imgak.goibibo.com/flights-gi-assets/images/v2/app-img/'+carrierCode!+'.png'),
                               width: 30,
                               height: 30,
                               fit: BoxFit.fill,
