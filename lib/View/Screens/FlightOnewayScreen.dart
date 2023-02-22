@@ -28,6 +28,7 @@ class _OnewayScreenState extends State<OnewayScreen> {
   List<Flights> flightsDetails = [];
 
   String ResultCode = "0";
+  bool IsAllResCame = true;
 
   @override
   void initState() {
@@ -47,12 +48,16 @@ class _OnewayScreenState extends State<OnewayScreen> {
             bloc.responseStream.listen((response) {
               print('--'+response.toString()); // bind the response here
               print('----RESULT CODE-----'+response.resultCode.toString());
+              print('----RESULT responsesReceived-----'+bloc.responsesReceived.toString());
+              print('----RESULT futures-----'+bloc.futures.length.toString());
+
+              if(bloc.futures.length == bloc.responsesReceived) {
+                IsAllResCame = false;
+              }
 
               ResultCode = response.resultCode.toString();
               List<FAvail> AvailMainx = response.lFAvail!;
               AvailMain.addAll(AvailMainx);
-
-              //AvailMain.sort((a, b) => int.parse(a.fare!).compareTo(int.parse(b.fare!)));
 
               int compareInteger(bool ascending, double value1, double value2) =>
                   ascending ? value1.compareTo(value2) : value2.compareTo(value1);
@@ -60,14 +65,11 @@ class _OnewayScreenState extends State<OnewayScreen> {
               AvailMain.sort((user1, user2) => compareInteger(
                   true, double.parse(user1.fare!), double.parse(user2.fare!)));
 
-              // AvailMain.sort((a, b){
-              //   return a.fare!.compareTo(b.fare!);
-              //   //softing on numerical order (Ascending order by Roll No integer)
-              // });
-
               if (state is OnewayAllResponsesReceivedState) {
                 print('----Request All CAME-----');
               }
+
+
 
               setState(() {
 
@@ -100,73 +102,103 @@ class _OnewayScreenState extends State<OnewayScreen> {
                             color: Colors.white,
                           ),
                         ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
+                        Expanded(
+                          flex: 4,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                children: [
+                                  CustomText(
+                                    text: "BOM",
+                                    color: Colors.white,
+                                    size: SizeConfig.screenWidth! * medium_text,
+                                  ),
+                                  SizedBox(
+                                    width: SizeConfig.blockSizeHorizontal! * 1,
+                                  ),
+                                  Icon(
+                                    Icons.arrow_forward,
+                                    color: Colors.white,
+                                    size: 18,
+                                  ),
+                                  SizedBox(
+                                    width: SizeConfig.blockSizeHorizontal! * 1,
+                                  ),
+                                  CustomText(
+                                    text: "DEL",
+                                    color: Colors.white,
+                                    size: SizeConfig.screenWidth! * medium_text,
+                                  ),
+                                ],
+                              ),
+                              SizedBox(
+                                height: SizeConfig.blockSizeVertical! * 1,
+                              ),
+                              Row(
+                                children: [
+                                  CustomText(
+                                    text: "Fri, 10 Mar 2023",
+                                    color: Colors.white,
+                                    size: SizeConfig.screenWidth! * small_text,
+                                  ),
+                                  SizedBox(
+                                    width: SizeConfig.blockSizeHorizontal! * 1,
+                                  ),
+                                  CustomText(
+                                    text: "|",
+                                    color: Colors.white,
+                                  ),
+                                  CustomText(
+                                    text: "1 Traveller(s)",
+                                    color: Colors.white,
+                                    size: SizeConfig.screenWidth! * small_text,
+                                  ),
+                                  SizedBox(
+                                    width: SizeConfig.blockSizeHorizontal! * 1,
+                                  ),
+                                  CustomText(
+                                    text: "|",
+                                    color: Colors.white,
+                                  ),
+                                  CustomText(
+                                    text: "1 Flights",
+                                    color: Colors.white,
+                                    size: SizeConfig.screenWidth! * small_text,
+                                  ),
+                                ],
+                              )
+                            ],
+                          ),
+                        ),
+                        Expanded(
+                          flex: 1,
+                          child: Visibility(
+                            visible: IsAllResCame,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.end,
                               children: [
-                                CustomText(
-                                  text: "BOM",
-                                  color: Colors.white,
-                                  size: SizeConfig.screenWidth! * medium_text,
-                                ),
-                                SizedBox(
-                                  width: SizeConfig.blockSizeHorizontal! * 1,
-                                ),
-                                Icon(
-                                  Icons.arrow_forward,
-                                  color: Colors.white,
-                                  size: 18,
-                                ),
-                                SizedBox(
-                                  width: SizeConfig.blockSizeHorizontal! * 1,
-                                ),
-                                CustomText(
-                                  text: "DEL",
-                                  color: Colors.white,
-                                  size: SizeConfig.screenWidth! * medium_text,
+                                Image(
+                                    image: AssetImage('assets/images/white_loader.gif'),
+                                    gaplessPlayback: true,
+                                    fit: BoxFit.cover,
+                                  width: SizeConfig.blockSizeHorizontal!*9,
+                                  height: SizeConfig.blockSizeVertical!*4,
                                 ),
                               ],
                             ),
-                            SizedBox(
-                              height: SizeConfig.blockSizeVertical! * 1,
-                            ),
-                            Row(
-                              children: [
-                                CustomText(
-                                  text: "Fri, 10 Mar 2023",
-                                  color: Colors.white,
-                                  size: SizeConfig.screenWidth! * small_text,
-                                ),
-                                SizedBox(
-                                  width: SizeConfig.blockSizeHorizontal! * 1,
-                                ),
-                                CustomText(
-                                  text: "|",
-                                  color: Colors.white,
-                                ),
-                                CustomText(
-                                  text: "1 Traveller(s)",
-                                  color: Colors.white,
-                                  size: SizeConfig.screenWidth! * small_text,
-                                ),
-                                SizedBox(
-                                  width: SizeConfig.blockSizeHorizontal! * 1,
-                                ),
-                                CustomText(
-                                  text: "|",
-                                  color: Colors.white,
-                                ),
-                                CustomText(
-                                  text: "1 Flights",
-                                  color: Colors.white,
-                                  size: SizeConfig.screenWidth! * small_text,
-                                ),
-                              ],
-                            )
-                          ],
-                        )
+                          ),
+                        ),
                       ],
+                    ),
+                  ),
+                  Visibility(
+                    visible: IsAllResCame,
+                    child: LinearProgressIndicator(
+                      minHeight: 1,
+                      backgroundColor: secondary_blue,
+                      valueColor: AlwaysStoppedAnimation<Color>(primary_blue),
                     ),
                   ),
                   Container(

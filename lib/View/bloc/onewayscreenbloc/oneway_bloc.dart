@@ -84,6 +84,9 @@ class OnewayBloc extends Bloc<OnewayEvent, OnewayState> {
 
         final future = apiService.postAvailability(req).then((value) async {
 
+          responsesReceived++;
+          //print('---responsesReceived---'+responsesReceived.toString());
+
           print('---success---');
           _controller.add(value);
 
@@ -101,7 +104,7 @@ class OnewayBloc extends Bloc<OnewayEvent, OnewayState> {
 
       if (responsesReceived == futures.length) {
         print('---ALL DDONE---');
-        emit(OnewayAllResponsesReceivedState());
+        // emit(OnewayAllResponsesReceivedState());
       }
 
 
