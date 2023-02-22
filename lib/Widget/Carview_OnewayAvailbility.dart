@@ -13,7 +13,7 @@ class OnewayAvilCard extends StatelessWidget {
   final String? depCity;
   final String? carrierCode;
   final String? journeyHrs;
-  final String? stops;
+  final int? stops;
   final String? arrTime;
   final String? arrCity;
   final String? seatCount;
@@ -34,10 +34,8 @@ class OnewayAvilCard extends StatelessWidget {
       ),
       color: Colors.white,
       child: Container(
-          width: SizeConfig.blockSizeHorizontal! * 100,
           child: Padding(
-            padding: const EdgeInsets.only(
-                left: 18, right: 15, bottom: 15, top: 15),
+            padding: EdgeInsets.symmetric(vertical: SizeConfig.blockSizeVertical!*2.0,horizontal: SizeConfig.blockSizeHorizontal!*2.0),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -83,7 +81,7 @@ class OnewayAvilCard extends StatelessWidget {
                               width: SizeConfig.blockSizeHorizontal!*2,
                               height: SizeConfig.blockSizeVertical!*2,
                             ),
-                            CustomText(text: stops,weight: FontWeight.normal,color: Colors.black,size: SizeConfig.screenWidth!*tiny_text,),
+                            CustomText(text: stops == 0?'Non Stop':stops.toString() + ' Stops',weight: FontWeight.normal,color: Colors.black,size: SizeConfig.screenWidth!*tiny_text,),
                           ],
                         )),
                     Expanded(flex:2,
@@ -131,9 +129,8 @@ class OnewayAvilCard extends StatelessWidget {
 
                         Container(
                           height: SizeConfig.blockSizeVertical!*2.2,
-                          width: SizeConfig.blockSizeHorizontal!*5.2,
+                          width: SizeConfig.blockSizeHorizontal!*4.4,
                           alignment: Alignment.center,
-                          padding: EdgeInsets.all(5),
                           decoration: new BoxDecoration(
                             borderRadius: BorderRadius.circular(100),
                             color: Colors.green ,

@@ -47,45 +47,27 @@ class _OnewayScreenState extends State<OnewayScreen> {
             bloc.responseStream.listen((response) {
               print('--'+response.toString()); // bind the response here
               print('----RESULT CODE-----'+response.resultCode.toString());
+
               ResultCode = response.resultCode.toString();
-              AvailMain = response.lFAvail!;
+              List<FAvail> AvailMainx = response.lFAvail!;
+              AvailMain.addAll(AvailMainx);
 
-              for(int j=0;j<AvailMain.length;j++){
+              //AvailMain.sort((a, b) => int.parse(a.fare!).compareTo(int.parse(b.fare!)));
 
-                print('---FLIGHT LENGTH--'+AvailMain[j].flights!.length.toString());
+              int compareInteger(bool ascending, double value1, double value2) =>
+                  ascending ? value1.compareTo(value2) : value2.compareTo(value1);
 
-                if(AvailMain[j].flights!.length > 1) {
+              AvailMain.sort((user1, user2) => compareInteger(
+                  true, double.parse(user1.fare!), double.parse(user2.fare!)));
 
-                  print('---FLIGHT LENGTH--TRUE');
+              // AvailMain.sort((a, b){
+              //   return a.fare!.compareTo(b.fare!);
+              //   //softing on numerical order (Ascending order by Roll No integer)
+              // });
 
-                  flightsDetails.add(AvailMain[j].flights![0]);
-
-                  int tot_size = AvailMain[j].flights!.length-1;
-
-                  print('---FLIGHT LENGTH--tot_size'+tot_size.toString());
-
-                  
-                  List<Flights> flightsDetailsx = [];
-
-                  flightsDetailsx.add(AvailMain[j].flights![tot_size]);
-
-                  print('---FLIGHT LENGTH--FIRST'+flightsDetails[0].arrivalTime.toString());
-                  print('---FLIGHT LENGTH--SECON'+flightsDetailsx[0].arrivalTime.toString());
-
-                  flightsDetails[0].arrivalTime = flightsDetailsx[0].arrivalTime;
-
-                }else
-                {
-                  flightsDetails.add(AvailMain[j].flights![0]);
-                }
+              if (state is OnewayAllResponsesReceivedState) {
+                print('----Request All CAME-----');
               }
-
-              // for(int i=0; i < AvailMain.length; i++) {
-              //   for(int j=0; j < AvailMain[i].flights[j]!.lenghth;j ++) {
-              //     Array. Add(subarray[j]) ;
-              //   }
-              // }
-
 
               setState(() {
 
@@ -209,19 +191,54 @@ class _OnewayScreenState extends State<OnewayScreen> {
                     ),
                   ),
                   Expanded(
-                      child: Container(color: grayBg, child: flightsDetails.isNotEmpty ? ListView.builder(
+                      child: Container(color: grayBg, child: AvailMain.isNotEmpty ?
+                      ListView.builder(
                           padding: const EdgeInsets.only(
                               bottom: kFloatingActionButtonMargin + 48),
                           shrinkWrap: true,
-                          itemCount: flightsDetails.length,
+                          itemCount: AvailMain.length,
                           itemBuilder: (context, index) {
-                            return OnewayAvilCard(carrierCode: flightsDetails[index].platingCarrier,carriername: flightsDetails[index].airlineName,depTime: flightsDetails[index].departureTime,
-                              depCity: flightsDetails[index].destination, journeyHrs: '3h 20m',stops: flightsDetails[index].stops,arrTime: flightsDetails[index].arrivalTime,
-                              arrCity: 'DXB',amount: flightsDetails[index].netFare,seatCount: ResultCode, baggage: flightsDetails[index].baggage,
-                            refund: 'N',);
-                          }) : Column(
-                            children: [
-                              Container(child: Center(child: SizedBox(child: CircularProgressIndicator(),height: 30,width: 30,))),
+                            return OnewayAvilCard(carrierCode: AvailMain[index].flights![0].platingCarrier,
+                              carriername: AvailMain[index].flights![0].airlineName,
+                              depTime: AvailMain[index].flights![0].departureTime,
+                              depCity: AvailMain[index].flights![0].origin,
+                              journeyHrs: Utilities.durationToString(AvailMain[index].journeyTime),
+                              stops: AvailMain[index].flights!.length-1,
+                              arrTime: AvailMain[index].flights![AvailMain[index].flights!.length-1].arrivalTime,
+                              arrCity: AvailMain[index].flights![AvailMain[index].flights!.length-1].destination,
+                              amount: AvailMain[index].fare,
+                              seatCount: AvailMain[index].flights![0].availSeat,
+                              baggage: AvailMain[index].flights![0].baggage,
+                              refund: 'N',);
+                          }) :
+                      Column(
+                        children: [
+                          Container(
+                            color: Colors.white,
+                            height: SizeConfig.blockSizeVertical!*75,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Image(
+                                    image: AssetImage('assets/images/loaderflight.gif'),
+                                    gaplessPlayback: true,
+                                    fit: BoxFit.cover),
+                                SizedBox(height: SizeConfig.blockSizeVertical!*1,),
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    CustomText(text: 'Fetching Your Flights',weight: FontWeight.bold,color: primary_blue,size: SizeConfig.screenWidth!*medium_text,),
+                                    SizedBox(width: SizeConfig.blockSizeVertical!*1,),
+                                    Image.asset('assets/images/fetchingitern.gif',
+                                        height: 200,
+                                        width: 50,
+                                        scale: 2),
+                                  ],
+                                )
+                              ],
+                            ),),
                             ],
                           )
                       )

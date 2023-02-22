@@ -19,7 +19,6 @@ const double tiny_text= 0.030;
 
 class Utilities {
 
-
   static String noDataMsg(String moduleName) {
     return 'No $moduleName Found';
   }
@@ -48,8 +47,16 @@ class Utilities {
     );
   }
 
+  static String durationToString(String? minutes) {
+    var K = int.parse(minutes!);
+    var d = Duration(minutes:K);
+    List<String> parts = d.toString().split(':');
+    return '${parts[0].padLeft(2, '0')}h ${parts[1].padLeft(2, '0')}m';
+  }
 
 }
+
+
 
 class ConstantVariableClass {
   static String noResultString = 'Not added';

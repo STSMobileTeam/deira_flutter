@@ -21,6 +21,9 @@ class OnewayBloc extends Bloc<OnewayEvent, OnewayState> {
   AvailibiltyRQ req = AvailibiltyRQ();
   PSG psg = PSG();
   AGD agd = AGD();
+  final futures = <Future>[];
+  int responsesReceived = 0;
+
 
   final _controller = StreamController<AvailabilityRS>();
   Stream<AvailabilityRS> get responseStream => _controller.stream;
@@ -30,7 +33,6 @@ class OnewayBloc extends Bloc<OnewayEvent, OnewayState> {
 
     if(event is OnewayInitialEvent){
 
-      final futures = <Future>[];
 
       for(int i=0; i<FLOarray.length; i++) {
 
@@ -94,8 +96,13 @@ class OnewayBloc extends Bloc<OnewayEvent, OnewayState> {
 
 
       }
+
       await Future.wait(futures);
 
+      if (responsesReceived == futures.length) {
+        print('---ALL DDONE---');
+        emit(OnewayAllResponsesReceivedState());
+      }
 
 
     }
