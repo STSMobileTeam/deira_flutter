@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:date_picker_timeline/date_picker_timeline.dart';
 import 'package:deira_flutter/Helper/size_config.dart';
 import 'package:deira_flutter/View/bloc/onewayscreenbloc/oneway_bloc.dart';
@@ -25,10 +27,14 @@ class _OnewayScreenState extends State<OnewayScreen> {
   late OnewayBloc bloc;
 
   List<FAvail> AvailMain = [];
+  List<FAvail> AvailMainGrpp = [];
+
   List<Flights> flightsDetails = [];
 
   String ResultCode = "0";
   bool IsAllResCame = true;
+
+  List<String> KeysValue = [];
 
   @override
   void initState() {
@@ -52,23 +58,67 @@ class _OnewayScreenState extends State<OnewayScreen> {
               print('----RESULT futures-----'+bloc.futures.length.toString());
 
               if(bloc.futures.length == bloc.responsesReceived) {
+
+                //Key formation
+
+                for(int k=0;k<AvailMain.length;k++){
+
+                  String DepartureTime = AvailMain[k].departureTime!;
+                  String JourneyTime = AvailMain[k].journeyTime!;
+                  String PlatingCarrier = AvailMain[k].flights![0].platingCarrier!;
+
+                  String Keys = PlatingCarrier+JourneyTime+DepartureTime;
+
+                  AvailMain[k].unikey = Keys.toString();
+
+                  KeysValue.add(Keys);
+                }
+
+                //Grouping
+                List<String> result = LinkedHashSet<String>.from(KeysValue).toList();
+                KeysValue.clear();
+                KeysValue = result;
+
+                List<Flights> groupArray = [];
+
+                for(int m=0; m<KeysValue.length; m++){
+
+                  String keySM = KeysValue[m];
+
+                  for(int p=0; p<AvailMain.length; p++){
+                    String gettKey = AvailMain[p].unikey!;
+
+                    if(keySM == gettKey){
+                      groupArray.addAll(AvailMain[p].flights!);
+                    }
+
+                  }
+
+                  AvailMainGrpp[m].fare = AvailMain[0].fare;
+                  AvailMainGrpp[m].departureTime = AvailMain[0].departureTime;
+                  AvailMainGrpp[m].journeyTime = AvailMain[0].journeyTime;
+                  AvailMainGrpp[m].flights = groupArray;
+
+                }
+
                 IsAllResCame = false;
+
               }
 
               ResultCode = response.resultCode.toString();
-              List<FAvail> AvailMainx = response.lFAvail!;
-              AvailMain.addAll(AvailMainx);
 
-              int compareInteger(bool ascending, double value1, double value2) =>
-                  ascending ? value1.compareTo(value2) : value2.compareTo(value1);
+              if(ResultCode == "1"){
 
-              AvailMain.sort((user1, user2) => compareInteger(
-                  true, double.parse(user1.fare!), double.parse(user2.fare!)));
+                List<FAvail> AvailMainx = response.lFAvail!;
+                AvailMain.addAll(AvailMainx);
 
-              if (state is OnewayAllResponsesReceivedState) {
-                print('----Request All CAME-----');
+                int compareInteger(bool ascending, double value1, double value2) =>
+                    ascending ? value1.compareTo(value2) : value2.compareTo(value1);
+
+                AvailMain.sort((user1, user2) => compareInteger(
+                    true, double.parse(user1.fare!), double.parse(user2.fare!)));
+
               }
-
 
 
               setState(() {
@@ -223,8 +273,9 @@ class _OnewayScreenState extends State<OnewayScreen> {
                     ),
                   ),
                   Expanded(
-                      child: Container(color: grayBg, child: AvailMain.isNotEmpty ?
-                      ListView.builder(
+                      child: Container(color: grayBg,
+                          child: AvailMain.isNotEmpty ?
+                          ListView.builder(
                           padding: const EdgeInsets.only(
                               bottom: kFloatingActionButtonMargin + 48),
                           shrinkWrap: true,
@@ -243,7 +294,7 @@ class _OnewayScreenState extends State<OnewayScreen> {
                               baggage: AvailMain[index].flights![0].baggage,
                               refund: 'N',);
                           }) :
-                      Column(
+                          Column(
                         children: [
                           Container(
                             color: Colors.white,
