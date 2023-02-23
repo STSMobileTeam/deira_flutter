@@ -57,10 +57,25 @@ class _OnewayScreenState extends State<OnewayScreen> {
               print('----RESULT responsesReceived-----'+bloc.responsesReceived.toString());
               print('----RESULT futures-----'+bloc.futures.length.toString());
 
+
+              ResultCode = response.resultCode.toString();
+
+              if(ResultCode == "1"){
+
+                List<FAvail> AvailMainx = response.lFAvail!;
+                AvailMain.addAll(AvailMainx);
+
+                int compareInteger(bool ascending, double value1, double value2) =>
+                    ascending ? value1.compareTo(value2) : value2.compareTo(value1);
+
+                AvailMain.sort((user1, user2) => compareInteger(
+                    true, double.parse(user1.fare!), double.parse(user2.fare!)));
+
+              }
+
               if(bloc.futures.length == bloc.responsesReceived) {
 
                 //Key formation
-
                 for(int k=0;k<AvailMain.length;k++){
 
                   String DepartureTime = AvailMain[k].departureTime!;
@@ -79,44 +94,41 @@ class _OnewayScreenState extends State<OnewayScreen> {
                 KeysValue.clear();
                 KeysValue = result;
 
-                List<Flights> groupArray = [];
-
                 for(int m=0; m<KeysValue.length; m++){
 
                   String keySM = KeysValue[m];
 
+                  List<Flights> groupArray = [];
+
+                  print('-KeysValue- '+m.toString()+' '+keySM);
+
                   for(int p=0; p<AvailMain.length; p++){
                     String gettKey = AvailMain[p].unikey!;
 
+                    //print('-gettKey-'+p.toString()+' '+gettKey);
+
                     if(keySM == gettKey){
+                      print('-Added--'+p.toString()+' '+AvailMain[p].flights![0].grossFare.toString());
                       groupArray.addAll(AvailMain[p].flights!);
+
                     }
 
                   }
 
-                  AvailMainGrpp[m].fare = AvailMain[0].fare;
-                  AvailMainGrpp[m].departureTime = AvailMain[0].departureTime;
-                  AvailMainGrpp[m].journeyTime = AvailMain[0].journeyTime;
-                  AvailMainGrpp[m].flights = groupArray;
+                  // AvailMainGrpp[m].fare = AvailMain[0].fare;
+                  // AvailMainGrpp[m].journeyTimedepartureTime = AvailMain[0].journeyTimedepartureTime;
+                  // AvailMainGrpp[m].journeyTime = AvailMain[0].journeyTime;
+                  // AvailMainGrpp[m].flights = groupArray;
+
+                  AvailMainGrpp.insert(m, FAvail(fare: groupArray[0].grossFare,departureTime: groupArray[0].departureTime,journeyTime: AvailMain[m].journeyTime,flights: groupArray));
 
                 }
 
+                AvailMain.clear();
+
+                AvailMain.addAll(AvailMainGrpp);
+
                 IsAllResCame = false;
-
-              }
-
-              ResultCode = response.resultCode.toString();
-
-              if(ResultCode == "1"){
-
-                List<FAvail> AvailMainx = response.lFAvail!;
-                AvailMain.addAll(AvailMainx);
-
-                int compareInteger(bool ascending, double value1, double value2) =>
-                    ascending ? value1.compareTo(value2) : value2.compareTo(value1);
-
-                AvailMain.sort((user1, user2) => compareInteger(
-                    true, double.parse(user1.fare!), double.parse(user2.fare!)));
 
               }
 
@@ -281,18 +293,32 @@ class _OnewayScreenState extends State<OnewayScreen> {
                           shrinkWrap: true,
                           itemCount: AvailMain.length,
                           itemBuilder: (context, index) {
-                            return OnewayAvilCard(carrierCode: AvailMain[index].flights![0].platingCarrier,
-                              carriername: AvailMain[index].flights![0].airlineName,
-                              depTime: AvailMain[index].flights![0].departureTime,
-                              depCity: AvailMain[index].flights![0].origin,
-                              journeyHrs: Utilities.durationToString(AvailMain[index].journeyTime),
-                              stops: AvailMain[index].flights!.length-1,
-                              arrTime: AvailMain[index].flights![AvailMain[index].flights!.length-1].arrivalTime,
-                              arrCity: AvailMain[index].flights![AvailMain[index].flights!.length-1].destination,
-                              amount: AvailMain[index].fare,
-                              seatCount: AvailMain[index].flights![0].availSeat,
-                              baggage: AvailMain[index].flights![0].baggage,
-                              refund: 'N',);
+                            return InkWell(
+                              onTap: () async {
+                                print('Printing the index--'+index.toString());
+                                print('AvailMain flights length--'+AvailMain[index].flights!.length.toString());
+                                print('AvailMain length--'+AvailMain.length.toString());
+
+                                PopupFareDetails(context,index,AvailMain);
+
+                                for(int x=0;x<AvailMain[index].flights!.length;x++){
+                                  print('Printing the index--'+x.toString()+' '+AvailMain[index].flights![x].grossFare.toString());
+                                }
+                                
+                              },
+                              child: OnewayAvilCard(carrierCode: AvailMain[index].flights![0].platingCarrier,
+                                carriername: AvailMain[index].flights![0].airlineName,
+                                depTime: AvailMain[index].flights![0].departureTime,
+                                depCity: AvailMain[index].flights![0].origin,
+                                journeyHrs: Utilities.durationToString(AvailMain[index].journeyTime),
+                                stops: AvailMain[index].flights![AvailMain[index].flights!.length-1].stops,
+                                arrTime: AvailMain[index].flights![AvailMain[index].flights!.length-1].arrivalTime,
+                                arrCity: AvailMain[index].flights![AvailMain[index].flights!.length-1].destination,
+                                amount: AvailMain[index].fare,
+                                seatCount: AvailMain[index].flights![0].availSeat,
+                                baggage: AvailMain[index].flights![0].baggage,
+                                refund: 'N',),
+                            );
                           }) :
                           Column(
                         children: [
@@ -334,4 +360,112 @@ class _OnewayScreenState extends State<OnewayScreen> {
       ),
     );
   }
+
+}
+
+
+
+Future PopupFareDetails(context,int pos,List<FAvail> AvailMain) {
+  return showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      builder: (context) {
+        return FractionallySizedBox(
+          heightFactor: 0.93,
+          child: Container(
+            color: smokewhite,
+            child: Column(
+              children: [
+                Card(
+                  elevation: 1,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(0.0),
+                  ),
+                  color: Colors.white,
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(vertical: SizeConfig.blockSizeVertical!*1.2,horizontal: SizeConfig.blockSizeHorizontal!*0.8),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Expanded(flex:8,child: Padding(
+                          padding: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal!*2),
+                          child: CustomText(text: 'Flight Information',weight: FontWeight.bold,size: SizeConfig.screenWidth!*0.04,),
+                        )),
+                        Expanded(
+                          flex: 1,
+                          child: IconButton( onPressed: () {
+                            Navigator.pop(context);
+                          },  icon: Icon(
+                            Icons.close,
+                            color: Colors.black54,
+                          ),),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+                Column(
+                  children: [
+                    SizedBox(height: SizeConfig.blockSizeVertical!*1.5,),
+                    Stack(
+                      alignment: Alignment.center,
+                      children: [
+                        Image(
+                          image: AssetImage('assets/images/deira_blu_wo_txt.gif'),
+                          gaplessPlayback: true,
+                          fit: BoxFit.fill,
+                          width: SizeConfig.blockSizeHorizontal!*100,
+                          height: SizeConfig.blockSizeVertical!*10,
+                        ),
+                        Column(
+                          children: [
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                CustomText(text: "DXB",weight: FontWeight.bold,color: Colors.white,size: SizeConfig.screenWidth!*large_text,),
+                                SizedBox(width: SizeConfig.blockSizeHorizontal!*1.5,),
+                                Icon(Icons.arrow_forward,color: Colors.white,),
+                                SizedBox(width: SizeConfig.blockSizeHorizontal!*1.5,),
+                                CustomText(text: "BOM",weight: FontWeight.bold,color: Colors.white,size: SizeConfig.screenWidth!*large_text,),
+                              ],
+                            ),
+                            SizedBox(height: SizeConfig.blockSizeVertical!*1.2,),
+                            IntrinsicHeight(
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  CustomText(text: "Non-Stop",weight: FontWeight.normal,color: Colors.white,size: SizeConfig.screenWidth!*small_text,),
+                                  SizedBox(width: SizeConfig.blockSizeHorizontal!*0.5,),
+                                  VerticalDivider(
+                                    color: Colors.white,
+                                    thickness: 1,
+                                  ),
+                                  SizedBox(width: SizeConfig.blockSizeHorizontal!*0.5,),
+                                  CustomText(text: "2h 50m",weight: FontWeight.normal,color: Colors.white,size: SizeConfig.screenWidth!*small_text,),
+                                  SizedBox(width: SizeConfig.blockSizeHorizontal!*0.5,),
+                                  VerticalDivider(
+                                    color: Colors.white,
+                                    thickness: 1,
+                                  ),
+                                  SizedBox(width: SizeConfig.blockSizeHorizontal!*0.5,),
+                                  CustomText(text: "Economy",weight: FontWeight.normal,color: Colors.white,size: SizeConfig.screenWidth!*small_text,),
+                                ],
+                              ),
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
+                    SizedBox(height: SizeConfig.blockSizeVertical!*1.5,),
+
+                  ],
+                )
+              ],
+            ),
+          ),
+        );
+      });
 }

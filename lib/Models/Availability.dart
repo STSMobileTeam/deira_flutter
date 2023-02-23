@@ -315,6 +315,7 @@ class FAvail {
   String? fare;
   String? unikey;
   List<Flights>? flights;
+
   String? journeyTime;
 
   FAvail({this.departureTime, this.fare, this.flights, this.journeyTime, this.unikey});

@@ -13,7 +13,7 @@ class OnewayAvilCard extends StatelessWidget {
   final String? depCity;
   final String? carrierCode;
   final String? journeyHrs;
-  final int? stops;
+  final String? stops;
   final String? arrTime;
   final String? arrCity;
   final String? seatCount;
@@ -81,7 +81,7 @@ class OnewayAvilCard extends StatelessWidget {
                               width: SizeConfig.blockSizeHorizontal!*2,
                               height: SizeConfig.blockSizeVertical!*2,
                             ),
-                            CustomText(text: stops == 0?'Non Stop':stops.toString() + ' Stops',weight: FontWeight.normal,color: Colors.black,size: SizeConfig.screenWidth!*tiny_text,),
+                            CustomText(text: stops == "0"?'Non Stop':stops.toString() + ' Stops',weight: FontWeight.normal,color: Colors.black,size: SizeConfig.screenWidth!*tiny_text,),
                           ],
                         )),
                     Expanded(flex:2,
