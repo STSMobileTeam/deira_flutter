@@ -98,29 +98,19 @@ class _OnewayScreenState extends State<OnewayScreen> {
 
                   String keySM = KeysValue[m];
 
-                  List<Flights> groupArray = [];
-
-                  print('-KeysValue- '+m.toString()+' '+keySM);
+                  List<FAvail> groupArray = [];
 
                   for(int p=0; p<AvailMain.length; p++){
+
                     String gettKey = AvailMain[p].unikey!;
 
-                    //print('-gettKey-'+p.toString()+' '+gettKey);
-
                     if(keySM == gettKey){
-                      print('-Added--'+p.toString()+' '+AvailMain[p].flights![0].grossFare.toString());
-                      groupArray.addAll(AvailMain[p].flights!);
-
+                      groupArray.add(AvailMain[p]);
                     }
 
                   }
 
-                  // AvailMainGrpp[m].fare = AvailMain[0].fare;
-                  // AvailMainGrpp[m].journeyTimedepartureTime = AvailMain[0].journeyTimedepartureTime;
-                  // AvailMainGrpp[m].journeyTime = AvailMain[0].journeyTime;
-                  // AvailMainGrpp[m].flights = groupArray;
-
-                  AvailMainGrpp.insert(m, FAvail(fare: groupArray[0].grossFare,departureTime: groupArray[0].departureTime,journeyTime: AvailMain[m].journeyTime,flights: groupArray));
+                  AvailMainGrpp.insert(m, FAvail(fare: groupArray[0].fare,departureTime: groupArray[0].departureTime,journeyTime: groupArray[0].journeyTime,flights: groupArray[0].flights,flightsgrp: groupArray));
 
                 }
 
@@ -296,13 +286,13 @@ class _OnewayScreenState extends State<OnewayScreen> {
                             return InkWell(
                               onTap: () async {
                                 print('Printing the index--'+index.toString());
-                                print('AvailMain flights length--'+AvailMain[index].flights!.length.toString());
+                                print('AvailMain flights length--'+AvailMain[index].flightsgrp!.length.toString());
                                 print('AvailMain length--'+AvailMain.length.toString());
 
-                                PopupFareDetails(context,index,AvailMain);
+                                PopupFareDetails(context,index,AvailMain[index].flightsgrp!);
 
-                                for(int x=0;x<AvailMain[index].flights!.length;x++){
-                                  print('Printing the index--'+x.toString()+' '+AvailMain[index].flights![x].grossFare.toString());
+                                for(int x=0;x<AvailMain[index].flightsgrp!.length;x++){
+                                  print('Printing the index--'+x.toString()+' '+AvailMain[index].flightsgrp![x].fare.toString());
                                 }
                                 
                               },
@@ -363,7 +353,9 @@ class _OnewayScreenState extends State<OnewayScreen> {
 
 }
 
-
+// for(int x=0;x<AvailMain[index].flightsgrp!.length;x++){
+// print('Printing the index--'+x.toString()+' '+AvailMain[index].flightsgrp![x].fare.toString());
+// }
 
 Future PopupFareDetails(context,int pos,List<FAvail> AvailMain) {
   return showModalBottomSheet(
@@ -372,99 +364,112 @@ Future PopupFareDetails(context,int pos,List<FAvail> AvailMain) {
       builder: (context) {
         return FractionallySizedBox(
           heightFactor: 0.93,
-          child: Container(
-            color: smokewhite,
-            child: Column(
-              children: [
-                Card(
-                  elevation: 1,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(0.0),
-                  ),
-                  color: Colors.white,
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(vertical: SizeConfig.blockSizeVertical!*1.2,horizontal: SizeConfig.blockSizeHorizontal!*0.8),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Expanded(flex:8,child: Padding(
-                          padding: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal!*2),
-                          child: CustomText(text: 'Flight Information',weight: FontWeight.bold,size: SizeConfig.screenWidth!*0.04,),
-                        )),
-                        Expanded(
-                          flex: 1,
-                          child: IconButton( onPressed: () {
-                            Navigator.pop(context);
-                          },  icon: Icon(
-                            Icons.close,
-                            color: Colors.black54,
-                          ),),
-                        )
-                      ],
-                    ),
+          child: Column(
+            children: [
+              Card(
+                elevation: 1,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(0.0),
+                ),
+                color: Colors.white,
+                child: Padding(
+                  padding: EdgeInsets.symmetric(vertical: SizeConfig.blockSizeVertical!*1.2,horizontal: SizeConfig.blockSizeHorizontal!*0.8),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Expanded(flex:8,child: Padding(
+                        padding: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal!*2),
+                        child: CustomText(text: 'Flight Information',weight: FontWeight.bold,size: SizeConfig.screenWidth!*0.04,),
+                      )),
+                      Expanded(
+                        flex: 1,
+                        child: IconButton( onPressed: () {
+                          Navigator.pop(context);
+                        },  icon: Icon(
+                          Icons.close,
+                          color: Colors.black54,
+                        ),),
+                      )
+                    ],
                   ),
                 ),
-                Column(
-                  children: [
-                    SizedBox(height: SizeConfig.blockSizeVertical!*1.5,),
-                    Stack(
-                      alignment: Alignment.center,
-                      children: [
-                        Image(
-                          image: AssetImage('assets/images/deira_blu_wo_txt.gif'),
-                          gaplessPlayback: true,
-                          fit: BoxFit.fill,
-                          width: SizeConfig.blockSizeHorizontal!*100,
-                          height: SizeConfig.blockSizeVertical!*10,
-                        ),
-                        Column(
+              ),
+              SizedBox(height: SizeConfig.blockSizeVertical!*1.5,),
+              Stack(
+                alignment: Alignment.center,
+                children: [
+                  Image(
+                    image: AssetImage('assets/images/deira_blu_wo_txt.gif'),
+                    gaplessPlayback: true,
+                    fit: BoxFit.fill,
+                    width: SizeConfig.blockSizeHorizontal!*100,
+                    height: SizeConfig.blockSizeVertical!*10,
+                  ),
+                  Column(
+                    children: [
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          CustomText(text: "DXB",weight: FontWeight.bold,color: Colors.white,size: SizeConfig.screenWidth!*large_text,),
+                          SizedBox(width: SizeConfig.blockSizeHorizontal!*1.5,),
+                          Icon(Icons.arrow_forward,color: Colors.white,),
+                          SizedBox(width: SizeConfig.blockSizeHorizontal!*1.5,),
+                          CustomText(text: "BOM",weight: FontWeight.bold,color: Colors.white,size: SizeConfig.screenWidth!*large_text,),
+                        ],
+                      ),
+                      SizedBox(height: SizeConfig.blockSizeVertical!*1.2,),
+                      IntrinsicHeight(
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                CustomText(text: "DXB",weight: FontWeight.bold,color: Colors.white,size: SizeConfig.screenWidth!*large_text,),
-                                SizedBox(width: SizeConfig.blockSizeHorizontal!*1.5,),
-                                Icon(Icons.arrow_forward,color: Colors.white,),
-                                SizedBox(width: SizeConfig.blockSizeHorizontal!*1.5,),
-                                CustomText(text: "BOM",weight: FontWeight.bold,color: Colors.white,size: SizeConfig.screenWidth!*large_text,),
-                              ],
+                            CustomText(text: "Non-Stop",weight: FontWeight.normal,color: Colors.white,size: SizeConfig.screenWidth!*small_text,),
+                            SizedBox(width: SizeConfig.blockSizeHorizontal!*0.5,),
+                            VerticalDivider(
+                              color: Colors.white,
+                              thickness: 1,
                             ),
-                            SizedBox(height: SizeConfig.blockSizeVertical!*1.2,),
-                            IntrinsicHeight(
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  CustomText(text: "Non-Stop",weight: FontWeight.normal,color: Colors.white,size: SizeConfig.screenWidth!*small_text,),
-                                  SizedBox(width: SizeConfig.blockSizeHorizontal!*0.5,),
-                                  VerticalDivider(
-                                    color: Colors.white,
-                                    thickness: 1,
-                                  ),
-                                  SizedBox(width: SizeConfig.blockSizeHorizontal!*0.5,),
-                                  CustomText(text: "2h 50m",weight: FontWeight.normal,color: Colors.white,size: SizeConfig.screenWidth!*small_text,),
-                                  SizedBox(width: SizeConfig.blockSizeHorizontal!*0.5,),
-                                  VerticalDivider(
-                                    color: Colors.white,
-                                    thickness: 1,
-                                  ),
-                                  SizedBox(width: SizeConfig.blockSizeHorizontal!*0.5,),
-                                  CustomText(text: "Economy",weight: FontWeight.normal,color: Colors.white,size: SizeConfig.screenWidth!*small_text,),
-                                ],
-                              ),
+                            SizedBox(width: SizeConfig.blockSizeHorizontal!*0.5,),
+                            CustomText(text: "2h 50m",weight: FontWeight.normal,color: Colors.white,size: SizeConfig.screenWidth!*small_text,),
+                            SizedBox(width: SizeConfig.blockSizeHorizontal!*0.5,),
+                            VerticalDivider(
+                              color: Colors.white,
+                              thickness: 1,
                             ),
+                            SizedBox(width: SizeConfig.blockSizeHorizontal!*0.5,),
+                            CustomText(text: "Economy",weight: FontWeight.normal,color: Colors.white,size: SizeConfig.screenWidth!*small_text,),
                           ],
-                        )
-                      ],
-                    ),
-                    SizedBox(height: SizeConfig.blockSizeVertical!*1.5,),
-
-                  ],
-                )
-              ],
-            ),
+                        ),
+                      ),
+                    ],
+                  )
+                ],
+              ),
+              SizedBox(height: SizeConfig.blockSizeVertical!*1.5,),
+              Expanded(
+                child: ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: AvailMain[pos].flights!.length,
+                    itemBuilder: (context, index) {
+                      //print('Printing the index--'+x.toString()+' '+AvailMain[index].flightsgrp![x].fare.toString());
+                      return OnewayAvilCard(
+                        carrierCode: AvailMain[pos].flights![index].platingCarrier,
+                        carriername: AvailMain[pos].flights![index].airlineName,
+                        depTime: AvailMain[pos].flights![index].departureTime,
+                        depCity: AvailMain[pos].flights![index].origin,
+                        journeyHrs: Utilities.durationToString(AvailMain[pos].journeyTime),
+                        stops: AvailMain[pos].flights![AvailMain[index].flights!.length-1].stops,
+                        arrTime: AvailMain[pos].flights![AvailMain[index].flights!.length-1].arrivalTime,
+                        arrCity: AvailMain[pos].flights![AvailMain[index].flights!.length-1].destination,
+                        amount: AvailMain[pos].fare,
+                        seatCount: AvailMain[pos].flights![index].availSeat,
+                        baggage: AvailMain[pos].flights![index].baggage,
+                        refund: 'N',);
+                    }),
+              )
+            ],
           ),
         );
       });

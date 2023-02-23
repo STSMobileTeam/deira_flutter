@@ -315,10 +315,11 @@ class FAvail {
   String? fare;
   String? unikey;
   List<Flights>? flights;
+  List<FAvail>? flightsgrp;
 
   String? journeyTime;
 
-  FAvail({this.departureTime, this.fare, this.flights, this.journeyTime, this.unikey});
+  FAvail({this.departureTime, this.fare, this.flights, this.journeyTime, this.unikey, this.flightsgrp});
 
   FAvail.fromJson(Map<String, dynamic> json) {
     departureTime = json['DepartureTime'];
