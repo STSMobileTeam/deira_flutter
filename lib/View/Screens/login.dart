@@ -193,9 +193,10 @@ class _LoginState extends State<MyLogin> {
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(15.0)),
                               onPressed: () {
-                                if (_loginFormKey.currentState!.validate()) {
-                                  bloc.add(LoginScreenBlocLoadingEvent());
-                                }
+                                // if (_loginFormKey.currentState!.validate()) {
+                                //   bloc.add(LoginScreenBlocLoadingEvent());
+                                // }
+                                bloc.add(LoginScreenBlocLoadingEvent());
                               },
                             ),
                           ),

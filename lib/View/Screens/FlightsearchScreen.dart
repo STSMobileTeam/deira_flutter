@@ -1,3 +1,5 @@
+import 'package:deira_flutter/Helper/utilities.dart';
+import 'package:deira_flutter/View/Screens/calendarScreen.dart';
 import 'package:deira_flutter/View/bloc/flightSearchbloc/flight_search_bloc.dart';
 import 'package:deira_flutter/View/widgets/customtextfield.dart';
 import 'package:flutter/material.dart';
@@ -26,6 +28,417 @@ class _FlightSearchScreenState extends State<FlightSearchScreen>
   var tween = Tween<Offset>(begin: Offset.zero, end: Offset(-2, 0))
       .chain(CurveTween(curve: Curves.ease));
   late FlightSearchBloc bloc;
+
+  int adult = 1;
+  int children = 0;
+  int infant = 0;
+  String type = "economy";
+  String typetxt = "Economy";
+
+
+  bottomSheet(){
+    showModalBottomSheet(
+        context: context,
+        builder: (BuildContext context) {
+          return StatefulBuilder(
+            builder: (BuildContext context, StateSetter setState) {
+              return SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 10.0,horizontal: 20),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(height: SizeConfig.blockSizeVertical!*2,),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text('Travellers & Class',style: TextStyle(color: Colors.black,fontSize: 18,fontWeight: FontWeight.w500),),
+                          IconButton(onPressed: (){
+                            Navigator.pop(context);
+                          }, icon: Icon(Icons.clear))
+                        ],
+                      ),
+                      SizedBox(height: SizeConfig.blockSizeVertical!*1,),
+                      Divider(
+                        color: Colors.black12,
+                      ),
+                      SizedBox(height: SizeConfig.blockSizeVertical!*2,),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text('Adults',style: TextStyle(color: Colors.black,fontSize: 17,fontWeight: FontWeight.w500),),
+                              SizedBox(height: 7,),
+                              Text('Above 12 years',style: TextStyle(color: Colors.black54,fontSize: 14,),),
+                            ],
+                          ),
+                          Container(
+                            width: SizeConfig.blockSizeHorizontal!*40,
+                            height: SizeConfig.blockSizeVertical!*5.5,
+                            decoration: BoxDecoration(
+                              border: Border.all(color: Colors.black12),
+                              borderRadius: BorderRadius.all(
+                                  Radius.circular(8)),
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                IconButton(icon: Icon(Icons.clear,size: 20,),onPressed: (){
+                                  if(adult > 1){
+                                    setState(() {
+                                      adult--;
+                                      infant = 0;
+                                      children = 0;
+                                    });
+                                  }
+                                },),
+                                Text('${adult}',style: TextStyle(color: Colors.black,fontSize: 18,fontWeight: FontWeight.w500),),
+                                IconButton(icon: Icon(Icons.add,size: 20,),onPressed: (){
+                                  if(adult < 9){
+                                    setState(() {
+                                      adult++;
+                                      infant = 0;
+                                      children = 0;
+                                    });
+                                  }
+                                },),
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                      SizedBox(height: SizeConfig.blockSizeVertical!*2,),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text('Children',style: TextStyle(color: Colors.black,fontSize: 17,fontWeight: FontWeight.w500),),
+                              SizedBox(height: 7,),
+                              Text('2-12 years',style: TextStyle(color: Colors.black54,fontSize: 14,),),
+                            ],
+                          ),
+                          Container(
+                            width: SizeConfig.blockSizeHorizontal!*40,
+                            height: SizeConfig.blockSizeVertical!*5.5,
+                            decoration: BoxDecoration(
+                              border: Border.all(color: Colors.black12),
+                              borderRadius: BorderRadius.all(
+                                  Radius.circular(8)),
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                IconButton(icon: Icon(Icons.clear,size: 20,),onPressed: (){
+                                  if(children != 0){
+                                    setState(() {
+                                      children--;
+                                    });
+                                  }
+                                },),
+                                Text('${children}',style: TextStyle(color: Colors.black,fontSize: 18,fontWeight: FontWeight.w500),),
+                                IconButton(icon: Icon(Icons.add,size: 20,),onPressed: (){
+
+                                  if (adult + children < 9) {
+                                    setState(() {
+                                      children++;
+                                    });
+                                  }
+
+                                },),
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                      SizedBox(height: SizeConfig.blockSizeVertical!*2,),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text('Infant',style: TextStyle(color: Colors.black,fontSize: 17,fontWeight: FontWeight.w500),),
+                              SizedBox(height: 7,),
+                              Text('0-23 Months',style: TextStyle(color: Colors.black54,fontSize: 14,),),
+                            ],
+                          ),
+                          Container(
+                            width: SizeConfig.blockSizeHorizontal!*40,
+                            height: SizeConfig.blockSizeVertical!*5.5,
+                            decoration: BoxDecoration(
+                              border: Border.all(color: Colors.black12),
+                              borderRadius: BorderRadius.all(
+                                  Radius.circular(8)),
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                IconButton(icon: Icon(Icons.clear,size: 20,),onPressed: (){
+                                  if(infant != 0){
+                                    setState(() {
+                                      infant--;
+                                    });
+                                  }
+                                },),
+                                Text('${infant}',style: TextStyle(color: Colors.black,fontSize: 18,fontWeight: FontWeight.w500),),
+                                IconButton(icon: Icon(Icons.add,size: 20,),onPressed: (){
+
+                                    if ((infant < adult) && (infant < 4)) {
+                                      setState(() {
+                                        infant++;
+                                      });
+                                    }
+
+                                },),
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                      SizedBox(height: SizeConfig.blockSizeVertical!*2,),
+                      Row(
+                        children: [
+                          InkWell(
+                            onTap: (){
+                              setState(() {
+                                type = "economy";
+                              });
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: type == "economy" ? secondary_blue : Colors.white,
+                                borderRadius: BorderRadius.circular(8.0),
+                                border: Border.all(color: type == "economy" ? Colors.transparent : Colors.grey,width: 0.5),),
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 15.0,vertical: 10),
+                                child: Center(
+                                  child: Text('Economy',
+                                      style: TextStyle(fontSize: 14.0, color:  type == "economy" ? Colors.white : Colors.grey)),
+                                ),
+                              ),
+                            ),
+                          ),
+                          SizedBox(width: 15,),
+                          InkWell(
+                            onTap: (){
+                              setState(() {
+                                type = "preeconomy";
+                              });
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: type == "preeconomy" ? secondary_blue : Colors.white,
+                                borderRadius: BorderRadius.circular(8.0),
+                                border: Border.all(color: type == "preeconomy" ? Colors.transparent : Colors.grey,width: 0.5),),
+                              height: 40,
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 15.0,vertical: 10),
+                                child: Center(
+                                  child: Text('Premimum Economy',
+                                      style: TextStyle(fontSize: 14.0, color:  type == "preeconomy" ? Colors.white : Colors.grey)),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: SizeConfig.blockSizeVertical!*1.5,),
+                      Row(
+                        children: [
+                          InkWell(
+                            onTap: (){
+                              setState(() {
+                                type = "business";
+                              });
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: type == "business" ? secondary_blue : Colors.white,
+                                borderRadius: BorderRadius.circular(8.0),
+                                border: Border.all(color: type == "business" ? Colors.transparent : Colors.grey,width: 0.5),),
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 15.0,vertical: 10),
+                                child: Center(
+                                  child: Text('Business',
+                                      style: TextStyle(fontSize: 14.0, color:  type == "business" ? Colors.white : Colors.grey)),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: SizeConfig.blockSizeVertical!*2,),
+                      Center(
+                        child: MaterialButton(
+                          elevation: 2,
+                          minWidth: SizeConfig.blockSizeHorizontal!*35,
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                          height: 50,
+                          color: primary_blue,
+                          child: Text('DONE',
+                              style: TextStyle(fontSize: 16.0, color: Colors.white)),
+                          onPressed: () {
+                            bloc.adulttxt = adult;
+                            bloc.childrentxt = children;
+                            bloc.infanttxt = infant;
+                            typetxt = (type == "economy") ? "Economy" : (type == "preeconomy") ? "Premimum Economy" : "Business";
+                            bloc.add(PassengerRefreshEvent());
+                            Navigator.pop(context);
+                          },
+                        ),
+                      ),
+                      SizedBox(height: SizeConfig.blockSizeVertical!*3,),
+                    ],
+                  ),
+                ),
+              );
+            } ,
+          );
+        }
+    );
+  }
+
+  dialogBox_Preference(){
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return StatefulBuilder(
+              builder: (BuildContext context, StateSetter setState) {
+                return Dialog(
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)), //
+                  insetPadding: EdgeInsets.all(15),// this right here
+                  child: Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(height: SizeConfig.blockSizeVertical!*2,),
+                        Text('Airlines Filter',style: TextStyle(color: Colors.black,fontSize: 18,fontWeight: FontWeight.w500),),
+                        SizedBox(height: SizeConfig.blockSizeVertical!*2,),
+                        Center(
+                          child: SizedBox(
+                            width: SizeConfig.blockSizeHorizontal!*50,
+                            child: TextField(
+                              textAlign: TextAlign.center,
+                              decoration: InputDecoration(
+                                contentPadding: EdgeInsets.all(10.0),
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.blueAccent, width: 0.5),
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.grey, width: 0.5),
+                                ),
+                                hintText: 'Code or Name',
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: SizeConfig.blockSizeVertical!*3,),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            MaterialButton(
+                              elevation: 2,
+                              minWidth: SizeConfig.blockSizeHorizontal!*35,
+                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                              height: 50,
+                              color: primary_blue_lte,
+                              child: Text('Cancel',
+                                  style: TextStyle(fontSize: 16.0, color: primary_blue)),
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                            ),
+                            MaterialButton(
+                              elevation: 2,
+                              minWidth: SizeConfig.blockSizeHorizontal!*35,
+                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                              height: 50,
+                              color: primary_blue,
+                              child: Text('Apply',
+                                  style: TextStyle(fontSize: 16.0, color: Colors.white)),
+                              onPressed: () {},
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: SizeConfig.blockSizeVertical!*2,)
+                      ],
+                    ),
+                  ),
+                );
+              }
+          );
+        });
+  }
+
+  CitySelectWarning(String warnMsg){
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return StatefulBuilder(
+              builder: (BuildContext context, StateSetter setState) {
+                return Dialog(
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)), //
+                  insetPadding: EdgeInsets.all(15),// this right here
+                  child: Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(height: SizeConfig.blockSizeVertical!*2,),
+                        Text('Warning',style: TextStyle(color: primary_blue,fontSize: 18,fontWeight: FontWeight.w500),),
+                        SizedBox(height: SizeConfig.blockSizeVertical!*2,),
+                        Center(
+                          child: SizedBox(
+                            width: SizeConfig.blockSizeHorizontal!*50,
+                            child: CustomText(text: '${warnMsg}',textAlign: TextAlign.center,size: 18,),
+                          ),
+                        ),
+                        SizedBox(height: SizeConfig.blockSizeVertical!*3,),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            MaterialButton(
+                              elevation: 2,
+                              minWidth: SizeConfig.blockSizeHorizontal!*35,
+                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                              height: 50,
+                              color: primary_blue_lte,
+                              child: Text('CANCEL',
+                                  style: TextStyle(fontSize: 16.0, color: primary_blue)),
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                            ),
+                            MaterialButton(
+                              elevation: 2,
+                              minWidth: SizeConfig.blockSizeHorizontal!*35,
+                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                              height: 50,
+                              color: primary_blue,
+                              child: Text('OK',
+                                  style: TextStyle(fontSize: 16.0, color: Colors.white)),
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: SizeConfig.blockSizeVertical!*2,)
+                      ],
+                    ),
+                  ),
+                );
+              }
+          );
+        });
+  }
 
   @override
   void initState() {
@@ -72,7 +485,12 @@ class _FlightSearchScreenState extends State<FlightSearchScreen>
       ),
       body: BlocListener<FlightSearchBloc, FlightSearchState>(
         listener: (context, state) {
-          // TODO: implement listener
+
+          if(state is PassengerRefreshState){
+            setState(() {
+
+            });
+          }
         },
         child: BlocBuilder<FlightSearchBloc, FlightSearchState>(
           builder: (context, state) {
@@ -230,8 +648,16 @@ class _FlightSearchScreenState extends State<FlightSearchScreen>
                                   Expanded(
                                     flex: 1,
                                     child: GestureDetector(
-                                      onTap: (){
-                                        Navigator.pushNamed(context, AppRoutes.citysearch);
+                                      onTap: () async {
+                                       var result = await Navigator.pushNamed(context, AppRoutes.citysearch);
+                                       if(result != null){
+                                         print(result);
+                                         var parts = result.toString().split('~');
+                                         setState(() {
+                                           bloc.fromCityCode = parts[0].trim();
+                                           bloc.fromCityName = parts[1].trim();
+                                         });
+                                       }
                                       },
                                       child: Padding(
                                         padding: EdgeInsets.only(
@@ -278,7 +704,7 @@ class _FlightSearchScreenState extends State<FlightSearchScreen>
                                                     0.4,
                                               ),
                                               CustomText(
-                                                  text: "BOM",
+                                                  text: "${bloc.fromCityCode}",
                                                   size:
                                                       ScreenScale.convertFontSize(
                                                           ScreenScale
@@ -295,7 +721,7 @@ class _FlightSearchScreenState extends State<FlightSearchScreen>
                                                     0.4,
                                               ),
                                               CustomText(
-                                                  text: "Bombay",
+                                                  text: "${bloc.fromCityName}",
                                                   size:
                                                       ScreenScale.convertFontSize(
                                                           18,
@@ -309,71 +735,84 @@ class _FlightSearchScreenState extends State<FlightSearchScreen>
                                   ),
                                   Expanded(
                                     flex: 1,
-                                    child: Padding(
-                                      padding: EdgeInsets.only(
-                                          left:
-                                              SizeConfig.blockSizeHorizontal! *
-                                                  2),
-                                      child: Container(
-                                        // height: SizeConfig.blockSizeVertical! * 11.7,
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: SizeConfig
-                                                    .blockSizeHorizontal! *
-                                                3,
-                                            vertical:
-                                                SizeConfig.blockSizeVertical! *
-                                                    1.3),
-                                        decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(10.0),
-                                            border: Border.all(color: greyline),
-                                            color: Colors.white,
-                                            boxShadow: <BoxShadow>[
-                                              BoxShadow(
-                                                color: greyline,
-                                                blurRadius: 0.0,
-                                                offset: Offset(0.0, 0.0),
+                                    child: GestureDetector(
+                                      onTap: () async {
+                                        var result = await Navigator.pushNamed(context, AppRoutes.citysearch);
+                                        if(result != null){
+                                          print(result);
+                                          var parts = result.toString().split('~');
+                                          setState(() {
+                                            bloc.toCityCode = parts[0].trim();
+                                            bloc.toCityName = parts[1].trim();
+                                          });
+                                        }
+                                      },
+                                      child: Padding(
+                                        padding: EdgeInsets.only(
+                                            left:
+                                                SizeConfig.blockSizeHorizontal! *
+                                                    2),
+                                        child: Container(
+                                          // height: SizeConfig.blockSizeVertical! * 11.7,
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: SizeConfig
+                                                      .blockSizeHorizontal! *
+                                                  3,
+                                              vertical:
+                                                  SizeConfig.blockSizeVertical! *
+                                                      1.3),
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(10.0),
+                                              border: Border.all(color: greyline),
+                                              color: Colors.white,
+                                              boxShadow: <BoxShadow>[
+                                                BoxShadow(
+                                                  color: greyline,
+                                                  blurRadius: 0.0,
+                                                  offset: Offset(0.0, 0.0),
+                                                ),
+                                              ]),
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.end,
+                                            children: [
+                                              CustomText(
+                                                  text: "To",
+                                                  size:
+                                                      ScreenScale.convertFontSize(
+                                                          15,
+                                                          allowFontScaling: true),
+                                                  color: textgrey),
+                                              SizedBox(
+                                                height: SizeConfig
+                                                        .blockSizeVertical! *
+                                                    0.4,
                                               ),
-                                            ]),
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.end,
-                                          children: [
-                                            CustomText(
-                                                text: "To",
-                                                size:
-                                                    ScreenScale.convertFontSize(
-                                                        15,
-                                                        allowFontScaling: true),
-                                                color: textgrey),
-                                            SizedBox(
-                                              height: SizeConfig
-                                                      .blockSizeVertical! *
-                                                  0.4,
-                                            ),
-                                            CustomText(
-                                                text: "DEL",
-                                                size:
-                                                    ScreenScale.convertFontSize(
-                                                        22,
-                                                        allowFontScaling: true),
-                                                weight: FontWeight.bold,
-                                                color: Colors.black87),
-                                            SizedBox(
-                                              height: SizeConfig
-                                                      .blockSizeVertical! *
-                                                  0.4,
-                                            ),
-                                            CustomText(
-                                                text: "Delhi",
-                                                size:
-                                                    ScreenScale.convertFontSize(
-                                                        18,
-                                                        allowFontScaling: true),
-                                                color: textgrey),
-                                          ],
+                                              CustomText(
+                                                  text: "${bloc.toCityCode}",
+                                                  size:
+                                                      ScreenScale.convertFontSize(
+                                                          22,
+                                                          allowFontScaling: true),
+                                                  weight: FontWeight.bold,
+                                                  color: Colors.black87),
+                                              SizedBox(
+                                                height: SizeConfig
+                                                        .blockSizeVertical! *
+                                                    0.4,
+                                              ),
+                                              CustomText(
+                                                  text: "${bloc.toCityName}",
+                                                  size:
+                                                      ScreenScale.convertFontSize(
+                                                          18,
+                                                          allowFontScaling: true),
+                                                  color: textgrey),
+                                            ],
+                                          ),
                                         ),
                                       ),
                                     ),
@@ -420,7 +859,8 @@ class _FlightSearchScreenState extends State<FlightSearchScreen>
                               Expanded(
                                 child: GestureDetector(
                                   onTap: () {
-                                    Navigator.pushNamed(context, AppRoutes.calendarflight);
+                                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => CalendarScreen(type: "oneway",)));
+                                    // Navigator.pushNamed(context, AppRoutes.calendarflight);
                                   },
                                   child: Container(
                                     height: SizeConfig.blockSizeVertical! * 10,
@@ -514,122 +954,127 @@ class _FlightSearchScreenState extends State<FlightSearchScreen>
                           SizedBox(
                             height: SizeConfig.blockSizeVertical! * 2,
                           ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              Expanded(
-                                child: Container(
-                                  height: SizeConfig.blockSizeVertical! * 10,
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal:
-                                          SizeConfig.blockSizeHorizontal! * 3,
-                                      vertical:
-                                          SizeConfig.blockSizeVertical! * 1),
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10.0),
-                                      border: Border.all(color: greyline),
-                                      color: Colors.white,
-                                      boxShadow: <BoxShadow>[
-                                        BoxShadow(
-                                          color: greyline,
-                                          blurRadius: 0.0,
-                                          offset: Offset(0.0, 0.0),
+                          InkWell(
+                            onTap: (){
+                              bottomSheet();
+                            },
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                Expanded(
+                                  child: Container(
+                                    height: SizeConfig.blockSizeVertical! * 10,
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal:
+                                            SizeConfig.blockSizeHorizontal! * 3,
+                                        vertical:
+                                            SizeConfig.blockSizeVertical! * 1),
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10.0),
+                                        border: Border.all(color: greyline),
+                                        color: Colors.white,
+                                        boxShadow: <BoxShadow>[
+                                          BoxShadow(
+                                            color: greyline,
+                                            blurRadius: 0.0,
+                                            offset: Offset(0.0, 0.0),
+                                          ),
+                                        ]),
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        CustomText(
+                                            text: "Passenger",
+                                            size: ScreenScale.convertFontSize(16,
+                                                allowFontScaling: true),
+                                            color: textgrey),
+                                        SizedBox(
+                                          height:
+                                              SizeConfig.blockSizeVertical! * 1,
                                         ),
-                                      ]),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      CustomText(
-                                          text: "Passenger",
-                                          size: ScreenScale.convertFontSize(16,
-                                              allowFontScaling: true),
-                                          color: textgrey),
-                                      SizedBox(
-                                        height:
-                                            SizeConfig.blockSizeVertical! * 1,
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.end,
-                                        children: [
-                                          CustomText(
-                                              text: "1",
-                                              size: ScreenScale.convertFontSize(
-                                                  20,
-                                                  allowFontScaling: true),
-                                              weight: FontWeight.bold,
-                                              color: Colors.black87),
-                                          SizedBox(
-                                            width: SizeConfig
-                                                    .blockSizeHorizontal! *
-                                                1.5,
-                                          ),
-                                          CustomText(
-                                              text: "Adult (s)",
-                                              size: ScreenScale.convertFontSize(
-                                                  18,
-                                                  allowFontScaling: true),
-                                              weight: FontWeight.normal,
-                                              color: textgrey),
-                                          SizedBox(
-                                            width: SizeConfig
-                                                    .blockSizeHorizontal! *
-                                                2.5,
-                                          ),
-                                          CustomText(
-                                              text: "0",
-                                              size: ScreenScale.convertFontSize(
-                                                  20,
-                                                  allowFontScaling: true),
-                                              weight: FontWeight.bold,
-                                              color: Colors.black87),
-                                          SizedBox(
-                                            width: SizeConfig
-                                                    .blockSizeHorizontal! *
-                                                1.5,
-                                          ),
-                                          CustomText(
-                                              text: "Child (s)",
-                                              size: ScreenScale.convertFontSize(
-                                                  18,
-                                                  allowFontScaling: true),
-                                              weight: FontWeight.normal,
-                                              color: textgrey),
-                                          SizedBox(
-                                            width: SizeConfig
-                                                    .blockSizeHorizontal! *
-                                                2.5,
-                                          ),
-                                          CustomText(
-                                              text: "0",
-                                              size: ScreenScale.convertFontSize(
-                                                  20,
-                                                  allowFontScaling: true),
-                                              weight: FontWeight.bold,
-                                              color: Colors.black87),
-                                          SizedBox(
-                                            width: SizeConfig
-                                                    .blockSizeHorizontal! *
-                                                1.5,
-                                          ),
-                                          CustomText(
-                                              text: "Infant (s)",
-                                              size: ScreenScale.convertFontSize(
-                                                  18,
-                                                  allowFontScaling: true),
-                                              weight: FontWeight.normal,
-                                              color: textgrey),
-                                        ],
-                                      )
-                                    ],
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.end,
+                                          children: [
+                                            CustomText(
+                                                text: "${bloc.adulttxt}",
+                                                size: ScreenScale.convertFontSize(
+                                                    20,
+                                                    allowFontScaling: true),
+                                                weight: FontWeight.bold,
+                                                color: Colors.black87),
+                                            SizedBox(
+                                              width: SizeConfig
+                                                      .blockSizeHorizontal! *
+                                                  1.5,
+                                            ),
+                                            CustomText(
+                                                text: "Adult (s)",
+                                                size: ScreenScale.convertFontSize(
+                                                    18,
+                                                    allowFontScaling: true),
+                                                weight: FontWeight.normal,
+                                                color: textgrey),
+                                            SizedBox(
+                                              width: SizeConfig
+                                                      .blockSizeHorizontal! *
+                                                  2.5,
+                                            ),
+                                            CustomText(
+                                                text: "${bloc.childrentxt}",
+                                                size: ScreenScale.convertFontSize(
+                                                    20,
+                                                    allowFontScaling: true),
+                                                weight: FontWeight.bold,
+                                                color: Colors.black87),
+                                            SizedBox(
+                                              width: SizeConfig
+                                                      .blockSizeHorizontal! *
+                                                  1.5,
+                                            ),
+                                            CustomText(
+                                                text: "Child (s)",
+                                                size: ScreenScale.convertFontSize(
+                                                    18,
+                                                    allowFontScaling: true),
+                                                weight: FontWeight.normal,
+                                                color: textgrey),
+                                            SizedBox(
+                                              width: SizeConfig
+                                                      .blockSizeHorizontal! *
+                                                  2.5,
+                                            ),
+                                            CustomText(
+                                                text: "${bloc.infanttxt}",
+                                                size: ScreenScale.convertFontSize(
+                                                    20,
+                                                    allowFontScaling: true),
+                                                weight: FontWeight.bold,
+                                                color: Colors.black87),
+                                            SizedBox(
+                                              width: SizeConfig
+                                                      .blockSizeHorizontal! *
+                                                  1.5,
+                                            ),
+                                            CustomText(
+                                                text: "Infant (s)",
+                                                size: ScreenScale.convertFontSize(
+                                                    18,
+                                                    allowFontScaling: true),
+                                                weight: FontWeight.normal,
+                                                color: textgrey),
+                                          ],
+                                        )
+                                      ],
+                                    ),
                                   ),
-                                ),
-                              )
-                            ],
+                                )
+                              ],
+                            ),
                           ),
                           SizedBox(
                             height: SizeConfig.blockSizeVertical! * 2,
@@ -639,106 +1084,116 @@ class _FlightSearchScreenState extends State<FlightSearchScreen>
                             children: [
                               Expanded(
                                 flex: 1,
-                                child: Padding(
-                                  padding: EdgeInsets.only(
-                                      right: SizeConfig.blockSizeHorizontal! *
-                                          1.6),
-                                  child: Container(
-                                    height: SizeConfig.blockSizeVertical! * 10,
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal:
-                                            SizeConfig.blockSizeHorizontal! * 3,
-                                        vertical:
-                                            SizeConfig.blockSizeVertical! * 1),
-                                    decoration: BoxDecoration(
-                                        borderRadius:
-                                            BorderRadius.circular(10.0),
-                                        border: Border.all(color: greyline),
-                                        color: Colors.white,
-                                        boxShadow: <BoxShadow>[
-                                          BoxShadow(
-                                            color: greyline,
-                                            blurRadius: 0.0,
-                                            offset: Offset(0.0, 0.0),
+                                child: InkWell(
+                                  onTap: (){
+                                    bottomSheet();
+                                  },
+                                  child: Padding(
+                                    padding: EdgeInsets.only(
+                                        right: SizeConfig.blockSizeHorizontal! *
+                                            1.6),
+                                    child: Container(
+                                      height: SizeConfig.blockSizeVertical! * 10,
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal:
+                                              SizeConfig.blockSizeHorizontal! * 3,
+                                          vertical:
+                                              SizeConfig.blockSizeVertical! * 1),
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(10.0),
+                                          border: Border.all(color: greyline),
+                                          color: Colors.white,
+                                          boxShadow: <BoxShadow>[
+                                            BoxShadow(
+                                              color: greyline,
+                                              blurRadius: 0.0,
+                                              offset: Offset(0.0, 0.0),
+                                            ),
+                                          ]),
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          CustomText(
+                                              text: "Passenger",
+                                              size: ScreenScale.convertFontSize(
+                                                  16,
+                                                  allowFontScaling: true),
+                                              color: textgrey),
+                                          SizedBox(
+                                            height:
+                                                SizeConfig.blockSizeVertical! * 1,
                                           ),
-                                        ]),
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        CustomText(
-                                            text: "Passenger",
-                                            size: ScreenScale.convertFontSize(
-                                                16,
+                                          CustomText(
+                                            text: "${typetxt}",
+                                            size: ScreenScale.convertFontSize(18,
                                                 allowFontScaling: true),
-                                            color: textgrey),
-                                        SizedBox(
-                                          height:
-                                              SizeConfig.blockSizeVertical! * 1,
-                                        ),
-                                        CustomText(
-                                          text: "Economy",
-                                          size: ScreenScale.convertFontSize(18,
-                                              allowFontScaling: true),
-                                          color: Colors.black,
-                                          weight: FontWeight.bold,
-                                        ),
-                                      ],
+                                            color: Colors.black,
+                                            weight: FontWeight.bold,
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 ),
                               ),
                               Expanded(
                                 flex: 1,
-                                child: Padding(
-                                  padding: EdgeInsets.only(
-                                      left: SizeConfig.blockSizeHorizontal! *
-                                          1.6),
-                                  child: Container(
-                                    height: SizeConfig.blockSizeVertical! * 10,
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal:
-                                            SizeConfig.blockSizeHorizontal! * 3,
-                                        vertical:
-                                            SizeConfig.blockSizeVertical! * 1),
-                                    decoration: BoxDecoration(
-                                        borderRadius:
-                                            BorderRadius.circular(10.0),
-                                        border: Border.all(color: greyline),
-                                        color: Colors.white,
-                                        boxShadow: <BoxShadow>[
-                                          BoxShadow(
-                                            color: greyline,
-                                            blurRadius: 0.0,
-                                            offset: Offset(0.0, 0.0),
+                                child: InkWell(
+                                  onTap: (){
+                                    dialogBox_Preference();
+                                  },
+                                  child: Padding(
+                                    padding: EdgeInsets.only(
+                                        left: SizeConfig.blockSizeHorizontal! *
+                                            1.6),
+                                    child: Container(
+                                      height: SizeConfig.blockSizeVertical! * 10,
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal:
+                                              SizeConfig.blockSizeHorizontal! * 3,
+                                          vertical:
+                                              SizeConfig.blockSizeVertical! * 1),
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(10.0),
+                                          border: Border.all(color: greyline),
+                                          color: Colors.white,
+                                          boxShadow: <BoxShadow>[
+                                            BoxShadow(
+                                              color: greyline,
+                                              blurRadius: 0.0,
+                                              offset: Offset(0.0, 0.0),
+                                            ),
+                                          ]),
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          CustomText(
+                                              text: "Preffered Airline",
+                                              size: ScreenScale.convertFontSize(
+                                                  16,
+                                                  allowFontScaling: true),
+                                              color: textgrey),
+                                          SizedBox(
+                                            height:
+                                                SizeConfig.blockSizeVertical! * 1,
                                           ),
-                                        ]),
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        CustomText(
-                                            text: "Preffered Airline",
-                                            size: ScreenScale.convertFontSize(
-                                                16,
+                                          CustomText(
+                                            text: "Select Airline",
+                                            size: ScreenScale.convertFontSize(18,
                                                 allowFontScaling: true),
-                                            color: textgrey),
-                                        SizedBox(
-                                          height:
-                                              SizeConfig.blockSizeVertical! * 1,
-                                        ),
-                                        CustomText(
-                                          text: "Select Airline",
-                                          size: ScreenScale.convertFontSize(18,
-                                              allowFontScaling: true),
-                                          color: Colors.black,
-                                          weight: FontWeight.bold,
-                                        ),
-                                      ],
+                                            color: Colors.black,
+                                            weight: FontWeight.bold,
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -791,12 +1246,20 @@ class _FlightSearchScreenState extends State<FlightSearchScreen>
                               ),
                               color: primary_blue,
                               textColor: Colors.white,
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(15.0)),
+                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
                               onPressed: () {
-                                Navigator.pushNamed(context, AppRoutes.oneway);
-                                //Navigator.pushNamedAndRemoveUntil(context, AppRoutes.dummy, (route) => false);
-                                // Navigator.of(context).push(MaterialPageRoute(builder: (context) => MyWidget()));
+
+                                if(bloc.fromCityCode == "No City" && bloc.toCityCode == "No City"){
+                                  CitySelectWarning('Please select Orgin and Destination City');
+                                } else if(bloc.fromCityCode == "No City"){
+                                  CitySelectWarning('Please select Orgin City');
+                                }else if(bloc.toCityCode == "No City"){
+                                  CitySelectWarning('Please select Destination City');
+                                }else{
+                                  Navigator.pushNamed(context, AppRoutes.oneway);
+                                }
+
+                                // Navigator.pushNamed(context, AppRoutes.oneway);
 
                               },
                             ),

@@ -42,8 +42,8 @@ Route<dynamic> getRoute(RouteSettings settings) {
       return _buildFlightSearch(settings);
     case AppRoutes.citysearch:
       return _buildCitySearch(settings);
-    case AppRoutes.calendarflight:
-      return _buildCalendar(settings);
+    // case AppRoutes.calendarflight:
+    //   return _buildCalendar(settings);
     case AppRoutes.oneway:
       return _buildOneway(settings);
   }
@@ -66,9 +66,9 @@ Route<dynamic> _buildCitySearch(RouteSettings settings) {
   return CustomPageRoute(child: PageBuilder.buildCitySearch(settings));
 }
 
-Route<dynamic> _buildCalendar(RouteSettings settings) {
-  return CustomPageRoute(child: PageBuilder.buildCalendar(settings));
-}
+// Route<dynamic> _buildCalendar(RouteSettings settings) {
+//   return CustomPageRoute(child: PageBuilder.buildCalendar(settings));
+// }
 
 Route<dynamic> _buildOneway(RouteSettings settings) {
   return CustomPageRoute(child: PageBuilder.buildOneway(settings));
@@ -102,12 +102,12 @@ class PageBuilder {
       child: const CitySearch(),
     );
   }
-  static Widget buildCalendar(RouteSettings settings) {
-    return BlocProvider(
-      create: (BuildContext context) => CalendarBloc(),
-      child: const CalendarScreen(),
-    );
-  }
+  // static Widget buildCalendar(RouteSettings settings) {
+  //   return BlocProvider(
+  //     create: (BuildContext context) => CalendarBloc(),
+  //     child: const CalendarScreen(),
+  //   );
+  // }
   static Widget buildOneway(RouteSettings settings) {
     return BlocProvider(
       create: (BuildContext context) => OnewayBloc()..add(OnewayInitialEvent()),

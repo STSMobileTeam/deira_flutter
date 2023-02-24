@@ -92,46 +92,51 @@ class _CitySearchState extends State<CitySearch> {
                           shrinkWrap: true,
                           itemCount: bloc.List_AirCode.length,
                           itemBuilder: (context, index) {
-                            return Card(
-                              elevation: 0,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10.0),
-                              ),
-                              color: Colors.white,
-                              child: Container(
-                                  width: SizeConfig.blockSizeHorizontal! * 100,
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 18, right: 15, bottom: 15, top: 15),
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        Container(
-                                         decoration: BoxDecoration(
-                                           color: primary_blue,
-                                           borderRadius: BorderRadius.circular(3.0),
+                            return InkWell(
+                              onTap: (){
+                                Navigator.pop(context,"${bloc.List_AirCode[index].cityCode}~${bloc.List_AirCode[index].citySEARCHNAME}");
+                              },
+                              child: Card(
+                                elevation: 0,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                ),
+                                color: Colors.white,
+                                child: Container(
+                                    width: SizeConfig.blockSizeHorizontal! * 100,
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 18, right: 15, bottom: 15, top: 15),
+                                      child: Row(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Container(
+                                           decoration: BoxDecoration(
+                                             color: primary_blue,
+                                             borderRadius: BorderRadius.circular(3.0),
+                                           ),
+                                           child: Center(child: CustomText(text: bloc.List_AirCode[index].cityCode,color: Colors.white,weight: FontWeight.bold,)),
+                                           width: SizeConfig.blockSizeHorizontal!*12,
+                                           padding: EdgeInsets.symmetric(vertical: SizeConfig.blockSizeHorizontal!*2),
                                          ),
-                                         child: Center(child: CustomText(text: bloc.List_AirCode[index].cityCode,color: Colors.white,weight: FontWeight.bold,)),
-                                         width: SizeConfig.blockSizeHorizontal!*12,
-                                         padding: EdgeInsets.symmetric(vertical: SizeConfig.blockSizeHorizontal!*2),
-                                       ),
-                                        SizedBox(width: SizeConfig.blockSizeHorizontal!*2,),
-                                        Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            CustomText(
-                                              text: bloc.List_AirCode[index].citySEARCHNAME,
-                                            ),
-                                            SizedBox(height: SizeConfig.blockSizeVertical!*0.5,),
-                                            CustomText(
-                                              text: bloc.List_AirCode[index].cityName,
-                                              size: 12,
-                                            ),
-                                          ],
-                                        )
-                                      ],
-                                    ),
-                                  )),
+                                          SizedBox(width: SizeConfig.blockSizeHorizontal!*2,),
+                                          Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              CustomText(
+                                                text: bloc.List_AirCode[index].citySEARCHNAME,
+                                              ),
+                                              SizedBox(height: SizeConfig.blockSizeVertical!*0.5,),
+                                              CustomText(
+                                                text: bloc.List_AirCode[index].cityName,
+                                                size: 12,
+                                              ),
+                                            ],
+                                          )
+                                        ],
+                                      ),
+                                    )),
+                              ),
                             );
                           }),) : Container(color: Colors.white,)
                   )

@@ -10,9 +10,20 @@ class FlightSearchBloc extends Bloc<FlightSearchEvent, FlightSearchState> {
 
   bool roundtripshow = false;
 
+  String fromCityCode = "No City",toCityCode = "No City";
+  String fromCityName = "Select City", toCityName = "Select City";
+
+  int adulttxt = 1;
+  int childrentxt = 0;
+  int infanttxt = 0;
+
 
   FlightSearchBloc() : super(FlightSearchInitial()) {
     on<FlightSearchEvent>((event, emit) {
+
+      if(event is PassengerRefreshEvent){
+        emit(PassengerRefreshState());
+      }
 
     });
   }

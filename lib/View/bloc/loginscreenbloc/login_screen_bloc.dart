@@ -24,8 +24,10 @@ class LoginScreenBloc extends Bloc<LoginScreenEvent, LoginScreenState> {
 
       if(event is LoginScreenBlocLoadingEvent){
 
-        request.strUsername = usernameController.text.trim();
-        request.strPassword = passwordController.text.trim();
+        // request.strUsername = usernameController.text.trim();
+        // request.strPassword = passwordController.text.trim();
+        request.strUsername = "abdulwajeed9327@gmail.com";
+        request.strPassword = "admin";
         EasyLoading.show(status: ConstantVariableClass.loadingString);
 
 
