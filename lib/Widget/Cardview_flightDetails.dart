@@ -105,7 +105,7 @@ class FlightDetailsCard extends StatelessWidget {
                           children: [
                             CustomText(text: arrTime,weight: FontWeight.bold,color: Colors.black87,size: SizeConfig.screenWidth!*0.050,),
                             SizedBox(height: SizeConfig.blockSizeVertical!*0.8,),
-                            CustomText(text: arrDateTime,weight: FontWeight.bold,color: textgrey,size: SizeConfig.screenWidth!*0.035,textAlign: TextAlign.right,),
+                            CustomText(text: arrDateTime,weight: FontWeight.normal,color: textgrey,size: SizeConfig.screenWidth!*0.035,textAlign: TextAlign.right,),
                             SizedBox(height: SizeConfig.blockSizeVertical!*0.8,),
                             CustomText(text: arrCity,weight: FontWeight.bold,color: textgrey,size: SizeConfig.screenWidth!*0.035,),
                           ],

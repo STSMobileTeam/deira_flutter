@@ -12,6 +12,7 @@ import '../../Helper/Colors.dart';
 import '../../Helper/utilities.dart';
 import '../../Models/Availability.dart';
 import '../../Widget/Cardview_flightDetails.dart';
+import '../../Widget/Cardview_flightFare.dart';
 import '../../Widget/Carview_OnewayAvailbility.dart';
 
 class OnewayScreen extends StatefulWidget {
@@ -108,17 +109,12 @@ class _OnewayScreenState extends State<OnewayScreen> {
                     String gettKey = AvailMain[p].unikey!;
 
                     if (keySM == gettKey) {
-                      print("==Adding Fare==" +
-                          p.toString() +
-                          " " +
-                          AvailMain[p].fare.toString());
+                      print("==Adding Fare==" + p.toString() + " " + AvailMain[p].fare.toString());
                       groupArray.add(AvailMain[p]);
                     }
                   }
 
-                  AvailMainGrpp.insert(
-                      m,
-                      FAvail(
+                  AvailMainGrpp.insert(m, FAvail(
                           fare: groupArray[0].fare,
                           departureTime: groupArray[0].departureTime,
                           journeyTime: groupArray[0].journeyTime,
@@ -307,20 +303,10 @@ class _OnewayScreenState extends State<OnewayScreen> {
                                         PopupFareDetails(context, index,
                                             AvailMain[index].flights!);
 
-                                        for (int x = 0;
-                                            x <
-                                                AvailMain[index]
-                                                    .flights!
-                                                    .length;
-                                            x++) {
-                                          print('Printing the index--' +
-                                              x.toString() +
-                                              ' ' +
-                                              AvailMain[index]
-                                                  .flights![x]
-                                                  .grossFare
-                                                  .toString());
+                                        for (int x = 0; x < AvailMain[index].flightsgrp!.length; x++) {
+                                          print('Printing the index--' + x.toString() + ' ' + AvailMain[index].flightsgrp![x].fare.toString());
                                         }
+
                                       },
                                       child: OnewayAvilCard(
                                         carrierCode: AvailMain[index]
@@ -635,6 +621,31 @@ Future PopupFareDetails(context, int pos, List<Flights> AvailMain) {
                           ),
                         ],
                       ),
+                      ListView.builder(
+                          physics: const NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          itemCount: AvailMain.length,
+                          itemBuilder: (context, index) {
+                            //print('Printing the index--'+x.toString()+' '+AvailMain[index].flightsgrp![x].fare.toString());
+                            return FareCardAvail(
+                              carrierCode: AvailMain[index].platingCarrier,
+                              carriername: AvailMain[index].airlineName,
+                              depTime: AvailMain[index].departureTime,
+                              depCity: AvailMain[index].origin,
+                              journeyHrs: Utilities.durationToString('600'),
+                              stops: AvailMain[AvailMain.length - 1].stops,
+                              arrTime: AvailMain[index].arrivalTime,
+                              arrCity: AvailMain[index].destination,
+                              amount: AvailMain[index].grossFare,
+                              seatCount: AvailMain[index].availSeat,
+                              baggage: AvailMain[index].baggage,
+                              refund: 'N',
+                              flightno: AvailMain[index].flightNumber,
+                              depDateTime: AvailMain[index].departureDateTime,
+                              arrDateTime: AvailMain[index].arrivalDateTime,
+                              flytime: AvailMain[index].flyingTime,
+                            );
+                          }),
                     ],
                   ),
                 ]),
