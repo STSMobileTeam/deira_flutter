@@ -328,6 +328,10 @@ class FAvail {
       flights = <Flights>[];
       json['Flights'].forEach((v) { flights!.add(new Flights.fromJson(v)); });
     }
+    if (json['FAvail'] != null) {
+      flightsgrp = <FAvail>[];
+      json['FAvail'].forEach((v) { flightsgrp!.add(new FAvail.fromJson(v)); });
+    }
     journeyTime = json['JourneyTime'];
   }
 
@@ -337,6 +341,9 @@ class FAvail {
     data['Fare'] = this.fare;
     if (this.flights != null) {
       data['Flights'] = this.flights!.map((v) => v.toJson()).toList();
+    }
+    if (this.flightsgrp != null) {
+      data['FAvail'] = this.flightsgrp!.map((v) => v.toJson()).toList();
     }
     data['JourneyTime'] = this.journeyTime;
     return data;

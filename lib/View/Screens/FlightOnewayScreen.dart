@@ -1,4 +1,6 @@
 import 'dart:collection';
+import 'dart:convert';
+import 'dart:io';
 
 import 'package:date_picker_timeline/date_picker_timeline.dart';
 import 'package:deira_flutter/Helper/size_config.dart';
@@ -80,6 +82,7 @@ class _OnewayScreenState extends State<OnewayScreen> {
               }
 
               if (bloc.futures.length == bloc.responsesReceived) {
+
                 //Key formation
                 for (int k = 0; k < AvailMain.length; k++) {
                   String DepartureTime = AvailMain[k].departureTime!;
@@ -112,7 +115,9 @@ class _OnewayScreenState extends State<OnewayScreen> {
                       print("==Adding Fare==" + p.toString() + " " + AvailMain[p].fare.toString());
                       groupArray.add(AvailMain[p]);
                     }
+
                   }
+
 
                   AvailMainGrpp.insert(m, FAvail(
                           fare: groupArray[0].fare,
@@ -120,13 +125,21 @@ class _OnewayScreenState extends State<OnewayScreen> {
                           journeyTime: groupArray[0].journeyTime,
                           flights: groupArray[0].flights,
                           flightsgrp: groupArray));
+
+
                 }
+
+
 
                 AvailMain.clear();
 
                 AvailMain.addAll(AvailMainGrpp);
 
                 IsAllResCame = false;
+
+                String json = jsonEncode(AvailMain.map((model) => model.toJson()).toList());
+                print("== "+" "+json);
+
               }
 
               setState(() {});
@@ -301,10 +314,13 @@ class _OnewayScreenState extends State<OnewayScreen> {
                                             AvailMain.length.toString());
 
                                         PopupFareDetails(context, index,
-                                            AvailMain[index].flights!);
+                                            AvailMain[index].flights!,AvailMain);
 
                                         for (int x = 0; x < AvailMain[index].flightsgrp!.length; x++) {
-                                          print('Printing the index--' + x.toString() + ' ' + AvailMain[index].flightsgrp![x].fare.toString());
+
+                                          print('Printing the token--' + x.toString() + ' ' +
+                                              AvailMain[index].flightsgrp![x].flights![0].refNum.toString());
+
                                         }
 
                                       },
@@ -417,7 +433,7 @@ class _OnewayScreenState extends State<OnewayScreen> {
 // print('Printing the index--'+x.toString()+' '+AvailMain[index].flightsgrp![x].fare.toString());
 // }
 
-Future PopupFareDetails(context, int pos, List<Flights> AvailMain) {
+Future PopupFareDetails(context, int pos, List<Flights> AvailMain,List<FAvail> Availgrp) {
   return showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -610,46 +626,104 @@ Future PopupFareDetails(context, int pos, List<Flights> AvailMain) {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          Padding(
-                            padding: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal!*2.5),
-                            child: CustomText(
-                              text: "Select Fare",
-                              weight: FontWeight.bold,
-                              size: SizeConfig.screenWidth! * large_text,
-                              color: Colors.black87,
+                          Expanded(
+                            flex: 1,
+                            child: Padding(
+                              padding: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal!*2.5),
+                              child: CustomText(
+                                text: "Select Fare",
+                                weight: FontWeight.bold,
+                                size: SizeConfig.screenWidth! * large_text,
+                                color: Colors.black87,
+                              ),
+                            ),
+                          ),
+                          Expanded(
+                            flex: 1,
+                            child: Padding(
+                              padding: EdgeInsets.only(right: SizeConfig.blockSizeHorizontal!*2.5),
+                              child: CustomText(
+                                text: "Total Fare : "+Availgrp[pos].flightsgrp!.length.toString(),
+                                weight: FontWeight.bold,
+                                size: SizeConfig.screenWidth! * medium_text,
+                                color: textgrey,
+                                textAlign: TextAlign.right,
+                              ),
                             ),
                           ),
                         ],
                       ),
+                      SizedBox(
+                        height: SizeConfig.blockSizeVertical! * 1.5,
+                      ),
                       ListView.builder(
                           physics: const NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
-                          itemCount: AvailMain.length,
+                          itemCount: Availgrp[pos].flightsgrp!.length,
                           itemBuilder: (context, index) {
                             //print('Printing the index--'+x.toString()+' '+AvailMain[index].flightsgrp![x].fare.toString());
                             return FareCardAvail(
-                              carrierCode: AvailMain[index].platingCarrier,
-                              carriername: AvailMain[index].airlineName,
-                              depTime: AvailMain[index].departureTime,
-                              depCity: AvailMain[index].origin,
-                              journeyHrs: Utilities.durationToString('600'),
-                              stops: AvailMain[AvailMain.length - 1].stops,
-                              arrTime: AvailMain[index].arrivalTime,
-                              arrCity: AvailMain[index].destination,
-                              amount: AvailMain[index].grossFare,
-                              seatCount: AvailMain[index].availSeat,
-                              baggage: AvailMain[index].baggage,
-                              refund: 'N',
-                              flightno: AvailMain[index].flightNumber,
-                              depDateTime: AvailMain[index].departureDateTime,
-                              arrDateTime: AvailMain[index].arrivalDateTime,
-                              flytime: AvailMain[index].flyingTime,
+                              farecode: Availgrp[pos].flightsgrp![index].flights![0].fareTypeDescription,
+                              faredesc: Availgrp[pos].flightsgrp![index].flights![0].fareTypeDescription,
+                              amount: Availgrp[pos].flightsgrp![index].flights![0].grossFare,
+                              token: Availgrp[pos].flightsgrp![index].flights![0].refNum,
                             );
                           }),
                     ],
                   ),
                 ]),
               ),
+              Container(
+                color: primary_blue,
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Expanded(flex:1,
+                        child: Padding(
+                          padding: EdgeInsets.only(top: SizeConfig.blockSizeVertical!*1.8,bottom: SizeConfig.blockSizeVertical!*1.8,left: SizeConfig.blockSizeHorizontal!*3),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              CustomText(text: "Total Amount",size: SizeConfig.screenWidth!*small_text,color: secondary_blue,),
+                              SizedBox(height: SizeConfig.blockSizeVertical!*1,),
+                              CustomText(text: "AED 272.70",weight: FontWeight.bold,size: SizeConfig.screenWidth!*large_text_extra,color: Colors.white,),
+                            ],
+                          ),
+                        )
+                    ),
+                    Expanded(flex:1,
+                        child: Padding(
+                          padding: EdgeInsets.only(top: SizeConfig.blockSizeVertical!*1.8,bottom: SizeConfig.blockSizeVertical!*1.8,left: SizeConfig.blockSizeHorizontal!*3),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              Align(
+                                alignment: Alignment.center,
+                                child: MaterialButton(
+                                  minWidth: SizeConfig.blockSizeHorizontal! * 40,
+                                  height: SizeConfig.blockSizeVertical! * 5,
+                                  padding: const EdgeInsets.only(
+                                      left: 30, right: 30, top: 14, bottom: 14),
+                                  child: Text(
+                                    'Proceed',
+                                    style: TextStyle(fontSize: SizeConfig.screenWidth!*medium_text),
+                                  ),
+                                  color: Colors.white,
+                                  textColor: primary_blue,
+                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
+                                  onPressed: () {
+                                    // Navigator.pushNamed(context, AppRoutes.oneway);
+                                  },
+                                ),
+                              ),
+                            ],
+                          ),
+                        )
+                    )
+                  ],
+                ),
+              )
             ]));
       });
 }
