@@ -373,50 +373,52 @@ class _OnewayScreenState extends State<OnewayScreen> {
                                   })
                               : Column(
                                   children: [
-                                    Container(
-                                      color: Colors.white,
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Image(
-                                              image: AssetImage(
-                                                  'assets/images/loaderflight.gif'),
-                                              gaplessPlayback: true,
-                                              fit: BoxFit.cover),
-                                          SizedBox(
-                                            height:
-                                                SizeConfig.blockSizeVertical! *
-                                                    1,
-                                          ),
-                                          Row(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              CustomText(
-                                                text: 'Fetching Your Flights',
-                                                weight: FontWeight.bold,
-                                                color: primary_blue,
-                                                size: SizeConfig.screenWidth! *
-                                                    medium_text,
-                                              ),
-                                              SizedBox(
-                                                width: SizeConfig
-                                                        .blockSizeVertical! *
-                                                    1,
-                                              ),
-                                              Image.asset(
-                                                  'assets/images/fetchingitern.gif',
-                                                  height: 200,
-                                                  width: 50,
-                                                  scale: 2),
-                                            ],
-                                          )
-                                        ],
+                                    Expanded(
+                                      child: Container(
+                                        color: Colors.white,
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Image(
+                                                image: AssetImage(
+                                                    'assets/images/loaderflight.gif'),
+                                                gaplessPlayback: true,
+                                                fit: BoxFit.cover),
+                                            SizedBox(
+                                              height:
+                                                  SizeConfig.blockSizeVertical! *
+                                                      1,
+                                            ),
+                                            Row(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                CustomText(
+                                                  text: 'Fetching Your Flights',
+                                                  weight: FontWeight.bold,
+                                                  color: primary_blue,
+                                                  size: SizeConfig.screenWidth! *
+                                                      medium_text,
+                                                ),
+                                                SizedBox(
+                                                  width: SizeConfig
+                                                          .blockSizeVertical! *
+                                                      1,
+                                                ),
+                                                Image.asset(
+                                                    'assets/images/fetchingitern.gif',
+                                                    height: 200,
+                                                    width: 50,
+                                                    scale: 2),
+                                              ],
+                                            )
+                                          ],
+                                        ),
                                       ),
                                     ),
                                   ],
