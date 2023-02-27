@@ -39,6 +39,7 @@ class _LoginState extends State<MyLogin> {
         listener: (context, state) {
           // TODO: implement listener
           if (state is LoginScreenBlocLoadingFinishedState) {
+
             Navigator.pushNamedAndRemoveUntil(context, AppRoutes.homeScreen, (route) => false);
           }
         },

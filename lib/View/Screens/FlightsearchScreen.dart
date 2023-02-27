@@ -5,6 +5,7 @@ import 'package:deira_flutter/View/widgets/customtextfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../Helper/Colors.dart';
 import '../../Helper/size_config.dart';
@@ -34,6 +35,7 @@ class _FlightSearchScreenState extends State<FlightSearchScreen>
   int infant = 0;
   String type = "economy";
   String typetxt = "Economy";
+  String tripType = "O";
 
 
   bottomSheet(){
@@ -536,6 +538,7 @@ class _FlightSearchScreenState extends State<FlightSearchScreen>
                                       onTap: (){
                                         setState(() {
                                           bloc.roundtripshow = false;
+                                          tripType = "R";
                                         });
                                       },
                                       child: Container(
@@ -1247,7 +1250,7 @@ class _FlightSearchScreenState extends State<FlightSearchScreen>
                               color: primary_blue,
                               textColor: Colors.white,
                               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
-                              onPressed: () {
+                              onPressed: () async {
 
                                 if(bloc.fromCityCode == "No City" && bloc.toCityCode == "No City"){
                                   CitySelectWarning('Please select Orgin and Destination City');
@@ -1256,6 +1259,19 @@ class _FlightSearchScreenState extends State<FlightSearchScreen>
                                 }else if(bloc.toCityCode == "No City"){
                                   CitySelectWarning('Please select Destination City');
                                 }else{
+
+                                  final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+                                  prefs.setString("FromCode",bloc.fromCityCode);
+                                  prefs.setString("ToCode",bloc.toCityCode);
+                                  prefs.setString("FromCity",bloc.fromCityName);
+                                  prefs.setString("ToCity",bloc.toCityName);
+                                  prefs.setString("AdtCount",adult.toString());
+                                  prefs.setString("ChdCount",children.toString());
+                                  prefs.setString("InfCount",infant.toString());
+                                  prefs.setString("TripType",tripType);
+                                  prefs.setString("Class","E");
+
                                   Navigator.pushNamed(context, AppRoutes.oneway);
                                 }
 

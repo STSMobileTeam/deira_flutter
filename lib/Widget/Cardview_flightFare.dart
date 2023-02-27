@@ -12,8 +12,10 @@ class FareCardAvail extends StatelessWidget {
   final String? faredesc;
   final String? amount;
   final String? token;
+  final int? selectedIndex;
+  final int? index;
 
-  const FareCardAvail({Key? key,this.farecode,this.faredesc,this.amount,this.token}) : super(key: key);
+  const FareCardAvail({Key? key,this.farecode,this.faredesc,this.amount,this.token,this.selectedIndex,this.index}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -21,6 +23,14 @@ class FareCardAvail extends StatelessWidget {
       elevation: 1,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10.0),
+        side: new BorderSide(
+            color:
+            selectedIndex ==
+                index
+                ? primary_blue
+                : Colors
+                .white,
+            width: 1.0),
       ),
       color: Colors.white,
       child: Container(
@@ -34,7 +44,7 @@ class FareCardAvail extends StatelessWidget {
                     Expanded(flex:1,child: Row(
                       children: [
                         Container(
-                          height: SizeConfig.blockSizeVertical!*3.2,
+                          height: SizeConfig.blockSizeVertical!*3.6,
                           width: SizeConfig.blockSizeHorizontal!*7.4,
                           alignment: Alignment.center,
                           decoration: new BoxDecoration(
@@ -60,14 +70,6 @@ class FareCardAvail extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         CustomText(text: 'AED '+amount!,size: SizeConfig.screenWidth!*large_text,color: Colors.black87,weight: FontWeight.bold,),
-                        SizedBox(width: SizeConfig.blockSizeHorizontal!*0.01,),
-                        Radio(
-                            value: "",
-                            groupValue: "",
-                            onChanged: (value){
-                              print(value); //selected value
-                            }
-                        )
                       ],
                     ))
                   ],

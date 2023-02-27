@@ -52,6 +52,122 @@ class _OnewayScreenState extends State<OnewayScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
+
+      appBar: AppBar(
+        backgroundColor: primary_blue,
+        iconTheme: const IconThemeData(color: Colors.blueAccent),
+        elevation: 0,
+        leading: IconButton(
+          icon: Icon(
+            Icons.arrow_back_ios,
+            color: Colors.white,
+          ),
+          onPressed: () {
+            Navigator.pop(context, false);
+          },
+        ),
+        flexibleSpace: Container(
+          color: primary_blue,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              SizedBox(width: SizeConfig.blockSizeHorizontal!*15,),
+              Expanded(
+                flex: 4,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Row(
+                      children: [
+                        CustomText(
+                          text: "BOM",
+                          color: Colors.white,
+                          size: SizeConfig.screenWidth! * medium_text,
+                        ),
+                        SizedBox(
+                          width: SizeConfig.blockSizeHorizontal! * 1,
+                        ),
+                        Icon(
+                          Icons.arrow_forward,
+                          color: Colors.white,
+                          size: 18,
+                        ),
+                        SizedBox(
+                          width: SizeConfig.blockSizeHorizontal! * 1,
+                        ),
+                        CustomText(
+                          text: "DEL",
+                          color: Colors.white,
+                          size: SizeConfig.screenWidth! * medium_text,
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: SizeConfig.blockSizeVertical! * 1,
+                    ),
+                    Row(
+                      children: [
+                        CustomText(
+                          text: "Fri, 10 Mar 2023",
+                          color: Colors.white,
+                          size: SizeConfig.screenWidth! * small_text,
+                        ),
+                        SizedBox(
+                          width: SizeConfig.blockSizeHorizontal! * 1,
+                        ),
+                        CustomText(
+                          text: "|",
+                          color: Colors.white,
+                        ),
+                        CustomText(
+                          text: "1 Traveller(s)",
+                          color: Colors.white,
+                          size: SizeConfig.screenWidth! * small_text,
+                        ),
+                        SizedBox(
+                          width: SizeConfig.blockSizeHorizontal! * 1,
+                        ),
+                        CustomText(
+                          text: "|",
+                          color: Colors.white,
+                        ),
+                        CustomText(
+                          text: "1 Flights",
+                          color: Colors.white,
+                          size: SizeConfig.screenWidth! * small_text,
+                        ),
+                      ],
+                    )
+                  ],
+                ),
+              ),
+              Expanded(
+                flex: 1,
+                child: Visibility(
+                  visible: IsAllResCame,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Image(
+                        image: AssetImage(
+                            'assets/images/white_loader.gif'),
+                        gaplessPlayback: true,
+                        fit: BoxFit.cover,
+                        width: SizeConfig.blockSizeHorizontal! * 9,
+                        height: SizeConfig.blockSizeVertical! * 4,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+        centerTitle: false,
+      ),
       body: Container(
         child: BlocListener<OnewayBloc, OnewayState>(
           listener: (context, state) {
@@ -150,118 +266,6 @@ class _OnewayScreenState extends State<OnewayScreen> {
             builder: (context, state) {
               return Column(
                 children: [
-                  Container(
-                    color: primary_blue,
-                    height: SizeConfig.blockSizeVertical! * 6,
-                  ),
-                  Container(
-                    padding: EdgeInsets.symmetric(
-                        vertical: SizeConfig.blockSizeVertical! * 1),
-                    color: primary_blue,
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        IconButton(
-                          onPressed: () {
-                            Navigator.pop(context, false);
-                          },
-                          icon: Icon(
-                            Icons.arrow_back_ios,
-                            color: Colors.white,
-                          ),
-                        ),
-                        Expanded(
-                          flex: 4,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                children: [
-                                  CustomText(
-                                    text: "BOM",
-                                    color: Colors.white,
-                                    size: SizeConfig.screenWidth! * medium_text,
-                                  ),
-                                  SizedBox(
-                                    width: SizeConfig.blockSizeHorizontal! * 1,
-                                  ),
-                                  Icon(
-                                    Icons.arrow_forward,
-                                    color: Colors.white,
-                                    size: 18,
-                                  ),
-                                  SizedBox(
-                                    width: SizeConfig.blockSizeHorizontal! * 1,
-                                  ),
-                                  CustomText(
-                                    text: "DEL",
-                                    color: Colors.white,
-                                    size: SizeConfig.screenWidth! * medium_text,
-                                  ),
-                                ],
-                              ),
-                              SizedBox(
-                                height: SizeConfig.blockSizeVertical! * 1,
-                              ),
-                              Row(
-                                children: [
-                                  CustomText(
-                                    text: "Fri, 10 Mar 2023",
-                                    color: Colors.white,
-                                    size: SizeConfig.screenWidth! * small_text,
-                                  ),
-                                  SizedBox(
-                                    width: SizeConfig.blockSizeHorizontal! * 1,
-                                  ),
-                                  CustomText(
-                                    text: "|",
-                                    color: Colors.white,
-                                  ),
-                                  CustomText(
-                                    text: "1 Traveller(s)",
-                                    color: Colors.white,
-                                    size: SizeConfig.screenWidth! * small_text,
-                                  ),
-                                  SizedBox(
-                                    width: SizeConfig.blockSizeHorizontal! * 1,
-                                  ),
-                                  CustomText(
-                                    text: "|",
-                                    color: Colors.white,
-                                  ),
-                                  CustomText(
-                                    text: "1 Flights",
-                                    color: Colors.white,
-                                    size: SizeConfig.screenWidth! * small_text,
-                                  ),
-                                ],
-                              )
-                            ],
-                          ),
-                        ),
-                        Expanded(
-                          flex: 1,
-                          child: Visibility(
-                            visible: IsAllResCame,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: [
-                                Image(
-                                  image: AssetImage(
-                                      'assets/images/white_loader.gif'),
-                                  gaplessPlayback: true,
-                                  fit: BoxFit.cover,
-                                  width: SizeConfig.blockSizeHorizontal! * 9,
-                                  height: SizeConfig.blockSizeVertical! * 4,
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
                   Visibility(
                     visible: IsAllResCame,
                     child: LinearProgressIndicator(
@@ -371,8 +375,6 @@ class _OnewayScreenState extends State<OnewayScreen> {
                                   children: [
                                     Container(
                                       color: Colors.white,
-                                      height:
-                                          SizeConfig.blockSizeVertical! * 75,
                                       child: Column(
                                         mainAxisAlignment:
                                             MainAxisAlignment.start,
@@ -427,303 +429,333 @@ class _OnewayScreenState extends State<OnewayScreen> {
       ),
     );
   }
-}
 
-// for(int x=0;x<AvailMain[index].flightsgrp!.length;x++){
-// print('Printing the index--'+x.toString()+' '+AvailMain[index].flightsgrp![x].fare.toString());
-// }
+  PopupFareDetails(context, int pos, List<Flights> AvailMain,List<FAvail> Availgrp) {
 
-Future PopupFareDetails(context, int pos, List<Flights> AvailMain,List<FAvail> Availgrp) {
-  return showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      builder: (context) {
-        return FractionallySizedBox(
-            heightFactor: 0.93,
-            child: Column(children: [
-              Card(
-                elevation: 1,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(0.0),
-                ),
-                color: Colors.white,
-                child: Padding(
-                  padding: EdgeInsets.symmetric(
-                      vertical: SizeConfig.blockSizeVertical! * 1.2,
-                      horizontal: SizeConfig.blockSizeHorizontal! * 0.8),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Expanded(
-                          flex: 8,
-                          child: Padding(
-                            padding: EdgeInsets.only(
-                                left: SizeConfig.blockSizeHorizontal! * 2),
-                            child: CustomText(
-                              text: 'Flight Information',
-                              weight: FontWeight.bold,
-                              size: SizeConfig.screenWidth! * 0.04,
-                            ),
-                          )),
-                      Expanded(
-                        flex: 1,
-                        child: IconButton(
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                          icon: Icon(
-                            Icons.close,
-                            color: Colors.black54,
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-              ),
-              Expanded(
-                child: ListView(scrollDirection: Axis.vertical, children:[
-                  Column(
-                    children: [
-                      SizedBox(
-                        height: SizeConfig.blockSizeVertical! * 1.5,
-                      ),
-                      Stack(
-                        alignment: Alignment.center,
+    int selectedIndex=0;
+    String FareAmount=Availgrp[pos].flightsgrp![0].flights![0].grossFare!.toString();
+    String Token;
+
+
+    return showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        builder: (context) {
+          return FractionallySizedBox(
+              heightFactor: 0.93,
+              child: StatefulBuilder(
+                builder: (BuildContext context, setState) =>
+                 Column(children: [
+                  Card(
+                    elevation: 1,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(0.0),
+                    ),
+                    color: Colors.white,
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(
+                          vertical: SizeConfig.blockSizeVertical! * 1.2,
+                          horizontal: SizeConfig.blockSizeHorizontal! * 0.8),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Image(
-                            image: AssetImage(
-                                'assets/images/deira_blu_wo_txt.gif'),
-                            gaplessPlayback: true,
-                            fit: BoxFit.fill,
-                            width: SizeConfig.blockSizeHorizontal! * 100,
-                            height: SizeConfig.blockSizeVertical! * 10,
-                          ),
-                          Column(
-                            children: [
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  CustomText(
-                                    text: "DXB",
-                                    weight: FontWeight.bold,
-                                    color: Colors.white,
-                                    size: SizeConfig.screenWidth! * large_text,
-                                  ),
-                                  SizedBox(
-                                    width:
-                                        SizeConfig.blockSizeHorizontal! * 1.5,
-                                  ),
-                                  Icon(
-                                    Icons.arrow_forward,
-                                    color: Colors.white,
-                                  ),
-                                  SizedBox(
-                                    width:
-                                        SizeConfig.blockSizeHorizontal! * 1.5,
-                                  ),
-                                  CustomText(
-                                    text: "BOM",
-                                    weight: FontWeight.bold,
-                                    color: Colors.white,
-                                    size: SizeConfig.screenWidth! * large_text,
-                                  ),
-                                ],
-                              ),
-                              SizedBox(
-                                height: SizeConfig.blockSizeVertical! * 1.2,
-                              ),
-                              IntrinsicHeight(
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    CustomText(
-                                      text: "Non-Stop",
-                                      weight: FontWeight.normal,
-                                      color: Colors.white,
-                                      size:
-                                          SizeConfig.screenWidth! * small_text,
-                                    ),
-                                    SizedBox(
-                                      width:
-                                          SizeConfig.blockSizeHorizontal! * 0.5,
-                                    ),
-                                    VerticalDivider(
-                                      color: Colors.white,
-                                      thickness: 1,
-                                    ),
-                                    SizedBox(
-                                      width:
-                                          SizeConfig.blockSizeHorizontal! * 0.5,
-                                    ),
-                                    CustomText(
-                                      text: "2h 50m",
-                                      weight: FontWeight.normal,
-                                      color: Colors.white,
-                                      size:
-                                          SizeConfig.screenWidth! * small_text,
-                                    ),
-                                    SizedBox(
-                                      width:
-                                          SizeConfig.blockSizeHorizontal! * 0.5,
-                                    ),
-                                    VerticalDivider(
-                                      color: Colors.white,
-                                      thickness: 1,
-                                    ),
-                                    SizedBox(
-                                      width:
-                                          SizeConfig.blockSizeHorizontal! * 0.5,
-                                    ),
-                                    CustomText(
-                                      text: "Economy",
-                                      weight: FontWeight.normal,
-                                      color: Colors.white,
-                                      size:
-                                          SizeConfig.screenWidth! * small_text,
-                                    ),
-                                  ],
+                          Expanded(
+                              flex: 8,
+                              child: Padding(
+                                padding: EdgeInsets.only(
+                                    left: SizeConfig.blockSizeHorizontal! * 2),
+                                child: CustomText(
+                                  text: 'Flight Information',
+                                  weight: FontWeight.bold,
+                                  size: SizeConfig.screenWidth! * 0.045,
                                 ),
+                              )),
+                          Expanded(
+                            flex: 1,
+                            child: IconButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              icon: Icon(
+                                Icons.close,
+                                color: Colors.black54,
                               ),
-                            ],
+                            ),
                           )
                         ],
                       ),
-                      SizedBox(
-                        height: SizeConfig.blockSizeVertical! * 1.5,
-                      ),
-                      ListView.builder(
-                          physics: const NeverScrollableScrollPhysics(),
-                          shrinkWrap: true,
-                          itemCount: AvailMain.length,
-                          itemBuilder: (context, index) {
-                            //print('Printing the index--'+x.toString()+' '+AvailMain[index].flightsgrp![x].fare.toString());
-                            return FlightDetailsCard(
-                              carrierCode: AvailMain[index].platingCarrier,
-                              carriername: AvailMain[index].airlineName,
-                              depTime: AvailMain[index].departureTime,
-                              depCity: AvailMain[index].origin,
-                              journeyHrs: Utilities.durationToString('600'),
-                              stops: AvailMain[AvailMain.length - 1].stops,
-                              arrTime: AvailMain[index].arrivalTime,
-                              arrCity: AvailMain[index].destination,
-                              amount: AvailMain[index].grossFare,
-                              seatCount: AvailMain[index].availSeat,
-                              baggage: AvailMain[index].baggage,
-                              refund: 'N',
-                              flightno: AvailMain[index].flightNumber,
-                              depDateTime: AvailMain[index].departureDateTime,
-                              arrDateTime: AvailMain[index].arrivalDateTime,
-                              flytime: AvailMain[index].flyingTime,
-                            );
-                          }),
-                      SizedBox(
-                        height: SizeConfig.blockSizeVertical! * 2,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Expanded(
-                            flex: 1,
-                            child: Padding(
-                              padding: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal!*2.5),
-                              child: CustomText(
-                                text: "Select Fare",
-                                weight: FontWeight.bold,
-                                size: SizeConfig.screenWidth! * large_text,
-                                color: Colors.black87,
-                              ),
-                            ),
-                          ),
-                          Expanded(
-                            flex: 1,
-                            child: Padding(
-                              padding: EdgeInsets.only(right: SizeConfig.blockSizeHorizontal!*2.5),
-                              child: CustomText(
-                                text: "Total Fare : "+Availgrp[pos].flightsgrp!.length.toString(),
-                                weight: FontWeight.bold,
-                                size: SizeConfig.screenWidth! * medium_text,
-                                color: textgrey,
-                                textAlign: TextAlign.right,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: SizeConfig.blockSizeVertical! * 1.5,
-                      ),
-                      ListView.builder(
-                          physics: const NeverScrollableScrollPhysics(),
-                          shrinkWrap: true,
-                          itemCount: Availgrp[pos].flightsgrp!.length,
-                          itemBuilder: (context, index) {
-                            //print('Printing the index--'+x.toString()+' '+AvailMain[index].flightsgrp![x].fare.toString());
-                            return FareCardAvail(
-                              farecode: Availgrp[pos].flightsgrp![index].flights![0].fareTypeDescription,
-                              faredesc: Availgrp[pos].flightsgrp![index].flights![0].fareTypeDescription,
-                              amount: Availgrp[pos].flightsgrp![index].flights![0].grossFare,
-                              token: Availgrp[pos].flightsgrp![index].flights![0].refNum,
-                            );
-                          }),
-                    ],
+                    ),
                   ),
-                ]),
-              ),
-              Container(
-                color: primary_blue,
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Expanded(flex:1,
-                        child: Padding(
-                          padding: EdgeInsets.only(top: SizeConfig.blockSizeVertical!*1.8,bottom: SizeConfig.blockSizeVertical!*1.8,left: SizeConfig.blockSizeHorizontal!*3),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                  Expanded(
+                    child: ListView(scrollDirection: Axis.vertical, children:[
+                      Column(
+                        children: [
+                          SizedBox(
+                            height: SizeConfig.blockSizeVertical! * 1.5,
+                          ),
+                          Stack(
+                            alignment: Alignment.center,
                             children: [
-                              CustomText(text: "Total Amount",size: SizeConfig.screenWidth!*small_text,color: secondary_blue,),
-                              SizedBox(height: SizeConfig.blockSizeVertical!*1,),
-                              CustomText(text: "AED 272.70",weight: FontWeight.bold,size: SizeConfig.screenWidth!*large_text_extra,color: Colors.white,),
+                              Image(
+                                image: AssetImage(
+                                    'assets/images/deira_blu_wo_txt.gif'),
+                                gaplessPlayback: true,
+                                fit: BoxFit.fill,
+                                width: SizeConfig.blockSizeHorizontal! * 100,
+                                height: SizeConfig.blockSizeVertical! * 10,
+                              ),
+                              Column(
+                                children: [
+                                  Row(
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      CustomText(
+                                        text: "DXB",
+                                        weight: FontWeight.bold,
+                                        color: Colors.white,
+                                        size: SizeConfig.screenWidth! * large_text,
+                                      ),
+                                      SizedBox(
+                                        width:
+                                        SizeConfig.blockSizeHorizontal! * 1.5,
+                                      ),
+                                      Icon(
+                                        Icons.arrow_forward,
+                                        color: Colors.white,
+                                      ),
+                                      SizedBox(
+                                        width:
+                                        SizeConfig.blockSizeHorizontal! * 1.5,
+                                      ),
+                                      CustomText(
+                                        text: "BOM",
+                                        weight: FontWeight.bold,
+                                        color: Colors.white,
+                                        size: SizeConfig.screenWidth! * large_text,
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: SizeConfig.blockSizeVertical! * 1.2,
+                                  ),
+                                  IntrinsicHeight(
+                                    child: Row(
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        CustomText(
+                                          text: "Non-Stop",
+                                          weight: FontWeight.normal,
+                                          color: Colors.white,
+                                          size:
+                                          SizeConfig.screenWidth! * small_text,
+                                        ),
+                                        SizedBox(
+                                          width:
+                                          SizeConfig.blockSizeHorizontal! * 0.5,
+                                        ),
+                                        VerticalDivider(
+                                          color: Colors.white,
+                                          thickness: 1,
+                                        ),
+                                        SizedBox(
+                                          width:
+                                          SizeConfig.blockSizeHorizontal! * 0.5,
+                                        ),
+                                        CustomText(
+                                          text: "2h 50m",
+                                          weight: FontWeight.normal,
+                                          color: Colors.white,
+                                          size:
+                                          SizeConfig.screenWidth! * small_text,
+                                        ),
+                                        SizedBox(
+                                          width:
+                                          SizeConfig.blockSizeHorizontal! * 0.5,
+                                        ),
+                                        VerticalDivider(
+                                          color: Colors.white,
+                                          thickness: 1,
+                                        ),
+                                        SizedBox(
+                                          width:
+                                          SizeConfig.blockSizeHorizontal! * 0.5,
+                                        ),
+                                        CustomText(
+                                          text: "Economy",
+                                          weight: FontWeight.normal,
+                                          color: Colors.white,
+                                          size:
+                                          SizeConfig.screenWidth! * small_text,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              )
                             ],
                           ),
-                        )
-                    ),
-                    Expanded(flex:1,
-                        child: Padding(
-                          padding: EdgeInsets.only(top: SizeConfig.blockSizeVertical!*1.8,bottom: SizeConfig.blockSizeVertical!*1.8,left: SizeConfig.blockSizeHorizontal!*3),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.end,
+                          SizedBox(
+                            height: SizeConfig.blockSizeVertical! * 1.5,
+                          ),
+                          ListView.builder(
+                              physics: const NeverScrollableScrollPhysics(),
+                              shrinkWrap: true,
+                              itemCount: AvailMain.length,
+                              itemBuilder: (context, index) {
+                                //print('Printing the index--'+x.toString()+' '+AvailMain[index].flightsgrp![x].fare.toString());
+                                return FlightDetailsCard(
+                                  carrierCode: AvailMain[index].platingCarrier,
+                                  carriername: AvailMain[index].airlineName,
+                                  depTime: AvailMain[index].departureTime,
+                                  depCity: AvailMain[index].origin,
+                                  journeyHrs: Utilities.durationToString('600'),
+                                  stops: AvailMain[AvailMain.length - 1].stops,
+                                  arrTime: AvailMain[index].arrivalTime,
+                                  arrCity: AvailMain[index].destination,
+                                  amount: AvailMain[index].grossFare,
+                                  seatCount: AvailMain[index].availSeat,
+                                  baggage: AvailMain[index].baggage,
+                                  refund: 'N',
+                                  flightno: AvailMain[index].flightNumber,
+                                  depDateTime: AvailMain[index].departureDateTime,
+                                  arrDateTime: AvailMain[index].arrivalDateTime,
+                                  flytime: AvailMain[index].flyingTime,
+                                );
+                              }),
+                          SizedBox(
+                            height: SizeConfig.blockSizeVertical! * 2,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
                             children: [
-                              Align(
-                                alignment: Alignment.center,
-                                child: MaterialButton(
-                                  minWidth: SizeConfig.blockSizeHorizontal! * 40,
-                                  height: SizeConfig.blockSizeVertical! * 5,
-                                  padding: const EdgeInsets.only(
-                                      left: 30, right: 30, top: 14, bottom: 14),
-                                  child: Text(
-                                    'Proceed',
-                                    style: TextStyle(fontSize: SizeConfig.screenWidth!*medium_text),
+                              Expanded(
+                                flex: 1,
+                                child: Padding(
+                                  padding: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal!*2.5),
+                                  child: CustomText(
+                                    text: "Select Fare",
+                                    weight: FontWeight.bold,
+                                    size: SizeConfig.screenWidth! * large_text,
+                                    color: Colors.black87,
                                   ),
-                                  color: Colors.white,
-                                  textColor: primary_blue,
-                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
-                                  onPressed: () {
-                                    // Navigator.pushNamed(context, AppRoutes.oneway);
-                                  },
+                                ),
+                              ),
+                              Expanded(
+                                flex: 1,
+                                child: Padding(
+                                  padding: EdgeInsets.only(right: SizeConfig.blockSizeHorizontal!*2.5),
+                                  child: CustomText(
+                                    text: "Total Fare : "+Availgrp[pos].flightsgrp!.length.toString(),
+                                    weight: FontWeight.bold,
+                                    size: SizeConfig.screenWidth! * medium_text,
+                                    color: textgrey,
+                                    textAlign: TextAlign.right,
+                                  ),
                                 ),
                               ),
                             ],
                           ),
+                          SizedBox(
+                            height: SizeConfig.blockSizeVertical! * 1.5,
+                          ),
+                          ListView.builder(
+                              physics: const NeverScrollableScrollPhysics(),
+                              shrinkWrap: true,
+                              itemCount: Availgrp[pos].flightsgrp!.length,
+                              itemBuilder: (context, index) {
+                                //print('Printing the index--'+x.toString()+' '+AvailMain[index].flightsgrp![x].fare.toString());
+                                return InkWell(
+                                  onTap: () async {
+
+                                    print('Printing the token--' + index.toString() + ' ' +
+                                        Availgrp[pos].flightsgrp![index].flights![0].refNum!.toString());
+
+                                    selectedIndex = index;
+
+                                    FareAmount = Availgrp[pos].flightsgrp![index].flights![0].grossFare!.toString();
+                                    Token = Availgrp[pos].flightsgrp![index].flights![0].refNum!.toString();
+
+                                    setState(() {
+                                      print('index '+index.toString());
+                                      print('selected index '+selectedIndex.toString());
+                                    });
+
+                                  },
+                                  child: FareCardAvail(
+                                    farecode: Availgrp[pos].flightsgrp![index].flights![0].fareTypeDescription,
+                                    faredesc: Availgrp[pos].flightsgrp![index].flights![0].fareTypeDescription,
+                                    amount: Availgrp[pos].flightsgrp![index].flights![0].grossFare,
+                                    token: Availgrp[pos].flightsgrp![index].flights![0].refNum,
+                                    selectedIndex: selectedIndex,
+                                    index: index,
+                                  ),
+                                );
+                              }),
+                        ],
+                      ),
+                    ]),
+                  ),
+                  Container(
+                    color: primary_blue,
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Expanded(flex:1,
+                            child: Padding(
+                              padding: EdgeInsets.only(top: SizeConfig.blockSizeVertical!*1.8,bottom: SizeConfig.blockSizeVertical!*1.8,left: SizeConfig.blockSizeHorizontal!*3),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  CustomText(text: "Total Amount",size: SizeConfig.screenWidth!*small_text,color: secondary_blue,),
+                                  SizedBox(height: SizeConfig.blockSizeVertical!*1,),
+                                  CustomText(text: 'AED '+ FareAmount,weight: FontWeight.bold,size: SizeConfig.screenWidth!*large_text_extra,color: Colors.white,),
+                                ],
+                              ),
+                            )
+                        ),
+                        Expanded(flex:1,
+                            child: Padding(
+                              padding: EdgeInsets.only(top: SizeConfig.blockSizeVertical!*1.8,bottom: SizeConfig.blockSizeVertical!*1.8,left: SizeConfig.blockSizeHorizontal!*3),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  Align(
+                                    alignment: Alignment.center,
+                                    child: MaterialButton(
+                                      minWidth: SizeConfig.blockSizeHorizontal! * 40,
+                                      height: SizeConfig.blockSizeVertical! * 5,
+                                      padding: const EdgeInsets.only(
+                                          left: 30, right: 30, top: 14, bottom: 14),
+                                      child: Text(
+                                        'Proceed',
+                                        style: TextStyle(fontSize: SizeConfig.screenWidth!*medium_text),
+                                      ),
+                                      color: Colors.white,
+                                      textColor: primary_blue,
+                                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
+                                      onPressed: () {
+                                        // Navigator.pushNamed(context, AppRoutes.oneway);
+                                      },
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            )
                         )
-                    )
-                  ],
-                ),
-              )
-            ]));
-      });
+                      ],
+                    ),
+                  )
+                ]),
+              ));
+        });
+
+  }
+
+
 }
+
+
