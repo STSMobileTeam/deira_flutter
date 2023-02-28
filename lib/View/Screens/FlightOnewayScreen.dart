@@ -62,8 +62,8 @@ class _OnewayScreenState extends State<OnewayScreen> {
     AdtCount = prefs.getString("AdtCount")!;
     ChdCount = prefs.getString("ChdCount")!;
     InfCount = prefs.getString("InfCount")!;
-    FromCode = prefs.getString("InfCount")!;
-    ToCode = prefs.getString("InfCount")!;
+    FromCode = prefs.getString("FromCode")!;
+    ToCode = prefs.getString("ToCode")!;
 
     int A = int.parse(AdtCount);
     int C = int.parse(ChdCount);
@@ -114,7 +114,7 @@ class _OnewayScreenState extends State<OnewayScreen> {
                       Row(
                         children: [
                           CustomText(
-                            text: "BOM",
+                            text: FromCode==""?"":FromCode,
                             color: Colors.white,
                             size: SizeConfig.screenWidth! * large_text,
                           ),
@@ -130,7 +130,7 @@ class _OnewayScreenState extends State<OnewayScreen> {
                             width: SizeConfig.blockSizeHorizontal! * 1,
                           ),
                           CustomText(
-                            text: "DEL",
+                            text: ToCode==""?"":ToCode,
                             color: Colors.white,
                             size: SizeConfig.screenWidth! * large_text,
                           ),
@@ -228,8 +228,8 @@ class _OnewayScreenState extends State<OnewayScreen> {
                         ? value1.compareTo(value2)
                         : value2.compareTo(value1);
 
-                // AvailMain.sort((user1, user2) => compareInteger(
-                //     true, double.parse(user1.fare!), double.parse(user2.fare!)));
+                AvailMain.sort((user1, user2) => compareInteger(
+                    true, double.parse(user1.fare!), double.parse(user2.fare!)));
 
               }
 
@@ -482,7 +482,6 @@ class _OnewayScreenState extends State<OnewayScreen> {
     String FareAmount=Availgrp[pos].flightsgrp![0].flights![0].grossFare!.toString();
     String Token;
 
-
     return showModalBottomSheet(
         context: context,
         isScrollControlled: true,
@@ -558,7 +557,7 @@ class _OnewayScreenState extends State<OnewayScreen> {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       CustomText(
-                                        text: "DXB",
+                                        text: FromCode==""?"":FromCode,
                                         weight: FontWeight.bold,
                                         color: Colors.white,
                                         size: SizeConfig.screenWidth! * large_text,
@@ -576,7 +575,7 @@ class _OnewayScreenState extends State<OnewayScreen> {
                                         SizeConfig.blockSizeHorizontal! * 1.5,
                                       ),
                                       CustomText(
-                                        text: "BOM",
+                                        text: ToCode==""?"":ToCode,
                                         weight: FontWeight.bold,
                                         color: Colors.white,
                                         size: SizeConfig.screenWidth! * large_text,
