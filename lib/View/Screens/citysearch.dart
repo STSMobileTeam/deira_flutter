@@ -16,6 +16,7 @@ class CitySearch extends StatefulWidget {
 
 class _CitySearchState extends State<CitySearch> {
   late CitysearchBloc bloc;
+  bool IsChecking = false;
 
   @override
   void initState() {
@@ -71,10 +72,12 @@ class _CitySearchState extends State<CitySearch> {
                                 if (text.length > 2) {
                                   bloc.IsResponceCame = false;
                                   bloc.add(CitysearchLoadingEvent());
+                                  IsChecking = true;
                                 }else{
                                   setState(() {
                                     bloc.IsResponceCame = false;
                                     bloc.List_AirCode.clear();
+                                    IsChecking = false;
                                   });
                                 }
                               },

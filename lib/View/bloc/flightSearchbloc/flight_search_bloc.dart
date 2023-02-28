@@ -12,6 +12,7 @@ class FlightSearchBloc extends Bloc<FlightSearchEvent, FlightSearchState> {
 
   String fromCityCode = "No City",toCityCode = "No City";
   String fromCityName = "Select City", toCityName = "Select City";
+  String fromDate = "",fullfromDate = "";
 
   int adulttxt = 1;
   int childrentxt = 0;

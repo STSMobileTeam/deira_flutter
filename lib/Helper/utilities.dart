@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 
 import 'package:fluttertoast/fluttertoast.dart';
-
-
-
 import 'package:intl/intl.dart';
+
 
 
 const double defaultPadding = 16.0;
@@ -48,6 +46,19 @@ class Utilities {
       timeInSecForIosWeb: 1,
     );
   }
+
+  static String dateconversion(String format, String Date) {
+
+    DateTime dt1 = DateTime.parse(Date);
+
+    var formatter = new DateFormat(format);
+
+    String current_date = formatter.format(dt1);
+
+    return current_date;
+
+  }
+
 
   static String durationToString(String? minutes) {
     var K = int.parse(minutes!);

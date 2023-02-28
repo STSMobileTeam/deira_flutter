@@ -9,6 +9,7 @@ import 'package:deira_flutter/View/widgets/customtext.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../Helper/Colors.dart';
 import '../../Helper/utilities.dart';
@@ -34,10 +35,13 @@ class _OnewayScreenState extends State<OnewayScreen> {
   List<FAvail> AvailMainGrpp = [];
   List<FAvail> AvailMainx = [];
 
+  DateTime dt1 = DateTime.now();
+
   List<Flights> flightsDetails = [];
 
   String ResultCode = "0";
   bool IsAllResCame = true;
+  String FromDate="",Traveller="",FromCode="",ToCode="";
 
   List<String> KeysValue = [];
 
@@ -46,6 +50,32 @@ class _OnewayScreenState extends State<OnewayScreen> {
     // TODO: implement initState
     super.initState();
     bloc = BlocProvider.of<OnewayBloc>(context);
+    initial_load();
+  }
+
+  Future<void> initial_load() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    FromDate = prefs.getString("FromDate").toString();
+
+    String AdtCount,ChdCount,InfCount;
+
+    AdtCount = prefs.getString("AdtCount")!;
+    ChdCount = prefs.getString("ChdCount")!;
+    InfCount = prefs.getString("InfCount")!;
+    FromCode = prefs.getString("InfCount")!;
+    ToCode = prefs.getString("InfCount")!;
+
+    int A = int.parse(AdtCount);
+    int C = int.parse(ChdCount);
+    int I = int.parse(InfCount);
+
+    int TotPax = A + C + I;
+    Traveller = TotPax.toString();
+
+    dt1 = DateTime.parse(FromDate);
+
+    setState(() {});
+
   }
 
   @override
@@ -68,102 +98,108 @@ class _OnewayScreenState extends State<OnewayScreen> {
         ),
         flexibleSpace: Container(
           color: primary_blue,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              SizedBox(width: SizeConfig.blockSizeHorizontal!*15,),
-              Expanded(
-                flex: 4,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Row(
-                      children: [
-                        CustomText(
-                          text: "BOM",
-                          color: Colors.white,
-                          size: SizeConfig.screenWidth! * medium_text,
-                        ),
-                        SizedBox(
-                          width: SizeConfig.blockSizeHorizontal! * 1,
-                        ),
-                        Icon(
-                          Icons.arrow_forward,
-                          color: Colors.white,
-                          size: 18,
-                        ),
-                        SizedBox(
-                          width: SizeConfig.blockSizeHorizontal! * 1,
-                        ),
-                        CustomText(
-                          text: "DEL",
-                          color: Colors.white,
-                          size: SizeConfig.screenWidth! * medium_text,
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: SizeConfig.blockSizeVertical! * 1,
-                    ),
-                    Row(
-                      children: [
-                        CustomText(
-                          text: "Fri, 10 Mar 2023",
-                          color: Colors.white,
-                          size: SizeConfig.screenWidth! * small_text,
-                        ),
-                        SizedBox(
-                          width: SizeConfig.blockSizeHorizontal! * 1,
-                        ),
-                        CustomText(
-                          text: "|",
-                          color: Colors.white,
-                        ),
-                        CustomText(
-                          text: "1 Traveller(s)",
-                          color: Colors.white,
-                          size: SizeConfig.screenWidth! * small_text,
-                        ),
-                        SizedBox(
-                          width: SizeConfig.blockSizeHorizontal! * 1,
-                        ),
-                        CustomText(
-                          text: "|",
-                          color: Colors.white,
-                        ),
-                        CustomText(
-                          text: "1 Flights",
-                          color: Colors.white,
-                          size: SizeConfig.screenWidth! * small_text,
-                        ),
-                      ],
-                    )
-                  ],
-                ),
-              ),
-              Expanded(
-                flex: 1,
-                child: Visibility(
-                  visible: IsAllResCame,
+          child: Padding(
+            padding: EdgeInsets.only(bottom: SizeConfig.blockSizeVertical!*0.8),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                SizedBox(width: SizeConfig.blockSizeHorizontal!*15,),
+                Expanded(
+                  flex: 4,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      Image(
-                        image: AssetImage(
-                            'assets/images/white_loader.gif'),
-                        gaplessPlayback: true,
-                        fit: BoxFit.cover,
-                        width: SizeConfig.blockSizeHorizontal! * 9,
-                        height: SizeConfig.blockSizeVertical! * 4,
+                      Row(
+                        children: [
+                          CustomText(
+                            text: "BOM",
+                            color: Colors.white,
+                            size: SizeConfig.screenWidth! * large_text,
+                          ),
+                          SizedBox(
+                            width: SizeConfig.blockSizeHorizontal! * 1,
+                          ),
+                          Icon(
+                            Icons.arrow_forward,
+                            color: Colors.white,
+                            size: 18,
+                          ),
+                          SizedBox(
+                            width: SizeConfig.blockSizeHorizontal! * 1,
+                          ),
+                          CustomText(
+                            text: "DEL",
+                            color: Colors.white,
+                            size: SizeConfig.screenWidth! * large_text,
+                          ),
+                        ],
                       ),
+                      SizedBox(
+                        height: SizeConfig.blockSizeVertical! * 0.5,
+                      ),
+                      Row(
+                        children: [
+                          CustomText(
+                            text: FromDate!=""?Utilities.dateconversion("EEE, d MMM yyyy",FromDate):"",
+                            color: Colors.white,
+                            size: SizeConfig.screenWidth! * 0.030,
+                          ),
+                          SizedBox(
+                            width: SizeConfig.blockSizeHorizontal! * 0.5,
+                          ),
+                          CustomText(
+                            text: "|",
+                            color: Colors.white,
+                          ),
+                          CustomText(
+                            text: Traveller!=""?Traveller+" Traveller(s) ":"0 Traveller(s)",
+                            color: Colors.white,
+                            size: SizeConfig.screenWidth! * 0.030,
+                          ),
+                          SizedBox(
+                            width: SizeConfig.blockSizeHorizontal! * 0.5,
+                          ),
+                          CustomText(
+                            text: "|",
+                            color: Colors.white,
+                          ),
+                          SizedBox(
+                            width: SizeConfig.blockSizeHorizontal! * 0.5,
+                          ),
+                          CustomText(
+                            text: AvailMain.isNotEmpty?AvailMain.length.toString()+" Flight":" 0 Flight",
+                            color: Colors.white,
+                            size: SizeConfig.screenWidth! * 0.030,
+                          ),
+                        ],
+                      )
                     ],
                   ),
                 ),
-              ),
-            ],
+                Expanded(
+                  flex: 1,
+                  child: Visibility(
+                    visible: IsAllResCame,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Image(
+                          image: AssetImage(
+                              'assets/images/white_loader.gif'),
+                          gaplessPlayback: true,
+                          fit: BoxFit.cover,
+                          width: SizeConfig.blockSizeHorizontal! * 9,
+                          height: SizeConfig.blockSizeVertical! * 4,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
         centerTitle: false,
@@ -256,6 +292,11 @@ class _OnewayScreenState extends State<OnewayScreen> {
                 String json = jsonEncode(AvailMain.map((model) => model.toJson()).toList());
                 print("== "+" "+json);
 
+                WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+                  // Do Something here
+                  _controller.animateToDate(dt1);
+                });
+
               }
 
               setState(() {});
@@ -274,25 +315,28 @@ class _OnewayScreenState extends State<OnewayScreen> {
                       valueColor: AlwaysStoppedAnimation<Color>(primary_blue),
                     ),
                   ),
-                  Container(
-                    color: primary_blue,
-                    child: DatePicker(
-                      DateTime.now(),
-                      width: 60,
-                      height: 80,
-                      controller: _controller,
-                      initialSelectedDate: DateTime.now(),
-                      selectionColor: dateselect_blue,
-                      selectedTextColor: Colors.white,
-                      monthTextStyle: TextStyle(color: Colors.white),
-                      dateTextStyle: TextStyle(color: Colors.white),
-                      dayTextStyle: TextStyle(color: Colors.white),
-                      onDateChange: (date) {
-                        // New date selected
-                        setState(() {
-                          _selectedValue = date;
-                        });
-                      },
+                  Visibility(
+                    visible: !IsAllResCame,
+                    child: Container(
+                      color: primary_blue,
+                      child: DatePicker(
+                        DateTime.now(),
+                        width: 60,
+                        height: 80,
+                        controller: _controller,
+                        initialSelectedDate: dt1==DateTime.now()?DateTime.now():dt1,
+                        selectionColor: dateselect_blue,
+                        selectedTextColor: Colors.white,
+                        monthTextStyle: TextStyle(color: Colors.white),
+                        dateTextStyle: TextStyle(color: Colors.white),
+                        dayTextStyle: TextStyle(color: Colors.white),
+                        onDateChange: (date) {
+                          // New date selected
+                          setState(() {
+                            _selectedValue = date;
+                          });
+                        },
+                      ),
                     ),
                   ),
                   Expanded(

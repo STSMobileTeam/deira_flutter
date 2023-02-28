@@ -5,6 +5,7 @@ import 'package:deira_flutter/View/widgets/customtextfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../Helper/Colors.dart';
@@ -36,6 +37,9 @@ class _FlightSearchScreenState extends State<FlightSearchScreen>
   String type = "economy";
   String typetxt = "Economy";
   String tripType = "O";
+  late String current_date;
+
+
 
 
   bottomSheet(){
@@ -448,11 +452,25 @@ class _FlightSearchScreenState extends State<FlightSearchScreen>
 
     bloc = BlocProvider.of<FlightSearchBloc>(context);
 
+    DateTime now = new DateTime.now();
+    var formatter = new DateFormat('yyyyMMdd');
+    var fullformatter = new DateFormat('EEE, d MMM yyyy');
+
+    current_date = formatter.format(now);
+    bloc.fullfromDate = fullformatter.format(now);
+
+    print(current_date); // 2016-01-25
+
+    bloc.fromDate = current_date;
+
     _controller = new AnimationController(
       vsync: this,
       duration: Duration(milliseconds: 300),
       upperBound: 0.5,
     );
+
+    print(Utilities.dateconversion('EEE, d MMM yyyy',current_date)); // 2016-01-25
+
   }
 
   @override
@@ -861,10 +879,20 @@ class _FlightSearchScreenState extends State<FlightSearchScreen>
                             children: [
                               Expanded(
                                 child: GestureDetector(
-                                  onTap: () {
-                                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => CalendarScreen(type: "oneway",)));
+                                  onTap: () async {
+
                                     // Navigator.pushNamed(context, AppRoutes.calendarflight);
+                                    var result = await Navigator.of(context).push(MaterialPageRoute(builder: (context) => CalendarScreen(type: "oneway",)));
+                                    if(result != null){
+                                      print(result);
+                                      var parts = result.toString().split('~');
+                                      setState(() {
+                                        bloc.fromDate = parts[0].trim();
+                                        bloc.fullfromDate = parts[1].trim();
+                                      });
+                                    }
                                   },
+
                                   child: Container(
                                     height: SizeConfig.blockSizeVertical! * 10,
                                     padding: EdgeInsets.symmetric(
@@ -897,7 +925,7 @@ class _FlightSearchScreenState extends State<FlightSearchScreen>
                                               SizeConfig.blockSizeVertical! * 0.7,
                                         ),
                                         CustomText(
-                                          text: "Wed, 5 Feb 2023",
+                                          text: bloc.fullfromDate,
                                           size: SizeConfig.screenWidth!*0.05,
                                           color: Colors.black87,
                                           weight: FontWeight.bold,
@@ -1270,6 +1298,7 @@ class _FlightSearchScreenState extends State<FlightSearchScreen>
                                   prefs.setString("ChdCount",children.toString());
                                   prefs.setString("InfCount",infant.toString());
                                   prefs.setString("TripType",tripType);
+                                  prefs.setString("FromDate",bloc.fromDate);
                                   prefs.setString("Class","E");
 
                                   Navigator.pushNamed(context, AppRoutes.oneway);

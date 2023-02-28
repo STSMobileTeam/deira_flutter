@@ -19,11 +19,13 @@ class CalendarScreen extends StatefulWidget {
 class _CalendarScreenState extends State<CalendarScreen> {
 
   DateTime startDate = DateTime.now();
+  late String FromDate;
 
   final calendarController = CleanCalendarController(
 
     minDate: DateTime.now(),
     maxDate: DateTime.now().add(const Duration(days: 365)),
+    rangeMode: false,
     onRangeSelected: (firstDate, secondDate) async {
 
 
@@ -42,8 +44,11 @@ class _CalendarScreenState extends State<CalendarScreen> {
     onDayTapped: (date) async {
 
       SharedPreferences preferences = await SharedPreferences.getInstance();
-      String formattedDate = DateFormat('dd-MM-yyyy').format(date);
+      String formattedDate = DateFormat('yyyyMMdd').format(date);
+      String fullformattedDate = DateFormat('EEE, d MMM yyyy').format(date);
+
       preferences.setString("singleDate", formattedDate);
+      preferences.setString("fullformattedDate", fullformattedDate);
 
       print('----date tapped---${date}');
 
@@ -51,7 +56,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
     // readOnly: true,
     onPreviousMinDateTapped: (date) {},
     onAfterMaxDateTapped: (date) {},
-    weekdayStart: DateTime.monday,
+    weekdayStart: DateTime.sunday,
     // initialFocusDate: DateTime(2023, 5),
     initialDateSelected: DateTime.now(),
     // endDateSelected: DateTime(2022, 3, 20),
@@ -133,10 +138,13 @@ class _CalendarScreenState extends State<CalendarScreen> {
                         onPressed: () async {
                           SharedPreferences preferences = await SharedPreferences.getInstance();
                           String sinleD = preferences.getString("singleDate").toString();
+                          String fullformattedDate = preferences.getString("fullformattedDate").toString();
+
                           if(widget.type == "oneway" && sinleD.isNotEmpty){
-                            // Utilities.showToast("Please Select Date");
+
                           }
-                          Navigator.pop(context, );
+                          Navigator.pop(context,sinleD+"~"+fullformattedDate);
+
                         },
                       ),
                     ),

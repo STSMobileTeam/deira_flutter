@@ -39,7 +39,7 @@ class OnewayBloc extends Bloc<OnewayEvent, OnewayState> {
 
     String UN, BID, BTID, ProjectID, BranchID, AgentType,AppTYP;
 
-    String FromCode,ToCode,AdtCount,ChdCount,InfCount,TripType,Class;
+    String FromCode,ToCode,AdtCount,ChdCount,InfCount,TripType,Class,Date;
 
     UN = prefs.getString("FIRST_NAME")!;
     BID = prefs.getString("AGENT_ID")!;
@@ -56,6 +56,7 @@ class OnewayBloc extends Bloc<OnewayEvent, OnewayState> {
     InfCount = prefs.getString("InfCount")!;
     TripType = prefs.getString("TripType")!;
     Class = prefs.getString("Class")!;
+    Date = prefs.getString("FromDate")!;
 
     if(event is OnewayInitialEvent){
 
@@ -105,7 +106,7 @@ class OnewayBloc extends Bloc<OnewayEvent, OnewayState> {
 
         psg.pXR = pXRArray;
 
-        aVRArray.add(AVR(dSN: FromCode,aSN: ToCode,fLD: "20230321",fCO: Class,fTE: "N",isStudentFare: "false",isArmyFare: "false",isSnrCitizenFare: "false",isLabourFare: "false"));
+        aVRArray.add(AVR(dSN: FromCode,aSN: ToCode,fLD: Date,fCO: Class,fTE: "N",isStudentFare: "false",isArmyFare: "false",isSnrCitizenFare: "false",isLabourFare: "false"));
 
         req.aGD = agd;
         req.pSG = psg;
