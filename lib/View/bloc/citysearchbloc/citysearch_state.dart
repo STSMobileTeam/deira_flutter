@@ -6,3 +6,4 @@ abstract class CitysearchState {}
 class CitysearchInitial extends CitysearchState {}
 
 class CitysearchBlocLoadingFinishedState extends CitysearchState {}
+

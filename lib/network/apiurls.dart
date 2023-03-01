@@ -12,5 +12,7 @@ class ApiUrls {
    static String login = "B2CMobileGetDetails";
    static String fetchCity = "FetchCity";
    static String availability = "InvokeAvailability";
+   static String InvokeHostCheck = "InvokeHostCheck";
+
 
 }

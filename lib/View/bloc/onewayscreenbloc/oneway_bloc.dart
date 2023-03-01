@@ -8,6 +8,8 @@ import 'package:dio/dio.dart';
 import 'package:meta/meta.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../../Models/HostCheck.dart';
+
 part 'oneway_event.dart';
 part 'oneway_state.dart';
 
@@ -32,14 +34,26 @@ class OnewayBloc extends Bloc<OnewayEvent, OnewayState> {
   Stream<AvailabilityRS> get responseStream => _controller.stream;
 
 
+  //Fare Host Check
+  HostCheckRQ HstReq = HostCheckRQ();
+
+  String Message = "";
+  String MessageNxt = "";
+
+  AgentDetails H_Agd = AgentDetails();
+  SegmnetDetails H_Seg = SegmnetDetails();
+
+  String Token = "";
+
   OnewayBloc() : super(OnewayInitial()) {on<OnewayEvent>((event, emit) async {
       // TODO: implement event handler
+
 
     final SharedPreferences prefs = await SharedPreferences.getInstance();
 
     String UN, BID, BTID, ProjectID, BranchID, AgentType,AppTYP;
 
-    String FromCode,ToCode,AdtCount,ChdCount,InfCount,TripType,Class,Date;
+    String FromCode,ToCode,AdtCount,ChdCount,InfCount,TripType,Class;
 
     UN = prefs.getString("FIRST_NAME")!;
     BID = prefs.getString("AGENT_ID")!;
@@ -56,9 +70,12 @@ class OnewayBloc extends Bloc<OnewayEvent, OnewayState> {
     InfCount = prefs.getString("InfCount")!;
     TripType = prefs.getString("TripType")!;
     Class = prefs.getString("Class")!;
-    Date = prefs.getString("FromDate")!;
+    String Date = prefs.getString("FromDate")!;
 
     if(event is OnewayInitialEvent){
+
+      futures.clear();
+      responsesReceived = 0;
 
       for(int i=0; i<FLOarray.length; i++) {
 
@@ -157,7 +174,70 @@ class OnewayBloc extends Bloc<OnewayEvent, OnewayState> {
 
     }
 
-    });
+
+    if(event is OnewayFareEvent){
+
+      H_Agd.cID = BID;
+      H_Agd.uN = UN;
+      H_Agd.aPP = AppTYP;
+      H_Agd.sID = "I";
+      H_Agd.vER = "";
+      H_Agd.eNV = "Android";
+      H_Agd.bID = BID;
+      H_Agd.bTID = BTID;
+      H_Agd.aGTYP = AgentType;
+      H_Agd.cORID = "";
+      H_Agd.bRID = BranchID;
+      H_Agd.iBRID = BranchID;
+      H_Agd.eMID = "";
+      H_Agd.cTCTR = "";
+      H_Agd.platform = "B";
+      H_Agd.projectID = ProjectID;
+      H_Agd.groupID = "";
+      H_Agd.aPPCurrency = "AED";
+
+      H_Seg.adult = AdtCount;
+      H_Seg.child = ChdCount;
+      H_Seg.infant = InfCount;
+      H_Seg.appType = "M";
+      H_Seg.baseDestination = ToCode;
+      H_Seg.baseOrigin = FromCode;
+      H_Seg.bookingType = "B2C";
+      H_Seg.classType = Class;
+      H_Seg.segmentType = "I";
+      H_Seg.rTSpecial = "";
+      H_Seg.tripType = "O";
+
+      HstReq.agentDetails = H_Agd;
+      HstReq.segmnetDetails = H_Seg;
+      HstReq.token1 = "";
+      HstReq.isStudentFare = "false";
+      HstReq.isArmyFare = "false";
+      HstReq.isSnrCitizenFare = "false";
+      HstReq.isroundtripspecial = "false";
+      HstReq.token = Token;
+
+      final json = jsonEncode(HstReq.toJson());
+      print('--HstReq-REQUEST---'+json..toString());
+
+      await apiService.postInvokeHostCheck(HstReq).then((value) async {
+
+        if (value.resultCode == '1') {
+
+          Message = value.error!;
+          MessageNxt = value.error1!;
+
+        }
+
+        emit(OnewayFareEventLoadingFinishedState());
+
+      }, onError: (error) {
+        print(error);
+      });
+
+    }
+  });
+
   }
 
 }

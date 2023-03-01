@@ -82,7 +82,6 @@ class _OnewayScreenState extends State<OnewayScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-
       appBar: AppBar(
         backgroundColor: primary_blue,
         iconTheme: const IconThemeData(color: Colors.blueAccent),
@@ -330,10 +329,28 @@ class _OnewayScreenState extends State<OnewayScreen> {
                         monthTextStyle: TextStyle(color: Colors.white),
                         dateTextStyle: TextStyle(color: Colors.white),
                         dayTextStyle: TextStyle(color: Colors.white),
-                        onDateChange: (date) {
+                        onDateChange: (date) async {
+
+                          _selectedValue = date;
+
+                          final SharedPreferences prefs = await SharedPreferences.getInstance();
+                          prefs.setString("FromDate",Utilities.dateconversion("yyyyMMdd",_selectedValue.toString()));
+
+                          AvailMain.clear();
+                          AvailMainGrpp.clear();
+                          AvailMainx.clear();;
+                          flightsDetails.clear();
+                          KeysValue.clear();
+
+                          FromDate = Utilities.dateconversion("yyyyMMdd",_selectedValue.toString());
+
                           // New date selected
                           setState(() {
-                            _selectedValue = date;
+                            IsAllResCame = true;
+                            print(_selectedValue);
+                            dt1 = _selectedValue;
+                            AvailMain.clear();
+                            bloc.add(OnewayInitialEvent());
                           });
                         },
                       ),
@@ -480,7 +497,7 @@ class _OnewayScreenState extends State<OnewayScreen> {
 
     int selectedIndex=0;
     String FareAmount=Availgrp[pos].flightsgrp![0].flights![0].grossFare!.toString();
-    String Token;
+    String Token = "";
 
     return showModalBottomSheet(
         context: context,
@@ -739,6 +756,9 @@ class _OnewayScreenState extends State<OnewayScreen> {
                                   ),
                                 );
                               }),
+                          SizedBox(
+                            height: SizeConfig.blockSizeVertical! * 0.7,
+                          ),
                         ],
                       ),
                     ]),
@@ -784,6 +804,10 @@ class _OnewayScreenState extends State<OnewayScreen> {
                                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
                                       onPressed: () {
                                         // Navigator.pushNamed(context, AppRoutes.oneway);
+                                        bloc.Token = Token;
+                                        bloc.add(OnewayFareEvent());
+                                        setState(() {
+                                        });
                                       },
                                     ),
                                   ),

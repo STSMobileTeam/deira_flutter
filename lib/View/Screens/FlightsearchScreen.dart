@@ -518,7 +518,7 @@ class _FlightSearchScreenState extends State<FlightSearchScreen>
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Expanded(
-                  flex: 7,
+                  flex: 8,
                   child: SingleChildScrollView(
                     scrollDirection: Axis.vertical,
                     child: Padding(
@@ -569,11 +569,10 @@ class _FlightSearchScreenState extends State<FlightSearchScreen>
                                         ),
                                         child: Center(
                                             child: CustomText(
-                                          text: 'One Way',
-                                          size: ScreenScale.convertFontSize(18,
-                                              allowFontScaling: true),
-                                          weight: FontWeight.w500,
-                                          color: Colors.black87,
+                                              text: 'One Way',
+                                              size: SizeConfig.screenWidth!*large_text,
+                                              weight: FontWeight.w500,
+                                              color: Colors.black87,
                                         )),
                                       ),
                                     ) :
@@ -594,8 +593,7 @@ class _FlightSearchScreenState extends State<FlightSearchScreen>
                                         child: Center(
                                             child: CustomText(
                                               text: 'One Way',
-                                              size: ScreenScale.convertFontSize(18,
-                                                  allowFontScaling: true),
+                                              size: SizeConfig.screenWidth!*large_text,
                                               weight: FontWeight.w500,
                                               color: Colors.white,
                                             )),
@@ -620,11 +618,10 @@ class _FlightSearchScreenState extends State<FlightSearchScreen>
                                         ),
                                         child: Center(
                                             child: CustomText(
-                                          text: 'Round Trip',
-                                          size: ScreenScale.convertFontSize(18,
-                                              allowFontScaling: true),
-                                          weight: FontWeight.w500,
-                                          color: Colors.white,
+                                              text: 'Round Trip',
+                                              size: SizeConfig.screenWidth!*large_text,
+                                              weight: FontWeight.w500,
+                                              color: Colors.white,
                                         )),
                                       ),
                                     ) :
@@ -646,8 +643,7 @@ class _FlightSearchScreenState extends State<FlightSearchScreen>
                                         child: Center(
                                             child: CustomText(
                                               text: 'Round Trip',
-                                              size: ScreenScale.convertFontSize(18,
-                                                  allowFontScaling: true),
+                                              size: SizeConfig.screenWidth!*large_text,
                                               weight: FontWeight.w500,
                                               color: Colors.black87,
                                             )),
@@ -714,26 +710,14 @@ class _FlightSearchScreenState extends State<FlightSearchScreen>
                                             children: [
                                               CustomText(
                                                   text: "From",
-                                                  size:
-                                                      ScreenScale.convertFontSize(
-                                                          15,
-                                                          allowFontScaling: true),
+                                                  size: SizeConfig.screenWidth!*small_text,
                                                   color: textgrey),
                                               SizedBox(
-                                                height: SizeConfig
-                                                        .blockSizeVertical! *
-                                                    0.4,
+                                                height: SizeConfig.blockSizeVertical! * 0.5,
                                               ),
                                               CustomText(
                                                   text: "${bloc.fromCityCode}",
-                                                  size:
-                                                      ScreenScale.convertFontSize(
-                                                          ScreenScale
-                                                              .convertFontSize(
-                                                                  22,
-                                                                  allowFontScaling:
-                                                                      true),
-                                                          allowFontScaling: true),
+                                                  size: SizeConfig.screenWidth!*large_text_extra,
                                                   weight: FontWeight.bold,
                                                   color: Colors.black87),
                                               SizedBox(
@@ -743,10 +727,7 @@ class _FlightSearchScreenState extends State<FlightSearchScreen>
                                               ),
                                               CustomText(
                                                   text: "${bloc.fromCityName}",
-                                                  size:
-                                                      ScreenScale.convertFontSize(
-                                                          18,
-                                                          allowFontScaling: true),
+                                                  size: SizeConfig.screenWidth!*medium_text,
                                                   color: textgrey),
                                             ],
                                           ),
@@ -802,22 +783,16 @@ class _FlightSearchScreenState extends State<FlightSearchScreen>
                                             children: [
                                               CustomText(
                                                   text: "To",
-                                                  size:
-                                                      ScreenScale.convertFontSize(
-                                                          15,
-                                                          allowFontScaling: true),
+                                                  size: SizeConfig.screenWidth!*small_text,
                                                   color: textgrey),
                                               SizedBox(
                                                 height: SizeConfig
                                                         .blockSizeVertical! *
-                                                    0.4,
+                                                    0.5,
                                               ),
                                               CustomText(
                                                   text: "${bloc.toCityCode}",
-                                                  size:
-                                                      ScreenScale.convertFontSize(
-                                                          22,
-                                                          allowFontScaling: true),
+                                                  size: SizeConfig.screenWidth!*large_text_extra,
                                                   weight: FontWeight.bold,
                                                   color: Colors.black87),
                                               SizedBox(
@@ -827,10 +802,7 @@ class _FlightSearchScreenState extends State<FlightSearchScreen>
                                               ),
                                               CustomText(
                                                   text: "${bloc.toCityName}",
-                                                  size:
-                                                      ScreenScale.convertFontSize(
-                                                          18,
-                                                          allowFontScaling: true),
+                                                  size: SizeConfig.screenWidth!*medium_text,
                                                   color: textgrey),
                                             ],
                                           ),
@@ -918,7 +890,7 @@ class _FlightSearchScreenState extends State<FlightSearchScreen>
                                       children: [
                                         CustomText(
                                             text: "Depature",
-                                            size: SizeConfig.screenWidth!*0.035,
+                                            size: SizeConfig.screenWidth!*small_text,
                                             color: textgrey),
                                         SizedBox(
                                           height:
@@ -926,7 +898,7 @@ class _FlightSearchScreenState extends State<FlightSearchScreen>
                                         ),
                                         CustomText(
                                           text: bloc.fullfromDate,
-                                          size: SizeConfig.screenWidth!*0.05,
+                                          size: SizeConfig.screenWidth!*large_text,
                                           color: Colors.black87,
                                           weight: FontWeight.bold,
                                         )
@@ -962,8 +934,8 @@ class _FlightSearchScreenState extends State<FlightSearchScreen>
                                       CrossAxisAlignment.start,
                                       children: [
                                         CustomText(
-                                            text: "Depature",
-                                            size: SizeConfig.screenWidth!*0.035,
+                                            text: "Arrival",
+                                            size: SizeConfig.screenWidth!*small_text,
                                             color: textgrey),
                                         SizedBox(
                                           height:
@@ -971,7 +943,7 @@ class _FlightSearchScreenState extends State<FlightSearchScreen>
                                         ),
                                         CustomText(
                                           text: "Wed, 8 Feb 2023",
-                                          size: SizeConfig.screenWidth!*0.05,
+                                          size: SizeConfig.screenWidth!*large_text,
                                           color: Colors.black87,
                                           weight: FontWeight.bold,
                                         )
@@ -1018,12 +990,11 @@ class _FlightSearchScreenState extends State<FlightSearchScreen>
                                       children: [
                                         CustomText(
                                             text: "Passenger",
-                                            size: ScreenScale.convertFontSize(16,
-                                                allowFontScaling: true),
+                                            size: SizeConfig.screenWidth!*small_text,
                                             color: textgrey),
                                         SizedBox(
                                           height:
-                                              SizeConfig.blockSizeVertical! * 1,
+                                              SizeConfig.blockSizeVertical! * 1.3,
                                         ),
                                         Row(
                                           mainAxisAlignment:
@@ -1033,9 +1004,7 @@ class _FlightSearchScreenState extends State<FlightSearchScreen>
                                           children: [
                                             CustomText(
                                                 text: "${bloc.adulttxt}",
-                                                size: ScreenScale.convertFontSize(
-                                                    20,
-                                                    allowFontScaling: true),
+                                                size: SizeConfig.screenWidth!*large_text,
                                                 weight: FontWeight.bold,
                                                 color: Colors.black87),
                                             SizedBox(
@@ -1045,9 +1014,7 @@ class _FlightSearchScreenState extends State<FlightSearchScreen>
                                             ),
                                             CustomText(
                                                 text: "Adult (s)",
-                                                size: ScreenScale.convertFontSize(
-                                                    18,
-                                                    allowFontScaling: true),
+                                                size: SizeConfig.screenWidth!*large_text,
                                                 weight: FontWeight.normal,
                                                 color: textgrey),
                                             SizedBox(
@@ -1057,9 +1024,7 @@ class _FlightSearchScreenState extends State<FlightSearchScreen>
                                             ),
                                             CustomText(
                                                 text: "${bloc.childrentxt}",
-                                                size: ScreenScale.convertFontSize(
-                                                    20,
-                                                    allowFontScaling: true),
+                                                size: SizeConfig.screenWidth!*large_text,
                                                 weight: FontWeight.bold,
                                                 color: Colors.black87),
                                             SizedBox(
@@ -1069,9 +1034,7 @@ class _FlightSearchScreenState extends State<FlightSearchScreen>
                                             ),
                                             CustomText(
                                                 text: "Child (s)",
-                                                size: ScreenScale.convertFontSize(
-                                                    18,
-                                                    allowFontScaling: true),
+                                                size: SizeConfig.screenWidth!*large_text,
                                                 weight: FontWeight.normal,
                                                 color: textgrey),
                                             SizedBox(
@@ -1081,9 +1044,7 @@ class _FlightSearchScreenState extends State<FlightSearchScreen>
                                             ),
                                             CustomText(
                                                 text: "${bloc.infanttxt}",
-                                                size: ScreenScale.convertFontSize(
-                                                    20,
-                                                    allowFontScaling: true),
+                                                size: SizeConfig.screenWidth!*large_text,
                                                 weight: FontWeight.bold,
                                                 color: Colors.black87),
                                             SizedBox(
@@ -1093,9 +1054,7 @@ class _FlightSearchScreenState extends State<FlightSearchScreen>
                                             ),
                                             CustomText(
                                                 text: "Infant (s)",
-                                                size: ScreenScale.convertFontSize(
-                                                    18,
-                                                    allowFontScaling: true),
+                                                size: SizeConfig.screenWidth!*large_text,
                                                 weight: FontWeight.normal,
                                                 color: textgrey),
                                           ],
@@ -1150,18 +1109,15 @@ class _FlightSearchScreenState extends State<FlightSearchScreen>
                                         children: [
                                           CustomText(
                                               text: "Passenger",
-                                              size: ScreenScale.convertFontSize(
-                                                  16,
-                                                  allowFontScaling: true),
+                                              size: SizeConfig.screenWidth!*small_text,
                                               color: textgrey),
                                           SizedBox(
                                             height:
-                                                SizeConfig.blockSizeVertical! * 1,
+                                                SizeConfig.blockSizeVertical! * 1.3,
                                           ),
                                           CustomText(
                                             text: "${typetxt}",
-                                            size: ScreenScale.convertFontSize(18,
-                                                allowFontScaling: true),
+                                            size: SizeConfig.screenWidth!*large_text,
                                             color: Colors.black,
                                             weight: FontWeight.bold,
                                           ),
@@ -1208,18 +1164,15 @@ class _FlightSearchScreenState extends State<FlightSearchScreen>
                                         children: [
                                           CustomText(
                                               text: "Preffered Airline",
-                                              size: ScreenScale.convertFontSize(
-                                                  16,
-                                                  allowFontScaling: true),
+                                              size: SizeConfig.screenWidth!*small_text,
                                               color: textgrey),
                                           SizedBox(
                                             height:
-                                                SizeConfig.blockSizeVertical! * 1,
+                                                SizeConfig.blockSizeVertical! * 1.3,
                                           ),
                                           CustomText(
                                             text: "Select Airline",
-                                            size: ScreenScale.convertFontSize(18,
-                                                allowFontScaling: true),
+                                            size: SizeConfig.screenWidth!*large_text,
                                             color: Colors.black,
                                             weight: FontWeight.bold,
                                           ),
@@ -1256,8 +1209,7 @@ class _FlightSearchScreenState extends State<FlightSearchScreen>
                               ),
                               CustomText(
                                 text: "Direct flight",
-                                size: ScreenScale.convertFontSize(16,
-                                    allowFontScaling: true),
+                                size: SizeConfig.screenWidth!*medium_text,
                               )
                             ],
                           ),
@@ -1339,6 +1291,7 @@ class _FlightSearchScreenState extends State<FlightSearchScreen>
                                 ),
                                 CustomText(
                                   text: "Search",
+                                  size: SizeConfig.screenWidth!*small_text,
                                 )
                               ],
                             ),
@@ -1360,6 +1313,7 @@ class _FlightSearchScreenState extends State<FlightSearchScreen>
                                 ),
                                 CustomText(
                                   text: "Upcoming Trips",
+                                  size: SizeConfig.screenWidth!*small_text,
                                 )
                               ],
                             ),
@@ -1381,6 +1335,7 @@ class _FlightSearchScreenState extends State<FlightSearchScreen>
                                 ),
                                 CustomText(
                                   text: "My Booking",
+                                  size: SizeConfig.screenWidth!*small_text,
                                 )
                               ],
                             ),

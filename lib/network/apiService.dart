@@ -5,6 +5,7 @@ import 'dart:async';
 
 import 'package:deira_flutter/Models/Availability.dart';
 import 'package:deira_flutter/Models/CitySearch.dart';
+import 'package:deira_flutter/Models/HostCheck.dart';
 import 'package:deira_flutter/Models/Login.dart';
 import 'package:dio/dio.dart';
 
@@ -66,6 +67,25 @@ class ApiService {
 
     if (response.statusCode == 200) {
       return AvailabilityRS.fromJson(response.data as Map<String,dynamic>);
+    } else {
+      throw Exception(response.statusCode.toString());
+    }
+  }
+
+
+  Future<HostCheckRS> postInvokeHostCheck(HostCheckRQ requestModel) async {
+
+    var url = ApiUrls.InvokeHostCheck;
+
+    final response = await dio()
+        .post(url,data: requestModel.toJson(),)
+        .catchError((error) {
+      DioError dioError = error;
+      print(dioError.response!.statusCode);
+    });
+
+    if (response.statusCode == 200) {
+      return HostCheckRS.fromJson(response.data as Map<String,dynamic>);
     } else {
       throw Exception(response.statusCode.toString());
     }

@@ -19,6 +19,8 @@ class CitysearchBloc extends Bloc<CitysearchEvent, CitysearchState> {
   ApiService apiService = ApiService();
   AirCodeRS AirRes = AirCodeRS();
   bool IsResponceCame = false;
+  bool IsChecking = false;
+
   List<AirCodeRS> List_AirCode = [];
 
 
@@ -58,6 +60,7 @@ class CitysearchBloc extends Bloc<CitysearchEvent, CitysearchState> {
         await apiService.postCity(req).then((value) async {
 
           IsResponceCame = true;
+          IsChecking = false;
 
           if (value.resultCode == '1') {
 

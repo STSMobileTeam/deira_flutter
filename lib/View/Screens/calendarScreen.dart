@@ -99,56 +99,61 @@ class _CalendarScreenState extends State<CalendarScreen> {
           ),
           Expanded(
               flex: 1,
-              child: Row(
+              child: Column(
                 children: [
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: MaterialButton(
-                        padding: const EdgeInsets.only(
-                            left: 30, right: 30, top: 20, bottom: 20),
-                        child: const Text(
-                          'Cancel',
-                          style: TextStyle(fontSize: 16),
+                  Divider(height: 1,color: ashblue,),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: MaterialButton(
+                            padding: const EdgeInsets.only(
+                                left: 30, right: 30, top: 20, bottom: 20),
+                            child: const Text(
+                              'Cancel',
+                              style: TextStyle(fontSize: 16),
+                            ),
+                            color: primary_blue_lte,
+                            textColor: primary_blue,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(7.0)),
+                            onPressed: () {
+                              Navigator.pop(context,);
+                            },
+                          ),
                         ),
-                        color: primary_blue_lte,
-                        textColor: primary_blue,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(7.0)),
-                        onPressed: () {
-                          Navigator.pop(context,);
-                        },
                       ),
-                    ),
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: MaterialButton(
+                            padding: const EdgeInsets.only(
+                                left: 30, right: 30, top: 20, bottom: 20),
+                            child: const Text(
+                              'Done',
+                              style: TextStyle(fontSize: 16),
+                            ),
+                            color: primary_blue,
+                            textColor: Colors.white,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(7.0)),
+                            onPressed: () async {
+                              SharedPreferences preferences = await SharedPreferences.getInstance();
+                              String sinleD = preferences.getString("singleDate").toString();
+                              String fullformattedDate = preferences.getString("fullformattedDate").toString();
+
+                              if(widget.type == "oneway" && sinleD.isNotEmpty){
+
+                              }
+                              Navigator.pop(context,sinleD+"~"+fullformattedDate);
+
+                            },
+                          ),
+                        ),
+                      )
+                    ],
                   ),
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: MaterialButton(
-                        padding: const EdgeInsets.only(
-                            left: 30, right: 30, top: 20, bottom: 20),
-                        child: const Text(
-                          'Done',
-                          style: TextStyle(fontSize: 16),
-                        ),
-                        color: primary_blue,
-                        textColor: Colors.white,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(7.0)),
-                        onPressed: () async {
-                          SharedPreferences preferences = await SharedPreferences.getInstance();
-                          String sinleD = preferences.getString("singleDate").toString();
-                          String fullformattedDate = preferences.getString("fullformattedDate").toString();
-
-                          if(widget.type == "oneway" && sinleD.isNotEmpty){
-
-                          }
-                          Navigator.pop(context,sinleD+"~"+fullformattedDate);
-
-                        },
-                      ),
-                    ),
-                  )
                 ],
               )
           )

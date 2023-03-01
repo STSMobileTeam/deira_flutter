@@ -4,3 +4,7 @@ part of 'oneway_bloc.dart';
 abstract class OnewayEvent {}
 
 class OnewayInitialEvent extends OnewayEvent {}
+
+class OnewayFareEvent extends OnewayEvent {}
+
+
