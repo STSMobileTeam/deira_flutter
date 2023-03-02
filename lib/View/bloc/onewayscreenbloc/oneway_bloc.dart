@@ -31,10 +31,10 @@ class OnewayBloc extends Bloc<OnewayEvent, OnewayState> {
 //  int selectedIndex = 0;
 
   final _controller = StreamController<AvailabilityRS>();
+
   Stream<AvailabilityRS> get responseStream => _controller.stream;
 
-
-  //Fare Host Check
+  //-----------Fare Host Check
   HostCheckRQ HstReq = HostCheckRQ();
 
   String Message = "";
@@ -44,6 +44,7 @@ class OnewayBloc extends Bloc<OnewayEvent, OnewayState> {
   SegmnetDetails H_Seg = SegmnetDetails();
 
   String Token = "";
+  bool IsresponceCame = false;
 
   OnewayBloc() : super(OnewayInitial()) {on<OnewayEvent>((event, emit) async {
       // TODO: implement event handler
@@ -224,6 +225,7 @@ class OnewayBloc extends Bloc<OnewayEvent, OnewayState> {
 
         if (value.resultCode == '1') {
 
+          IsresponceCame = true;
           Message = value.error!;
           MessageNxt = value.error1!;
 

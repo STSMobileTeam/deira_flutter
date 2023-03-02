@@ -17,6 +17,7 @@ import '../../Models/Availability.dart';
 import '../../Widget/Cardview_flightDetails.dart';
 import '../../Widget/Cardview_flightFare.dart';
 import '../../Widget/Carview_OnewayAvailbility.dart';
+import '../../Widget/DialogCommon.dart';
 
 class OnewayScreen extends StatefulWidget {
   const OnewayScreen({Key? key}) : super(key: key);
@@ -207,99 +208,119 @@ class _OnewayScreenState extends State<OnewayScreen> {
         child: BlocListener<OnewayBloc, OnewayState>(
           listener: (context, state) {
             // TODO: implement listener
-            bloc.responseStream.listen((response) {
-              print('--' + response.toString()); // bind the response here
-              print('----RESULT CODE-----' + response.resultCode.toString());
-              print('----RESULT responsesReceived-----' +
-                  bloc.responsesReceived.toString());
-              print('----RESULT futures-----' + bloc.futures.length.toString());
 
-              ResultCode = response.resultCode.toString();
+            if(state is OnewayBlocLoadingFinishedState){
+              bloc.responseStream.listen((response) {
+                print('--' + response.toString()); // bind the response here
+                print('----RESULT CODE-----' + response.resultCode.toString());
+                print('----RESULT responsesReceived-----' +
+                    bloc.responsesReceived.toString());
+                print('----RESULT futures-----' + bloc.futures.length.toString());
 
-              if (ResultCode == "1") {
-                AvailMainx.clear();
-                AvailMainx = response.lFAvail!;
-                AvailMain.addAll(AvailMainx);
+                ResultCode = response.resultCode.toString();
 
-                int compareInteger(
-                        bool ascending, double value1, double value2) =>
-                    ascending
-                        ? value1.compareTo(value2)
-                        : value2.compareTo(value1);
+                if (ResultCode == "1") {
+                  AvailMainx.clear();
+                  AvailMainx = response.lFAvail!;
+                  AvailMain.addAll(AvailMainx);
 
-                AvailMain.sort((user1, user2) => compareInteger(
-                    true, double.parse(user1.fare!), double.parse(user2.fare!)));
+                  int compareInteger(
+                      bool ascending, double value1, double value2) =>
+                      ascending
+                          ? value1.compareTo(value2)
+                          : value2.compareTo(value1);
 
-              }
+                  AvailMain.sort((user1, user2) => compareInteger(
+                      true, double.parse(user1.fare!), double.parse(user2.fare!)));
 
-              if (bloc.futures.length == bloc.responsesReceived) {
-
-                //Key formation
-                for (int k = 0; k < AvailMain.length; k++) {
-                  String DepartureTime = AvailMain[k].departureTime!;
-                  String JourneyTime = AvailMain[k].journeyTime!;
-                  String PlatingCarrier =
-                      AvailMain[k].flights![0].platingCarrier!;
-
-                  String Keys = PlatingCarrier + JourneyTime + DepartureTime;
-
-                  AvailMain[k].unikey = Keys.toString();
-
-                  KeysValue.add(Keys);
                 }
 
-                //Grouping
-                List<String> result =
-                    LinkedHashSet<String>.from(KeysValue).toList();
-                KeysValue.clear();
-                KeysValue = result;
+                if (bloc.futures.length == bloc.responsesReceived) {
 
-                for (int m = 0; m < KeysValue.length; m++) {
-                  String keySM = KeysValue[m];
+                  //Key formation
+                  for (int k = 0; k < AvailMain.length; k++) {
+                    String DepartureTime = AvailMain[k].departureTime!;
+                    String JourneyTime = AvailMain[k].journeyTime!;
+                    String PlatingCarrier =
+                    AvailMain[k].flights![0].platingCarrier!;
 
-                  List<FAvail> groupArray = [];
+                    String Keys = PlatingCarrier + JourneyTime + DepartureTime;
 
-                  for (int p = 0; p < AvailMain.length; p++) {
-                    String gettKey = AvailMain[p].unikey!;
+                    AvailMain[k].unikey = Keys.toString();
 
-                    if (keySM == gettKey) {
-                      print("==Adding Fare==" + p.toString() + " " + AvailMain[p].fare.toString());
-                      groupArray.add(AvailMain[p]);
+                    KeysValue.add(Keys);
+                  }
+
+                  //Grouping
+                  List<String> result =
+                  LinkedHashSet<String>.from(KeysValue).toList();
+                  KeysValue.clear();
+                  KeysValue = result;
+
+                  for (int m = 0; m < KeysValue.length; m++) {
+                    String keySM = KeysValue[m];
+
+                    List<FAvail> groupArray = [];
+
+                    for (int p = 0; p < AvailMain.length; p++) {
+                      String gettKey = AvailMain[p].unikey!;
+
+                      if (keySM == gettKey) {
+                        print("==Adding Fare==" + p.toString() + " " + AvailMain[p].fare.toString());
+                        groupArray.add(AvailMain[p]);
+                      }
+
                     }
+
+
+                    AvailMainGrpp.insert(m, FAvail(
+                        fare: groupArray[0].fare,
+                        departureTime: groupArray[0].departureTime,
+                        journeyTime: groupArray[0].journeyTime,
+                        flights: groupArray[0].flights,
+                        flightsgrp: groupArray));
+
 
                   }
 
 
-                  AvailMainGrpp.insert(m, FAvail(
-                          fare: groupArray[0].fare,
-                          departureTime: groupArray[0].departureTime,
-                          journeyTime: groupArray[0].journeyTime,
-                          flights: groupArray[0].flights,
-                          flightsgrp: groupArray));
 
+                  AvailMain.clear();
+
+                  AvailMain.addAll(AvailMainGrpp);
+
+                  IsAllResCame = false;
+
+                  String json = jsonEncode(AvailMain.map((model) => model.toJson()).toList());
+                  print("== "+" "+json);
+
+                  WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+                    // Do Something here
+                    _controller.animateToDate(dt1);
+                  });
 
                 }
 
 
 
-                AvailMain.clear();
 
-                AvailMain.addAll(AvailMainGrpp);
+                setState(() {});
+              });
+            }
 
-                IsAllResCame = false;
+            if(state is OnewayFareEventLoadingFinishedState){
+              print("----wikajknskjbskjdfsdc---XX");
+              setState(() {
+                showDialog(
+                    context: context,
+                    builder: (BuildContext
+                    context) {
+                      return DialogCoomon(
+                      );
+                    });
+              });
+            }
 
-                String json = jsonEncode(AvailMain.map((model) => model.toJson()).toList());
-                print("== "+" "+json);
-
-                WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-                  // Do Something here
-                  _controller.animateToDate(dt1);
-                });
-
-              }
-
-              setState(() {});
-            });
             // Don't forget to dispose of the bloc when you're done with it
           },
           child: BlocBuilder<OnewayBloc, OnewayState>(
