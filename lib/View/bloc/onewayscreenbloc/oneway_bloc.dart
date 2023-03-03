@@ -5,9 +5,11 @@ import 'package:bloc/bloc.dart';
 import 'package:deira_flutter/Models/Availability.dart';
 import 'package:deira_flutter/network/apiService.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:meta/meta.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../../Helper/utilities.dart';
 import '../../../Models/HostCheck.dart';
 
 part 'oneway_event.dart';
@@ -36,6 +38,8 @@ class OnewayBloc extends Bloc<OnewayEvent, OnewayState> {
 
   //-----------Fare Host Check
   HostCheckRQ HstReq = HostCheckRQ();
+  HostCheckRS HstRes = HostCheckRS();
+
 
   String Message = "";
   String MessageNxt = "";
@@ -176,7 +180,11 @@ class OnewayBloc extends Bloc<OnewayEvent, OnewayState> {
     }
 
 
+
     if(event is OnewayFareEvent){
+
+      EasyLoading.show(status: ConstantVariableClass.loadingString);
+
 
       H_Agd.cID = BID;
       H_Agd.uN = UN;
@@ -223,8 +231,10 @@ class OnewayBloc extends Bloc<OnewayEvent, OnewayState> {
 
       await apiService.postInvokeHostCheck(HstReq).then((value) async {
 
+
         if (value.resultCode == '1') {
 
+          HstRes = value;
           IsresponceCame = true;
           Message = value.error!;
           MessageNxt = value.error1!;

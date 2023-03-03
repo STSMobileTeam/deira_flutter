@@ -9,6 +9,7 @@ import 'package:deira_flutter/View/widgets/customtext.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../Helper/Colors.dart';
@@ -18,6 +19,7 @@ import '../../Widget/Cardview_flightDetails.dart';
 import '../../Widget/Cardview_flightFare.dart';
 import '../../Widget/Carview_OnewayAvailbility.dart';
 import '../../Widget/DialogCommon.dart';
+import '../../Widget/customProgress.dart';
 
 class OnewayScreen extends StatefulWidget {
   const OnewayScreen({Key? key}) : super(key: key);
@@ -206,6 +208,7 @@ class _OnewayScreenState extends State<OnewayScreen> {
       ),
       body: Container(
         child: BlocListener<OnewayBloc, OnewayState>(
+          
           listener: (context, state) {
             // TODO: implement listener
 
@@ -310,13 +313,15 @@ class _OnewayScreenState extends State<OnewayScreen> {
 
             if(state is OnewayFareEventLoadingFinishedState){
               print("----wikajknskjbskjdfsdc---XX");
+
+              EasyLoading.showSuccess("Done");
+
               setState(() {
                 showDialog(
                     context: context,
                     builder: (BuildContext
                     context) {
-                      return DialogCoomon(
-                      );
+                      return DialogCoomon(title: 'Confirmation Alert',Message: bloc.Message,hstres: bloc.HstRes);
                     });
               });
             }
@@ -824,11 +829,10 @@ class _OnewayScreenState extends State<OnewayScreen> {
                                       textColor: primary_blue,
                                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
                                       onPressed: () {
-                                        // Navigator.pushNamed(context, AppRoutes.oneway);
+
                                         bloc.Token = Token;
                                         bloc.add(OnewayFareEvent());
-                                        setState(() {
-                                        });
+
                                       },
                                     ),
                                   ),
@@ -847,5 +851,6 @@ class _OnewayScreenState extends State<OnewayScreen> {
 
 
 }
+
 
 

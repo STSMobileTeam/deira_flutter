@@ -1,10 +1,17 @@
+import 'package:deira_flutter/Helper/utilities.dart';
+import 'package:deira_flutter/Models/HostCheck.dart';
 import 'package:flutter/material.dart';
-
 import '../Helper/size_config.dart';
 import '../View/widgets/customtext.dart';
+import '../router.dart';
 
 class DialogCoomon extends StatefulWidget {
-  const DialogCoomon({Key? key}) : super(key: key);
+
+  String title,Message;
+  HostCheckRS hstres;
+
+
+  DialogCoomon({Key? key,required this.title,required this.Message,required this.hstres}) : super(key: key);
 
   @override
   State<DialogCoomon> createState() => _DialogCoomonState();
@@ -30,15 +37,42 @@ class _DialogCoomonState extends State<DialogCoomon> {
                   color: Colors.white,
                   child: Column(
                     children: [
-                      CustomText(text: "Hi, Guest !",size: 20,weight: FontWeight.bold,textAlign: TextAlign.center,),
+                      SizedBox(height: SizeConfig.blockSizeVertical!*1.5,),
+                      CustomText(text: widget.title,size: SizeConfig.screenWidth!*medium_text,weight: FontWeight.bold,textAlign: TextAlign.center,color: Colors.black54,),
                       SizedBox(height: SizeConfig.blockSizeVertical!*2.5,),
-                      CustomText(text: 'Sign in or Create New Account to ',size: 16,textAlign: TextAlign.center,color: Colors.black54),
-                      SizedBox(height: SizeConfig.blockSizeVertical!*4,),
+                      CustomText(text: Utilities.HTMLremover(widget.Message), size: SizeConfig.screenWidth!*medium_text,textAlign: TextAlign.center,weight: FontWeight.bold,color: Colors.black87),
+                      SizedBox(height: SizeConfig.blockSizeVertical!*2,),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           MaterialButton(
+                            padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal!*3),
+                            minWidth: SizeConfig.blockSizeVertical!*15,
+                            elevation: 0,
+                            child: Text(
+                              'Cancel',
+                              style: TextStyle(fontSize: SizeConfig.screenWidth!*small_text,
+                                  color: Colors.black),
+                            ),
+                            color: Colors.white,
+                            textColor: Colors.black,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(30.0),
+                                side: BorderSide(color: Colors.grey)
+                            ),
                             onPressed: () async {
+                              Navigator.pop(context);
+                            },
+                          ),
+                          MaterialButton(
+                            onPressed: () async {
+
+                              Navigator.pop(context);
+
+                              HostCheckRS hstres = HostCheckRS();
+
+                              Navigator.pushNamed(context, AppRoutes.passenger,arguments: hstres);
 
                             },
                             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
@@ -58,33 +92,14 @@ class _DialogCoomonState extends State<DialogCoomon> {
                                 constraints: const BoxConstraints(minWidth: 88.0, minHeight: 36.0), // min sizes for Material buttons
                                 alignment: Alignment.center,
                                 width : SizeConfig.blockSizeVertical!*15,
-                                padding: const EdgeInsets.all(15),
-                                child: const Text(
-                                  'Sign in',
-                                  style: TextStyle(color: Colors.white,fontWeight: FontWeight.normal,fontSize: 18),
+                                padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal!*3),
+                                child: Text(
+                                  'OK',
+                                  style: TextStyle(color: Colors.white,fontWeight: FontWeight.normal,fontSize: SizeConfig.screenWidth!*small_text),
                                   textAlign: TextAlign.center,
                                 ),
                               ),
                             ),
-                          ),
-                          MaterialButton(
-                            padding: const EdgeInsets.all(15),
-                            minWidth: SizeConfig.blockSizeVertical!*15,
-                            elevation: 0,
-                            child: Text(
-                              'Sign up',
-                              style: TextStyle(fontSize: 18,
-                                  color: Colors.black),
-                            ),
-                            color: Colors.white,
-                            textColor: Colors.black,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(30.0),
-                                side: BorderSide(color: Colors.grey)
-                            ),
-                            onPressed: () async {
-
-                            },
                           ),
                         ],
                       ),

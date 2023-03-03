@@ -47,6 +47,17 @@ class Utilities {
     );
   }
 
+  static String HTMLremover(String html){
+    RegExp exp = RegExp(r"<[^>]*>",multiLine: true,caseSensitive: true);
+    String parsedstring1 = html.replaceAll(exp, '');
+    print(parsedstring1);
+//output without space:  HelloThis is fluttercampus.com,Bye!
+
+    String parsedstring2 = html.replaceAll(exp, ' ');
+
+    return parsedstring2;
+  }
+
   static String dateconversion(String format, String Date) {
 
     DateTime dt1 = DateTime.parse(Date);
