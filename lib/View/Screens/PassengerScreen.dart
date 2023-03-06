@@ -27,14 +27,30 @@ class _PassengerScreenState extends State<PassengerScreen> {
     // TODO: implement initState
 
     Future.delayed(Duration(seconds: 0)).then((_) {
-      PopupFareDetails(context,widget.HSRes);
+
+      if(widget.HSRes.lMFlights == null){
+        print("Empty");
+      }else {
+        PopupFareDetails(context, widget.HSRes);
+      }
     });
 
     super.initState();
 
     bloc = BlocProvider.of<PassengerBloc>(context);
 
+
+    //DynamicLayout();
+
   }
+
+
+  final List<Widget> widgets = List.unmodifiable(() sync* {
+    for (int i = 0; i < 5; i++) {
+      yield CustomText(text: i.toString(),);
+    }
+  }());
+
 
 
   @override
@@ -190,14 +206,33 @@ class _PassengerScreenState extends State<PassengerScreen> {
                           ],
                         )),
                         Expanded(flex:1,child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
                           children: [
-                            CustomText(text: "0/1",size: SizeConfig.blockSizeHorizontal!*medium_text,color: Colors.black87,),
-                            SizedBox(width: SizeConfig.blockSizeHorizontal!*0.5,),
-                            CustomText(text: "Added",size: SizeConfig.blockSizeHorizontal!*medium_text,color: Colors.red,),
+                            CustomText(text: "0/1",size: SizeConfig.screenWidth!*medium_text,color: Colors.black87,),
+                            SizedBox(width: SizeConfig.blockSizeHorizontal!*0.9,),
+                            CustomText(text: "Added",size: SizeConfig.screenWidth!*small_text,color: textgrey,),
+                            SizedBox(width: SizeConfig.blockSizeHorizontal!*1.9,),
                           ],
-                        ))
+                        )),
                       ],
-                    )
+                    ),
+                    MaterialButton(
+                      elevation: 2,
+                      minWidth: SizeConfig.blockSizeHorizontal!*100,
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+                      height: 50,
+                      color: Colors.white,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(Icons.add,color: primary_blue,),
+                          SizedBox(width: SizeConfig.blockSizeHorizontal!*1,),
+                          CustomText(text: 'ADD NEW ADULT',size: SizeConfig.screenWidth!*medium_text,color: primary_blue,weight: FontWeight.bold,)
+                        ],
+                      ),
+                      onPressed: () {
+                      },
+                    ),
                   ],
                 ),
               ),
@@ -365,10 +400,8 @@ class _PassengerScreenState extends State<PassengerScreen> {
                                      borderRadius: BorderRadius.circular(10.0),
                                    ),
                                    color: Colors.white,
-                                   child: Padding(
-                                     padding: EdgeInsets.symmetric(
-                                         vertical: SizeConfig.blockSizeVertical! * 1.2,
-                                         horizontal: SizeConfig.blockSizeHorizontal! * 0.8),
+                                   child: Container(
+                                     height: SizeConfig.blockSizeVertical!*7,
                                      child: Row(
                                        mainAxisAlignment: MainAxisAlignment.center,
                                        crossAxisAlignment: CrossAxisAlignment.center,
@@ -413,40 +446,113 @@ class _PassengerScreenState extends State<PassengerScreen> {
                                      borderRadius: BorderRadius.circular(10.0),
                                    ),
                                    color: Colors.white,
-                                   child: Padding(
-                                     padding: EdgeInsets.symmetric(
-                                         vertical: SizeConfig.blockSizeVertical! * 1.2,
-                                         horizontal: SizeConfig.blockSizeHorizontal! * 0.8),
-                                     child: Row(
-                                       mainAxisAlignment: MainAxisAlignment.center,
-                                       crossAxisAlignment: CrossAxisAlignment.center,
-                                       children: [
-                                         Expanded(
-                                             flex: 8,
-                                             child: Padding(
-                                               padding: EdgeInsets.only(
-                                                   left: SizeConfig.blockSizeHorizontal! * 2),
-                                               child: CustomText(
-                                                 text: 'Fare Brakeup',
-                                                 weight: FontWeight.bold,
-                                                 color: Colors.black87,
-                                                 size: SizeConfig.screenWidth! * large_text,
-                                               ),
-                                             )),
-                                         Expanded(
-                                           flex: 1,
-                                           child: IconButton(
-                                             onPressed: () {
+                                   child: Column(
+                                     children: [
+                                       InkWell(
+                                         onTap:()  {
 
-                                             },
-                                             icon: Icon(
-                                               Icons.arrow_forward_ios_rounded,
-                                               color: textgrey,
-                                             ),
+                                           if(ShowBreakup){
+                                             ShowBreakup = false;
+                                           }else {
+                                             ShowBreakup = true;
+                                           }
+                                           setState(() {
+
+                                           });
+                                         },
+                                         child: Container(
+                                           height: SizeConfig.blockSizeVertical!*7,
+                                           child: Row(
+                                             mainAxisAlignment: MainAxisAlignment.center,
+                                             crossAxisAlignment: CrossAxisAlignment.center,
+                                             children: [
+                                               Expanded(
+                                                   flex: 8,
+                                                   child: Padding(
+                                                     padding: EdgeInsets.only(
+                                                         left: SizeConfig.blockSizeHorizontal! * 2),
+                                                     child: CustomText(
+                                                       text: 'Fare Brakeup',
+                                                       weight: FontWeight.bold,
+                                                       color: Colors.black87,
+                                                       size: SizeConfig.screenWidth! * large_text,
+                                                     ),
+                                                   )),
+                                               Expanded(
+                                                 flex: 1,
+                                                 child: IconButton(
+                                                   onPressed: () {
+
+                                                   },
+                                                   icon: Icon(
+                                                     Icons.arrow_forward_ios_rounded,
+                                                     color: textgrey,
+                                                   ),
+                                                 ),
+                                               )
+                                             ],
                                            ),
-                                         )
-                                       ],
-                                     ),
+                                         ),
+                                       ),
+                                       Visibility(
+                                         visible: !ShowBreakup,
+                                         child: ListView(
+                                           scrollDirection: Axis.vertical,
+                                           shrinkWrap: true,
+                                           padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal!*3),
+                                           children: createRows(HSRes.lMFlights),
+                                         ),
+                                       )
+                                     ],
+                                   ),
+                                 ),
+                               ),
+                               SizedBox(
+                                 height: SizeConfig.blockSizeVertical! * 0.5,
+                               ),
+                               Padding(
+                                 padding: EdgeInsets.symmetric(horizontal: SizeConfig.blockSizeHorizontal!*1.5),
+                                 child: Card(
+                                   elevation: 1,
+                                   shape: RoundedRectangleBorder(
+                                     borderRadius: BorderRadius.circular(10.0),
+                                   ),
+                                   color: Colors.white,
+                                   child: Column(
+                                     children: [
+                                       Container(
+                                         height: SizeConfig.blockSizeVertical!*7,
+                                         child: Row(
+                                           mainAxisAlignment: MainAxisAlignment.center,
+                                           crossAxisAlignment: CrossAxisAlignment.center,
+                                           children: [
+                                             Expanded(
+                                                 flex: 8,
+                                                 child: Padding(
+                                                   padding: EdgeInsets.only(
+                                                       left: SizeConfig.blockSizeHorizontal! * 2),
+                                                   child: CustomText(
+                                                     text: 'Fare Details',
+                                                     weight: FontWeight.bold,
+                                                     color: Colors.black87,
+                                                     size: SizeConfig.screenWidth! * large_text,
+                                                   ),
+                                                 )),
+                                             Expanded(
+                                               flex: 1,
+                                               child: Container(
+                                               ),
+                                             )
+                                           ],
+                                         ),
+                                       ),
+                                       ListView(
+                                         scrollDirection: Axis.vertical,
+                                         shrinkWrap: true,
+                                         padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal!*3),
+                                         children: createRows(HSRes.lMFlights),
+                                       )
+                                     ],
                                    ),
                                  ),
                                ),
@@ -511,7 +617,140 @@ class _PassengerScreenState extends State<PassengerScreen> {
               ));
         });
 
+
   }
+
+  bool ShowBreakup = false;
+
+  List<Widget> widgetss = List.unmodifiable(() sync* {
+    for (int i = 0; i < 5; i++) {
+      yield Row(
+        children: [
+          CustomText(text: "",)
+        ],
+      );
+    }
+  }());
+
+
+  List<Widget> createRows(List<MFlights>? mFlights) {
+    return List.unmodifiable(() sync* {
+
+      for(int k = 0; k < mFlights!.length; k++) {
+
+        print("length Fisrts11111  "+k.toString());
+
+        String Breakup = mFlights[k].brakup!;
+        String GrossFare = mFlights[k].grossFare!;
+
+        List<String> Lst_Breakup = Breakup.split("|");
+        List<String> Lst_GrossFare = GrossFare.split("|");
+
+        if(k==0)
+        {
+          yield Padding(
+            padding: EdgeInsets.only(top: SizeConfig.blockSizeVertical!*1,bottom: SizeConfig.blockSizeVertical!*1 ),
+            child: Row(
+              children: [
+                Expanded(flex:1,child: CustomText(text: "1 Adult",textAlign: TextAlign.left, weight: FontWeight.bold,)),
+              ],
+            ),
+          );
+        }
+        else if(k==1)
+        {
+          yield Padding(
+            padding: EdgeInsets.only(top: SizeConfig.blockSizeVertical!*1,bottom: SizeConfig.blockSizeVertical!*1 ),
+            child: Row(
+              children: [
+                Expanded(flex:1,child: CustomText(text: "1 Child",textAlign: TextAlign.left, weight: FontWeight.bold,)),
+              ],
+            ),
+          );
+        }
+        else if(k==2)
+        {
+          yield Padding(
+            padding: EdgeInsets.only(top: SizeConfig.blockSizeVertical!*1,bottom: SizeConfig.blockSizeVertical!*1 ),
+            child: Row(
+              children: [
+                Expanded(flex:1,child: CustomText(text: "1 Infant",textAlign: TextAlign.left, weight: FontWeight.bold,)),
+              ],
+            ),
+          );
+        }
+
+        for (int i = 0; i < Lst_Breakup.length; i++) {
+
+          print("length Fisrtss222222  "+i.toString());
+
+          List<String> Lst_AdtBreakup = Lst_Breakup[i].split("/");
+
+          for (int j = 0; j < Lst_AdtBreakup.length; j++) {
+
+            print("length Fisrts33333 "+j.toString());
+
+            List<String> Lst_Main = Lst_AdtBreakup[j].split(":");
+
+            yield Padding(
+              padding: EdgeInsets.symmetric(vertical: 1.5),
+              child: Row(
+                children: [
+                  Expanded(flex:1,child: CustomText(text: Lst_Main[0],textAlign: TextAlign.left)),
+                  Expanded(flex:1,child: CustomText(text: Lst_Main[1],textAlign: TextAlign.right))
+                ],
+              ),
+            );
+          }
+        }
+
+        yield Padding(
+          padding: const EdgeInsets.only(left:3,right: 3,top: 7),
+          child: Divider(height: 0.9,color: Colors.grey,),
+        );
+
+        yield Padding(
+          padding: EdgeInsets.only(top: SizeConfig.blockSizeVertical!*1),
+          child: Row(
+            children: [
+              Expanded(flex:1,child: CustomText(text: "Total Fare",textAlign: TextAlign.left, weight: FontWeight.bold,)),
+              Expanded(flex:1,child: CustomText(text: Lst_GrossFare[k],textAlign: TextAlign.right, weight: FontWeight.bold,))
+            ],
+          ),
+        );
+
+      }
+
+
+    }());
+  }
+
+  FareForming(MFlights mFlights){
+
+    String Breakup = mFlights.brakup!;
+
+    List<String> Lst_Breakup = Breakup.split("|");
+
+    List<String> Lst_AdtBreakup,Lst_ChdBreakup,Lst_InfBreakup;
+
+    if(Lst_Breakup.length == 3){
+      List<String> Lst_AdtBreakup = Lst_Breakup[0].split("/");
+      List<String> Lst_ChdBreakup = Lst_Breakup[1].split("/");
+      List<String> Lst_InfBreakup = Lst_Breakup[2].split("/");
+    }else if(Lst_Breakup.length == 2){
+      List<String> Lst_AdtBreakup = Lst_Breakup[0].split("/");
+      List<String> Lst_ChdBreakup = Lst_Breakup[1].split("/");
+    }else if(Lst_Breakup.length == 1){
+      List<String> Lst_AdtBreakup = Lst_Breakup[0].split("/");
+    }
+
+
+  }
+
+
+
+
+
 
 }
 

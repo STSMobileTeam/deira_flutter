@@ -70,9 +70,7 @@ class _DialogCoomonState extends State<DialogCoomon> {
 
                               Navigator.pop(context);
 
-                              HostCheckRS hstres = HostCheckRS();
-
-                              Navigator.pushNamed(context, AppRoutes.passenger,arguments: hstres);
+                              Navigator.pushNamed(context, AppRoutes.passenger,arguments: widget.hstres);
 
                             },
                             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
