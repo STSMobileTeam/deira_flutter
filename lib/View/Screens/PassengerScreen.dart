@@ -355,7 +355,12 @@ class _PassengerScreenState extends State<PassengerScreen> {
                                 ],
                               ),
                               SizedBox(height: SizeConfig.blockSizeVertical!*2.5,),
-
+                              TextField(
+                                decoration: InputDecoration(
+                                    hintStyle: TextStyle(color: Colors.blue),
+                                    hintText: "Mobile No."
+                                ),
+                              )
                             ],
                           ),
                         ),
