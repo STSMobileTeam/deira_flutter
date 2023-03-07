@@ -9,25 +9,17 @@ import '../View/widgets/customtext.dart';
 class FlightDetailsCardAll extends StatelessWidget {
 
   final String? carriername;
-  final String? depTime;
   final String? depCity;
   final String? carrierCode;
   final String? journeyHrs;
-  final String? stops;
-  final String? arrTime;
   final String? arrCity;
-  final String? seatCount;
-  final String? baggage;
-  final String? refund;
-  final String? amount;
   final String? flightno;
   final String? depDateTime;
   final String? arrDateTime;
   final String? flytime;
 
-  const FlightDetailsCardAll({Key? key,this.carriername,this.depTime,this.depCity,
-    this.carrierCode,this.journeyHrs,this.stops,this.arrTime,this.arrCity,this.seatCount,this.baggage,
-    this.refund,this.amount,this.flightno,this.depDateTime,this.arrDateTime,this.flytime}) : super(key: key);
+  const FlightDetailsCardAll({Key? key,this.carriername,this.depCity,
+    this.carrierCode,this.journeyHrs,this.arrCity,this.flightno,this.depDateTime,this.arrDateTime,this.flytime}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

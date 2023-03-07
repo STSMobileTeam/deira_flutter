@@ -48,6 +48,10 @@ class _OnewayScreenState extends State<OnewayScreen> {
 
   List<String> KeysValue = [];
 
+  int A = 0;
+  int C = 0;
+  int I = 0;
+
   @override
   void initState() {
     // TODO: implement initState
@@ -68,9 +72,9 @@ class _OnewayScreenState extends State<OnewayScreen> {
     FromCode = prefs.getString("FromCode")!;
     ToCode = prefs.getString("ToCode")!;
 
-    int A = int.parse(AdtCount);
-    int C = int.parse(ChdCount);
-    int I = int.parse(InfCount);
+    A = int.parse(AdtCount);
+    C = int.parse(ChdCount);
+    I = int.parse(InfCount);
 
     int TotPax = A + C + I;
     Traveller = TotPax.toString();
@@ -234,7 +238,7 @@ class _OnewayScreenState extends State<OnewayScreen> {
                           : value2.compareTo(value1);
 
                   AvailMain.sort((user1, user2) => compareInteger(
-                      true, double.parse(user1.fare!), double.parse(user2.fare!)));
+                      true, Utilities.Actual_fare_Avail(A,C,I,user1.fare!,user1.flights![0].paxType!), Utilities.Actual_fare_Avail(A,C,I,user2.fare!,user2.flights![0].paxType!)));
 
                 }
 
@@ -447,7 +451,7 @@ class _OnewayScreenState extends State<OnewayScreen> {
                                                     .length -
                                                 1]
                                             .destination,
-                                        amount: AvailMain[index].fare,
+                                        amount: Utilities.Actual_fare_Avail(A,C,I,AvailMain[index].fare!,AvailMain[index].flights![0].paxType!).toStringAsFixed(2),
                                         seatCount: AvailMain[index]
                                             .flights![0]
                                             .availSeat,
@@ -522,7 +526,8 @@ class _OnewayScreenState extends State<OnewayScreen> {
   PopupFareDetails(context, int pos, List<Flights> AvailMain,List<FAvail> Availgrp) {
 
     int selectedIndex=0;
-    String FareAmount=Availgrp[pos].flightsgrp![0].flights![0].grossFare!.toString();
+    //String FareAmount=Availgrp[pos].flightsgrp![0].flights![0].grossFare!.toString();
+    String FareAmount = Utilities.Actual_fare_Avail(A,C,I,Availgrp[pos].flightsgrp![0].flights![0].grossFare!,Availgrp[pos].flightsgrp![0].flights![0].paxType!).toStringAsFixed(2);
     String Token = "";
 
     return showModalBottomSheet(
@@ -703,7 +708,7 @@ class _OnewayScreenState extends State<OnewayScreen> {
                                   stops: AvailMain[AvailMain.length - 1].stops,
                                   arrTime: AvailMain[index].arrivalTime,
                                   arrCity: AvailMain[index].destination,
-                                  amount: AvailMain[index].grossFare,
+                                  amount: Utilities.Actual_fare_Avail(A,C,I,AvailMain[index].grossFare!,AvailMain[index].paxType!).toStringAsFixed(2),
                                   seatCount: AvailMain[index].availSeat,
                                   baggage: AvailMain[index].baggage,
                                   refund: 'N',
@@ -763,7 +768,7 @@ class _OnewayScreenState extends State<OnewayScreen> {
 
                                     selectedIndex = index;
 
-                                    FareAmount = Availgrp[pos].flightsgrp![index].flights![0].grossFare!.toString();
+                                    FareAmount = Utilities.Actual_fare_Avail(A,C,I,Availgrp[pos].flightsgrp![index].flights![0].grossFare!,Availgrp[pos].flightsgrp![index].flights![0].paxType!).toStringAsFixed(2);
                                     Token = Availgrp[pos].flightsgrp![index].flights![0].refNum!.toString();
 
                                     setState(() {
@@ -775,7 +780,7 @@ class _OnewayScreenState extends State<OnewayScreen> {
                                   child: FareCardAvail(
                                     farecode: Availgrp[pos].flightsgrp![index].flights![0].fareTypeDescription,
                                     faredesc: Availgrp[pos].flightsgrp![index].flights![0].fareTypeDescription,
-                                    amount: Availgrp[pos].flightsgrp![index].flights![0].grossFare,
+                                    amount: Utilities.Actual_fare_Avail(A,C,I,Availgrp[pos].flightsgrp![index].flights![0].grossFare!,Availgrp[pos].flightsgrp![index].flights![0].paxType!).toStringAsFixed(2),
                                     token: Availgrp[pos].flightsgrp![index].flights![0].refNum,
                                     selectedIndex: selectedIndex,
                                     index: index,

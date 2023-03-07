@@ -70,57 +70,109 @@ class Utilities {
 
   }
 
-  // static double Actual_fare_Avail(int Adt, int Chd, int Inf, String F_Fare, String PaxType) {
-  //   double Fare = 0.0;
-  //
-  //   double var1 = 0.0, var2 = 0.0, var3 = 0.0;
-  //
-  //   String Fare_1, Fare_2, Fare_3;
-  //
-  //
-  //     List<String> separated = F_Fare.split("\\|");
-  //
-  //     if (separated.length == 1) {
-  //
-  //       Fare_1 = (separated[0]);
-  //
-  //       //Adult
-  //
-  //       Fare = Adt * double.parse(Fare_1);
-  //
-  //     } else if (separated.length == 2) {
-  //
-  //       Fare_1 = (separated[0]);
-  //       Fare_2 = (separated[1]);
-  //
-  //       var1 = Adt * double.parse(Fare_1);
-  //
-  //       if (PaxType.contains("CHD")) {
-  //         var2 = Chd * double.parse(Fare_2);
-  //       } else if (PaxType.contains("INF")) {
-  //         var2 = Inf * double.parse(Fare_2);
-  //       }
-  //
-  //       Fare = var1 + var2;
-  //
-  //     }
-  //     if (separated.length == 3) {
-  //
-  //       Fare_1 = (separated[0]);
-  //       Fare_2 = (separated[1]);
-  //       Fare_3 = (separated[2]);
-  //
-  //       var1 = Adt * double.parse(Fare_1);
-  //       var2 = Chd * double.parse(Fare_2);
-  //       var3 = Inf * double.parse(Fare_3);
-  //
-  //       Fare = var1 + var2 + var3;
-  //
-  //     }
-  //
-  //
-  //   return Fare;
-  // }
+  static double Actual_fare_Avail(int Adt, int Chd, int Inf, String F_Fare, String PaxType) {
+    double Fare = 0.0;
+
+    double var1 = 0.0, var2 = 0.0, var3 = 0.0;
+
+    String Fare_1, Fare_2, Fare_3;
+
+
+      List<String> separated = F_Fare.split("|");
+
+      if (separated.length == 1) {
+
+        Fare_1 = (separated[0]);
+
+        //Adult
+
+        Fare = Adt * double.parse(Fare_1);
+
+      } else if (separated.length == 2) {
+
+        Fare_1 = (separated[0]);
+        Fare_2 = (separated[1]);
+
+        var1 = Adt * double.parse(Fare_1);
+
+        if (PaxType.contains("CHD")) {
+          var2 = Chd * double.parse(Fare_2);
+        } else if (PaxType.contains("INF")) {
+          var2 = Inf * double.parse(Fare_2);
+        }
+
+        Fare = var1 + var2;
+
+      }
+      if (separated.length == 3) {
+
+        Fare_1 = (separated[0]);
+        Fare_2 = (separated[1]);
+        Fare_3 = (separated[2]);
+
+        var1 = Adt * double.parse(Fare_1);
+        var2 = Chd * double.parse(Fare_2);
+        var3 = Inf * double.parse(Fare_3);
+
+        Fare = var1 + var2 + var3;
+
+      }
+
+
+    return Fare;
+  }
+
+  static double Actual_fare_Avail_(int Adt, int Chd, int Inf, String F_Fare, String PaxType) {
+    double Fare = 0.0;
+
+    double var1 = 0.0, var2 = 0.0, var3 = 0.0;
+
+    String Fare_1, Fare_2, Fare_3;
+
+
+    List<String> separated = F_Fare.split("|");
+
+    if (separated.length == 1) {
+
+      Fare_1 = (separated[0]);
+
+      //Adult
+
+      Fare = Adt * double.parse(Fare_1)/Adt;
+
+    } else if (separated.length == 2) {
+
+      Fare_1 = (separated[0]);
+      Fare_2 = (separated[1]);
+
+      var1 = Adt * double.parse(Fare_1)/Adt;
+
+      if (PaxType.contains("CHD")) {
+        var2 = Chd * double.parse(Fare_2)/Chd;
+      } else if (PaxType.contains("INF")) {
+        var2 = Inf * double.parse(Fare_2)/Inf;
+      }
+
+      Fare = var1 + var2;
+
+    }
+    if (separated.length == 3) {
+
+      Fare_1 = (separated[0]);
+      Fare_2 = (separated[1]);
+      Fare_3 = (separated[2]);
+
+      var1 = Adt * double.parse(Fare_1)/Adt;
+      var2 = Chd * double.parse(Fare_2)/Chd;
+      var3 = Inf * double.parse(Fare_3)/Inf;
+
+      Fare = var1 + var2 + var3;
+
+    }
+
+
+    return Fare;
+  }
 
 
   static String durationToString(String? minutes) {
