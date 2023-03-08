@@ -38,6 +38,16 @@ class Utilities {
     );
   }
 
+  static String cityname(String text) {
+    if(text.contains("(")) {
+      String subStrAirNam = text.substring(0, text.indexOf("("));
+      return subStrAirNam;
+    }else{
+      return text;
+    }
+  }
+
+
   static showToastLong(String text) {
     Fluttertoast.showToast(
       msg: text,
@@ -181,6 +191,19 @@ class Utilities {
     List<String> parts = d.toString().split(':');
     return '${parts[0].padLeft(2, '0')}h ${parts[1].padLeft(2, '0')}m';
   }
+
+
+  static String terminals(String text) {
+
+    if(text.contains("-")) {
+      String textension = text.substring(text.lastIndexOf("-") + 1);
+      return textension;
+    }else{
+      return text;
+    }
+
+  }
+
 
   static String farename(String FareTyp, String FareTypeDESC) {
     String FareTypename = "";

@@ -2,12 +2,14 @@ import 'package:deira_flutter/View/bloc/passengerscreenbloc/passenger_bloc.dart'
 import 'package:deira_flutter/Widget/Cardview_flightDetailsfull.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../Helper/Colors.dart';
 import '../../Helper/size_config.dart';
 import '../../Helper/utilities.dart';
+import '../../Models/CitySearch.dart';
 import '../../Models/HostCheck.dart';
 import '../widgets/customtext.dart';
 
@@ -28,18 +30,11 @@ class _PassengerScreenState extends State<PassengerScreen> {
   void initState() {
     // TODO: implement initState
 
-    Future.delayed(Duration(seconds: 0)).then((_) {
-
-      if(widget.HSRes.lMFlights == null){
-        print("Empty");
-      }else {
-        PopupFareDetails(context, widget.HSRes);
-      }
-    });
-
     super.initState();
 
     bloc = BlocProvider.of<PassengerBloc>(context);
+
+    bloc.HSRes = widget.HSRes;
 
   }
 
@@ -48,6 +43,8 @@ class _PassengerScreenState extends State<PassengerScreen> {
       yield CustomText(text: i.toString(),);
     }
   }());
+
+  //I need to send post request in loop and bind the responce in order as request send using dio flutter
 
   @override
   Widget build(BuildContext context) {
@@ -73,360 +70,916 @@ class _PassengerScreenState extends State<PassengerScreen> {
         ),
         centerTitle: false,
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Expanded(
-            child: ListView(
-              scrollDirection: Axis.vertical,
-              children:[
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: SizeConfig.blockSizeHorizontal!*1),
-                  child: Column(
+      body: BlocListener<PassengerBloc, PassengerState>(
+        listener: (context, state) {
+          if(state is PassengerBlocLoadingFinishedState){
+
+            EasyLoading.showSuccess("Done",duration: Duration(seconds: 0));
+
+            if(widget.HSRes.lMFlights == null){
+              print("Empty");
+            }else {
+              PopupFareDetails(context, widget.HSRes,bloc.List_AirCode);
+            }
+
+            setState(() {
+
+            });
+
+          }
+        },
+        child: BlocBuilder<PassengerBloc, PassengerState>(
+          builder: (context, state) {
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Expanded(
+                  child: ListView(
+                    scrollDirection: Axis.vertical,
                     children: [
-                      SizedBox(height: SizeConfig.blockSizeVertical!*1.5,),
-                      Card(
-                        elevation: 1,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(1.0),
-                        ),
-                        color: Colors.white,
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(
-                              vertical: SizeConfig.blockSizeVertical! * 1.2,
-                              horizontal: SizeConfig.blockSizeHorizontal! * 0.8),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Expanded(
-                                  flex: 7,
-                                  child: Padding(
-                                    padding: EdgeInsets.only(
-                                        left: SizeConfig.blockSizeHorizontal! * 2),
-                                    child: Column(
-                                      children: [
-                                        Row(
-                                          children: [
-                                            CustomText(
-                                              text: 'Dubai',
-                                              weight: FontWeight.bold,
-                                              size: SizeConfig.screenWidth! * 0.045,
-                                            ),
-                                            SizedBox(width: SizeConfig.blockSizeHorizontal!*1.2,),
-                                            Icon(Icons.arrow_forward,color: Colors.black87,),
-                                            SizedBox(width: SizeConfig.blockSizeHorizontal!*1.2,),
-                                            CustomText(
-                                              text: 'Bombay',
-                                              weight: FontWeight.bold,
-                                              size: SizeConfig.screenWidth! * 0.045,
-                                            )
-                                          ],
-                                        ),
-                                        SizedBox(height:SizeConfig.blockSizeVertical!*1),
-                                        IntrinsicHeight(
-                                          child: Row(
+                      Padding(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: SizeConfig.blockSizeHorizontal! * 1),
+                        child: Column(
+                          children: [
+                            SizedBox(
+                              height: SizeConfig.blockSizeVertical! * 1.5,
+                            ),
+                            Card(
+                              elevation: 1,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(4.0),
+                              ),
+                              color: Colors.white,
+                              child: Padding(
+                                padding: EdgeInsets.symmetric(
+                                  vertical: SizeConfig.blockSizeVertical! * 1.5,
+                                  horizontal:
+                                      SizeConfig.blockSizeHorizontal! * 0.8,
+                                ),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Expanded(
+                                        flex: 7,
+                                        child: Padding(
+                                          padding: EdgeInsets.only(
+                                              left: SizeConfig
+                                                      .blockSizeHorizontal! *
+                                                  2),
+                                          child: Column(
                                             children: [
-                                              CustomText(
-                                                text: '20 Mar 2023',
-                                                weight: FontWeight.bold,
-                                                color: textgrey,
-                                                size: SizeConfig.screenWidth! * tiny_text,
+                                              Row(
+                                                children: [
+                                                  CustomText(
+                                                    text: bloc.IsResponceCame ? 'Dubai' : 'Ggsg',
+                                                    weight: FontWeight.bold,
+                                                    size: SizeConfig
+                                                            .screenWidth! *
+                                                        0.045,
+                                                  ),
+                                                  SizedBox(
+                                                    width: SizeConfig
+                                                            .blockSizeHorizontal! *
+                                                        1.2,
+                                                  ),
+                                                  Icon(
+                                                    Icons.arrow_forward,
+                                                    color: Colors.black87,
+                                                  ),
+                                                  SizedBox(
+                                                    width: SizeConfig
+                                                            .blockSizeHorizontal! *
+                                                        1.2,
+                                                  ),
+                                                  CustomText(
+                                                    text: 'Bombay',
+                                                    weight: FontWeight.bold,
+                                                    size: SizeConfig
+                                                            .screenWidth! *
+                                                        0.045,
+                                                  )
+                                                ],
                                               ),
-                                              SizedBox(width: SizeConfig.blockSizeHorizontal!*0.5,),
-                                              VerticalDivider(thickness: 1,color: greyline,),
-                                              SizedBox(width: SizeConfig.blockSizeHorizontal!*0.5,),
-                                              CustomText(
-                                                text: '1 Traveller(s)',
-                                                weight: FontWeight.bold,
-                                                color: textgrey,
-                                                size: SizeConfig.screenWidth! * tiny_text,
+                                              SizedBox(
+                                                  height: SizeConfig
+                                                          .blockSizeVertical! *
+                                                      1),
+                                              IntrinsicHeight(
+                                                child: Row(
+                                                  children: [
+                                                    CustomText(
+                                                      text: '20 Mar 2023',
+                                                      weight: FontWeight.bold,
+                                                      color: textgrey,
+                                                      size: SizeConfig
+                                                              .screenWidth! *
+                                                          tiny_text,
+                                                    ),
+                                                    SizedBox(
+                                                      width: SizeConfig
+                                                              .blockSizeHorizontal! *
+                                                          0.5,
+                                                    ),
+                                                    VerticalDivider(
+                                                      thickness: 1,
+                                                      color: greyline,
+                                                    ),
+                                                    SizedBox(
+                                                      width: SizeConfig
+                                                              .blockSizeHorizontal! *
+                                                          0.5,
+                                                    ),
+                                                    CustomText(
+                                                      text: '1 Traveller(s)',
+                                                      weight: FontWeight.bold,
+                                                      color: textgrey,
+                                                      size: SizeConfig
+                                                              .screenWidth! *
+                                                          tiny_text,
+                                                    )
+                                                  ],
+                                                ),
                                               )
                                             ],
                                           ),
-                                        )
+                                        )),
+                                    Expanded(
+                                      flex: 2,
+                                      child: InkWell(
+                                        onTap: () {
+                                          PopupFareDetails(context, widget.HSRes,bloc.List_AirCode);
+                                        },
+                                        child: CustomText(
+                                            text: "View Details",
+                                            color: primary_blue,
+                                            weight: FontWeight.bold,
+                                            size: SizeConfig.screenWidth! *
+                                                small_text,
+                                            textAlign: TextAlign.center),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              height: SizeConfig.blockSizeVertical! * 1.5,
+                            ),
+                            Card(
+                              elevation: 1,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(1.0),
+                              ),
+                              color: Colors.white,
+                              child: Padding(
+                                padding: EdgeInsets.symmetric(
+                                    vertical:
+                                        SizeConfig.blockSizeVertical! * 1.2,
+                                    horizontal:
+                                        SizeConfig.blockSizeHorizontal! * 2),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    SizedBox(
+                                      height: SizeConfig.blockSizeVertical! * 1,
+                                    ),
+                                    CustomText(
+                                      text: "Traveller Details",
+                                      color: textgrey,
+                                      size:
+                                          SizeConfig.screenWidth! * large_text,
+                                      weight: FontWeight.bold,
+                                    ),
+                                    SizedBox(
+                                      height:
+                                          SizeConfig.blockSizeVertical! * 0.5,
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Expanded(
+                                            flex: 1,
+                                            child: Row(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
+                                              children: [
+                                                Container(
+                                                  width: SizeConfig
+                                                          .blockSizeHorizontal! *
+                                                      6.5,
+                                                  height: SizeConfig
+                                                          .blockSizeVertical! *
+                                                      6.5,
+                                                  padding: EdgeInsets.all(5),
+                                                  child: SvgPicture.asset(
+                                                    'assets/images/profile.svg',
+                                                    width: 10.0,
+                                                    height: 10.0,
+                                                  ),
+                                                  decoration: BoxDecoration(
+                                                    shape: BoxShape.circle,
+                                                    color: Color(0xFFDDF4FE),
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  width: SizeConfig
+                                                          .blockSizeHorizontal! *
+                                                      2,
+                                                ),
+                                                CustomText(
+                                                  text: 'ADULT (12 yrs+)',
+                                                  size:
+                                                      SizeConfig.screenWidth! *
+                                                          0.033,
+                                                  weight: FontWeight.bold,
+                                                  color: textgrey,
+                                                )
+                                              ],
+                                            )),
+                                        Expanded(
+                                            flex: 1,
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.end,
+                                              children: [
+                                                CustomText(
+                                                  text: "0/1",
+                                                  size:
+                                                      SizeConfig.screenWidth! *
+                                                          small_text,
+                                                  color: Colors.black87,
+                                                  weight: FontWeight.bold,
+                                                ),
+                                                SizedBox(
+                                                  width: SizeConfig
+                                                          .blockSizeHorizontal! *
+                                                      0.9,
+                                                ),
+                                                CustomText(
+                                                  text: "Added",
+                                                  size:
+                                                      SizeConfig.screenWidth! *
+                                                          tiny_text,
+                                                  color: textgrey,
+                                                ),
+                                                SizedBox(
+                                                  width: SizeConfig
+                                                          .blockSizeHorizontal! *
+                                                      1.9,
+                                                ),
+                                              ],
+                                            )),
                                       ],
                                     ),
-                                  )),
-                              Expanded(
-                                flex: 2,
-                                child: InkWell(
-                                  onTap: (){
-                                    PopupFareDetails(context,widget.HSRes);
-                                  },
-                                  child: CustomText(text: "View Details",
+                                    MaterialButton(
+                                      elevation: 2,
+                                      minWidth:
+                                          SizeConfig.blockSizeHorizontal! * 100,
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(5)),
+                                      height: 50,
+                                      color: Colors.white,
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Icon(
+                                            Icons.add,
+                                            color: primary_blue,
+                                          ),
+                                          SizedBox(
+                                            width: SizeConfig
+                                                    .blockSizeHorizontal! *
+                                                1,
+                                          ),
+                                          CustomText(
+                                            text: 'ADD NEW ADULT',
+                                            size: SizeConfig.screenWidth! *
+                                                small_text,
+                                            color: primary_blue,
+                                            weight: FontWeight.bold,
+                                          )
+                                        ],
+                                      ),
+                                      onPressed: () {},
+                                    ),
+                                    Visibility(
+                                        visible: ChdCount == "0" ? false : true,
+                                        child: Column(
+                                          children: [
+                                            SizedBox(
+                                              height: SizeConfig
+                                                      .blockSizeVertical! *
+                                                  1.5,
+                                            ),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                Expanded(
+                                                    flex: 1,
+                                                    child: Row(
+                                                      children: [
+                                                        Container(
+                                                          width: SizeConfig
+                                                                  .blockSizeHorizontal! *
+                                                              6.5,
+                                                          height: SizeConfig
+                                                                  .blockSizeVertical! *
+                                                              6.5,
+                                                          padding:
+                                                              EdgeInsets.all(5),
+                                                          child:
+                                                              SvgPicture.asset(
+                                                            'assets/images/profile.svg',
+                                                            width: 10.0,
+                                                            height: 10.0,
+                                                          ),
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            shape:
+                                                                BoxShape.circle,
+                                                            color: Color(
+                                                                0xFFFEDFDE),
+                                                          ),
+                                                        ),
+                                                        SizedBox(
+                                                          width: SizeConfig
+                                                                  .blockSizeHorizontal! *
+                                                              2,
+                                                        ),
+                                                        CustomText(
+                                                          text:
+                                                              'CHILD (2 - 12 yrs+)',
+                                                          size: SizeConfig
+                                                                  .screenWidth! *
+                                                              0.033,
+                                                          weight:
+                                                              FontWeight.bold,
+                                                          color: textgrey,
+                                                        )
+                                                      ],
+                                                    )),
+                                                Expanded(
+                                                    flex: 1,
+                                                    child: Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment.end,
+                                                      children: [
+                                                        CustomText(
+                                                          text: "0/1",
+                                                          size: SizeConfig
+                                                                  .screenWidth! *
+                                                              small_text,
+                                                          color: Colors.black87,
+                                                          weight:
+                                                              FontWeight.bold,
+                                                        ),
+                                                        SizedBox(
+                                                          width: SizeConfig
+                                                                  .blockSizeHorizontal! *
+                                                              0.9,
+                                                        ),
+                                                        CustomText(
+                                                          text: "Added",
+                                                          size: SizeConfig
+                                                                  .screenWidth! *
+                                                              tiny_text,
+                                                          color: textgrey,
+                                                        ),
+                                                        SizedBox(
+                                                          width: SizeConfig
+                                                                  .blockSizeHorizontal! *
+                                                              1.9,
+                                                        ),
+                                                      ],
+                                                    )),
+                                              ],
+                                            ),
+                                            MaterialButton(
+                                              elevation: 2,
+                                              minWidth: SizeConfig
+                                                      .blockSizeHorizontal! *
+                                                  100,
+                                              shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(5)),
+                                              height: 50,
+                                              color: Colors.white,
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  Icon(
+                                                    Icons.add,
+                                                    color: primary_blue,
+                                                  ),
+                                                  SizedBox(
+                                                    width: SizeConfig
+                                                            .blockSizeHorizontal! *
+                                                        1,
+                                                  ),
+                                                  CustomText(
+                                                    text: 'ADD NEW CHILD',
+                                                    size: SizeConfig
+                                                            .screenWidth! *
+                                                        small_text,
+                                                    color: primary_blue,
+                                                    weight: FontWeight.bold,
+                                                  )
+                                                ],
+                                              ),
+                                              onPressed: () {},
+                                            ),
+                                          ],
+                                        )),
+                                    Visibility(
+                                        visible: InfCount == "0" ? false : true,
+                                        child: Column(
+                                          children: [
+                                            SizedBox(
+                                              height: SizeConfig
+                                                      .blockSizeVertical! *
+                                                  1.5,
+                                            ),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                Expanded(
+                                                    flex: 1,
+                                                    child: Row(
+                                                      children: [
+                                                        Container(
+                                                          width: SizeConfig
+                                                                  .blockSizeHorizontal! *
+                                                              6.5,
+                                                          height: SizeConfig
+                                                                  .blockSizeVertical! *
+                                                              6.5,
+                                                          padding:
+                                                              EdgeInsets.all(5),
+                                                          child:
+                                                              SvgPicture.asset(
+                                                            'assets/images/profile.svg',
+                                                            width: 10.0,
+                                                            height: 10.0,
+                                                          ),
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            shape:
+                                                                BoxShape.circle,
+                                                            color: Color(
+                                                                0xFFFB4E7E1),
+                                                          ),
+                                                        ),
+                                                        SizedBox(
+                                                          width: SizeConfig
+                                                                  .blockSizeHorizontal! *
+                                                              2,
+                                                        ),
+                                                        CustomText(
+                                                          text:
+                                                              'INFANT (0 - 2 yrs+)',
+                                                          size: SizeConfig
+                                                                  .screenWidth! *
+                                                              0.033,
+                                                          weight:
+                                                              FontWeight.bold,
+                                                          color: textgrey,
+                                                        )
+                                                      ],
+                                                    )),
+                                                Expanded(
+                                                    flex: 1,
+                                                    child: Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment.end,
+                                                      children: [
+                                                        CustomText(
+                                                          text: "0/1",
+                                                          size: SizeConfig
+                                                                  .screenWidth! *
+                                                              small_text,
+                                                          color: Colors.black87,
+                                                          weight:
+                                                              FontWeight.bold,
+                                                        ),
+                                                        SizedBox(
+                                                          width: SizeConfig
+                                                                  .blockSizeHorizontal! *
+                                                              0.9,
+                                                        ),
+                                                        CustomText(
+                                                          text: "Added",
+                                                          size: SizeConfig
+                                                                  .screenWidth! *
+                                                              tiny_text,
+                                                          color: textgrey,
+                                                        ),
+                                                        SizedBox(
+                                                          width: SizeConfig
+                                                                  .blockSizeHorizontal! *
+                                                              1.9,
+                                                        ),
+                                                      ],
+                                                    )),
+                                              ],
+                                            ),
+                                            MaterialButton(
+                                              elevation: 2,
+                                              minWidth: SizeConfig
+                                                      .blockSizeHorizontal! *
+                                                  100,
+                                              shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(5)),
+                                              height: 50,
+                                              color: Colors.white,
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  Icon(
+                                                    Icons.add,
+                                                    color: primary_blue,
+                                                  ),
+                                                  SizedBox(
+                                                    width: SizeConfig
+                                                            .blockSizeHorizontal! *
+                                                        1,
+                                                  ),
+                                                  CustomText(
+                                                    text: 'ADD NEW INFANT',
+                                                    size: SizeConfig
+                                                            .screenWidth! *
+                                                        small_text,
+                                                    color: primary_blue,
+                                                    weight: FontWeight.bold,
+                                                  )
+                                                ],
+                                              ),
+                                              onPressed: () {},
+                                            ),
+                                          ],
+                                        )),
+                                    SizedBox(
+                                      height:
+                                          SizeConfig.blockSizeVertical! * 3.5,
+                                    ),
+                                    Divider(
+                                      color: greyline,
+                                      thickness: 1,
+                                    ),
+                                    SizedBox(
+                                      height:
+                                          SizeConfig.blockSizeVertical! * 2.5,
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        CustomText(
+                                          text: "Contact Details",
+                                          size: SizeConfig.screenWidth! *
+                                              medium_text,
+                                          color: textgrey,
+                                          weight: FontWeight.bold,
+                                        ),
+                                        Icon(Icons.keyboard_arrow_down_rounded)
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      height:
+                                          SizeConfig.blockSizeVertical! * 1.5,
+                                    ),
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                          flex: 1,
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                                color: Colors.white),
+                                            padding: EdgeInsets.symmetric(
+                                              horizontal: SizeConfig
+                                                      .blockSizeHorizontal! *
+                                                  1,
+                                            ),
+                                            child: Stack(
+                                              children: <Widget>[
+                                                Container(
+                                                  margin:
+                                                      EdgeInsets.only(top: 10),
+                                                  child: TextField(
+                                                    textAlign: TextAlign.left,
+                                                    decoration: InputDecoration(
+                                                      labelText: "Code",
+                                                      labelStyle: TextStyle(
+                                                        color: Colors.grey,
+                                                      ),
+                                                      border:
+                                                          OutlineInputBorder(
+                                                        borderRadius:
+                                                            new BorderRadius
+                                                                .circular(5.0),
+                                                        borderSide: BorderSide(
+                                                            color: textgrey),
+                                                      ),
+                                                      focusedBorder:
+                                                          OutlineInputBorder(
+                                                        borderRadius:
+                                                            new BorderRadius
+                                                                .circular(5.0),
+                                                        borderSide: BorderSide(
+                                                            color: textgrey),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                        Expanded(
+                                          flex: 4,
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                                color: Colors.white),
+                                            padding: EdgeInsets.symmetric(
+                                              horizontal: SizeConfig
+                                                      .blockSizeHorizontal! *
+                                                  1,
+                                            ),
+                                            child: Stack(
+                                              children: <Widget>[
+                                                Container(
+                                                  margin:
+                                                      EdgeInsets.only(top: 10),
+                                                  child: TextField(
+                                                    textAlign: TextAlign.left,
+                                                    decoration: InputDecoration(
+                                                      labelText: "Mobile No.",
+                                                      labelStyle: TextStyle(
+                                                        color: Colors.grey,
+                                                      ),
+                                                      border:
+                                                          OutlineInputBorder(
+                                                        borderRadius:
+                                                            new BorderRadius
+                                                                .circular(5.0),
+                                                        borderSide: BorderSide(
+                                                            color: textgrey),
+                                                      ),
+                                                      focusedBorder:
+                                                          OutlineInputBorder(
+                                                        borderRadius:
+                                                            new BorderRadius
+                                                                .circular(5.0),
+                                                        borderSide: BorderSide(
+                                                            color: textgrey),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      height: SizeConfig.blockSizeVertical! * 1,
+                                    ),
+                                    Container(
+                                      decoration:
+                                          BoxDecoration(color: Colors.white),
+                                      padding: EdgeInsets.symmetric(
+                                        horizontal:
+                                            SizeConfig.blockSizeHorizontal! * 1,
+                                      ),
+                                      child: Stack(
+                                        children: <Widget>[
+                                          Container(
+                                            margin: EdgeInsets.only(top: 5),
+                                            child: TextField(
+                                              textAlign: TextAlign.left,
+                                              decoration: InputDecoration(
+                                                labelText: "Email ID",
+                                                labelStyle: TextStyle(
+                                                  color: Colors.grey,
+                                                ),
+                                                border: OutlineInputBorder(
+                                                  borderRadius:
+                                                      new BorderRadius.circular(
+                                                          5.0),
+                                                  borderSide: BorderSide(
+                                                      color: textgrey),
+                                                ),
+                                                focusedBorder:
+                                                    OutlineInputBorder(
+                                                  borderRadius:
+                                                      new BorderRadius.circular(
+                                                          5.0),
+                                                  borderSide: BorderSide(
+                                                      color: textgrey),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: SizeConfig.blockSizeVertical! * 1,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              height: SizeConfig.blockSizeVertical! * 1.5,
+                            ),
+                            Card(
+                              elevation: 1,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(1.0),
+                              ),
+                              color: Colors.white,
+                              child: Padding(
+                                padding: EdgeInsets.symmetric(
+                                    vertical:
+                                        SizeConfig.blockSizeVertical! * 1.2,
+                                    horizontal:
+                                        SizeConfig.blockSizeHorizontal! * 2),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    SizedBox(
+                                      height:
+                                          SizeConfig.blockSizeVertical! * 2.5,
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        CustomText(
+                                          text: "Refferal Code",
+                                          size: SizeConfig.screenWidth! *
+                                              medium_text,
+                                          color: textgrey,
+                                          weight: FontWeight.bold,
+                                        ),
+                                        Icon(Icons.keyboard_arrow_down_rounded)
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      height:
+                                          SizeConfig.blockSizeVertical! * 1.5,
+                                    ),
+                                    Container(
+                                      decoration:
+                                          BoxDecoration(color: Colors.white),
+                                      padding: EdgeInsets.symmetric(
+                                        horizontal:
+                                            SizeConfig.blockSizeHorizontal! * 1,
+                                      ),
+                                      child: Stack(
+                                        children: <Widget>[
+                                          Container(
+                                            margin: EdgeInsets.only(top: 10),
+                                            child: TextField(
+                                              textAlign: TextAlign.left,
+                                              decoration: InputDecoration(
+                                                labelText: "Code",
+                                                labelStyle: TextStyle(
+                                                  color: Colors.grey,
+                                                ),
+                                                border: OutlineInputBorder(
+                                                  borderRadius:
+                                                      new BorderRadius.circular(
+                                                          5.0),
+                                                  borderSide: BorderSide(
+                                                      color: textgrey),
+                                                ),
+                                                focusedBorder:
+                                                    OutlineInputBorder(
+                                                  borderRadius:
+                                                      new BorderRadius.circular(
+                                                          5.0),
+                                                  borderSide: BorderSide(
+                                                      color: textgrey),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: SizeConfig.blockSizeVertical! * 1,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+                Container(
+                  color: primary_blue,
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Expanded(
+                          flex: 1,
+                          child: Padding(
+                            padding: EdgeInsets.only(
+                                top: SizeConfig.blockSizeVertical! * 1.8,
+                                bottom: SizeConfig.blockSizeVertical! * 1.8,
+                                left: SizeConfig.blockSizeHorizontal! * 3),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                CustomText(
+                                  text: "Total Amount",
+                                  size: SizeConfig.screenWidth! * small_text,
+                                  color: secondary_blue,
+                                ),
+                                SizedBox(
+                                  height: SizeConfig.blockSizeVertical! * 1,
+                                ),
+                                CustomText(
+                                  text: "AED 653.00",
+                                  weight: FontWeight.bold,
+                                  size: SizeConfig.screenWidth! *
+                                      large_text_extra,
+                                  color: Colors.white,
+                                ),
+                              ],
+                            ),
+                          )),
+                      Expanded(
+                          flex: 1,
+                          child: Padding(
+                            padding: EdgeInsets.only(
+                                top: SizeConfig.blockSizeVertical! * 1.8,
+                                bottom: SizeConfig.blockSizeVertical! * 1.8,
+                                left: SizeConfig.blockSizeHorizontal! * 3),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                Align(
+                                  alignment: Alignment.center,
+                                  child: MaterialButton(
+                                    minWidth:
+                                        SizeConfig.blockSizeHorizontal! * 40,
+                                    height: SizeConfig.blockSizeVertical! * 5,
+                                    padding: const EdgeInsets.only(
+                                        left: 30,
+                                        right: 30,
+                                        top: 14,
+                                        bottom: 14),
+                                    child: CustomText(
+                                      text: "Proceed",
+                                      size:
+                                          SizeConfig.screenWidth! * medium_text,
                                       color: primary_blue,
                                       weight: FontWeight.bold,
-                                      size: SizeConfig.screenWidth!*small_text,textAlign: TextAlign.center),
+                                    ),
+                                    color: Colors.white,
+                                    textColor: primary_blue,
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(15.0)),
+                                    onPressed: () {},
+                                  ),
                                 ),
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: SizeConfig.blockSizeVertical!*1.5,),
-                      Card(
-                        elevation: 1,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(1.0),
-                        ),
-                        color: Colors.white,
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(
-                              vertical: SizeConfig.blockSizeVertical! * 1.2,
-                              horizontal: SizeConfig.blockSizeHorizontal! * 2),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              SizedBox(height: SizeConfig.blockSizeVertical!*1,),
-                              CustomText(text: "Traveller Details",color: textgrey,size: SizeConfig.screenWidth!*large_text,weight: FontWeight.bold,),
-                              SizedBox(height: SizeConfig.blockSizeVertical!*0.5,),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Expanded(flex:1,child: Row(
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    children: [
-                                      Container(
-                                        width:
-                                        SizeConfig.blockSizeHorizontal! * 6.5,
-                                        height:
-                                        SizeConfig.blockSizeVertical! * 6.5,
-                                        padding: EdgeInsets.all(5),
-                                        child: SvgPicture.asset(
-                                          'assets/images/profile.svg',
-                                          width: 10.0,
-                                          height: 10.0,
-                                        ),
-                                        decoration: BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          color: Color(0xFFDDF4FE),
-                                        ),
-                                      ),
-                                      SizedBox(width: SizeConfig.blockSizeHorizontal!*2,),
-                                      CustomText(text: 'ADULT (12 yrs+)',size: SizeConfig.screenWidth!*0.033,weight: FontWeight.bold,color: textgrey,)
-                                    ],
-                                  )),
-                                  Expanded(flex:1,child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    children: [
-                                      CustomText(text: "0/1",size: SizeConfig.screenWidth!*small_text,color: Colors.black87,weight: FontWeight.bold,),
-                                      SizedBox(width: SizeConfig.blockSizeHorizontal!*0.9,),
-                                      CustomText(text: "Added",size: SizeConfig.screenWidth!*tiny_text,color: textgrey,),
-                                      SizedBox(width: SizeConfig.blockSizeHorizontal!*1.9,),
-                                    ],
-                                  )),
-                                ],
-                              ),
-                              MaterialButton(
-                                elevation: 2,
-                                minWidth: SizeConfig.blockSizeHorizontal!*100,
-                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
-                                height: 50,
-                                color: Colors.white,
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Icon(Icons.add,color: primary_blue,),
-                                    SizedBox(width: SizeConfig.blockSizeHorizontal!*1,),
-                                    CustomText(text: 'ADD NEW ADULT',size: SizeConfig.screenWidth!*small_text,color: primary_blue,weight: FontWeight.bold,)
-                                  ],
-                                ),
-                                onPressed: () {
-                                },
-                              ),
-                              SizedBox(height: SizeConfig.blockSizeVertical!*1.5,),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Expanded(flex:1,child: Row(
-                                    children: [
-                                      Container(
-                                        width:
-                                        SizeConfig.blockSizeHorizontal! * 6.5,
-                                        height:
-                                        SizeConfig.blockSizeVertical! * 6.5,
-                                        padding: EdgeInsets.all(5),
-                                        child: SvgPicture.asset(
-                                          'assets/images/profile.svg',
-                                          width: 10.0,
-                                          height: 10.0,
-                                        ),
-                                        decoration: BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          color: Color(0xFFFEDFDE),
-                                        ),
-                                      ),
-                                      SizedBox(width: SizeConfig.blockSizeHorizontal!*2,),
-                                      CustomText(text: 'CHILD (2 - 12 yrs+)',size: SizeConfig.screenWidth!*0.033,weight: FontWeight.bold,color: textgrey,)
-                                    ],
-                                  )),
-                                  Expanded(flex:1,child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    children: [
-                                      CustomText(text: "0/1",size: SizeConfig.screenWidth!*small_text,color: Colors.black87,weight: FontWeight.bold,),
-                                      SizedBox(width: SizeConfig.blockSizeHorizontal!*0.9,),
-                                      CustomText(text: "Added",size: SizeConfig.screenWidth!*tiny_text,color: textgrey,),
-                                      SizedBox(width: SizeConfig.blockSizeHorizontal!*1.9,),
-                                    ],
-                                  )),
-                                ],
-                              ),
-                              MaterialButton(
-                                elevation: 2,
-                                minWidth: SizeConfig.blockSizeHorizontal!*100,
-                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
-                                height: 50,
-                                color: Colors.white,
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Icon(Icons.add,color: primary_blue,),
-                                    SizedBox(width: SizeConfig.blockSizeHorizontal!*1,),
-                                    CustomText(text: 'ADD NEW CHILD',size: SizeConfig.screenWidth!*small_text,color: primary_blue,weight: FontWeight.bold,)
-                                  ],
-                                ),
-                                onPressed: () {
-                                },
-                              ),
-                              SizedBox(height: SizeConfig.blockSizeVertical!*1.5,),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Expanded(flex:1,child: Row(
-                                    children: [
-                                      Container(
-                                        width:
-                                        SizeConfig.blockSizeHorizontal! * 6.5,
-                                        height:
-                                        SizeConfig.blockSizeVertical! * 6.5,
-                                        padding: EdgeInsets.all(5),
-                                        child: SvgPicture.asset(
-                                          'assets/images/profile.svg',
-                                          width: 10.0,
-                                          height: 10.0,
-                                        ),
-                                        decoration: BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          color: Color(0xFFFB4E7E1),
-                                        ),
-                                      ),
-                                      SizedBox(width: SizeConfig.blockSizeHorizontal!*2,),
-                                      CustomText(text: 'INFANT (0 - 2 yrs+)',size: SizeConfig.screenWidth!*0.033,weight: FontWeight.bold,color: textgrey,)
-                                    ],
-                                  )),
-                                  Expanded(flex:1,child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    children: [
-                                      CustomText(text: "0/1",size: SizeConfig.screenWidth!*small_text,color: Colors.black87,weight: FontWeight.bold,),
-                                      SizedBox(width: SizeConfig.blockSizeHorizontal!*0.9,),
-                                      CustomText(text: "Added",size: SizeConfig.screenWidth!*tiny_text,color: textgrey,),
-                                      SizedBox(width: SizeConfig.blockSizeHorizontal!*1.9,),
-                                    ],
-                                  )),
-                                ],
-                              ),
-                              MaterialButton(
-                                elevation: 2,
-                                minWidth: SizeConfig.blockSizeHorizontal!*100,
-                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
-                                height: 50,
-                                color: Colors.white,
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Icon(Icons.add,color: primary_blue,),
-                                    SizedBox(width: SizeConfig.blockSizeHorizontal!*1,),
-                                    CustomText(text: 'ADD NEW INFANT',size: SizeConfig.screenWidth!*small_text,color: primary_blue,weight: FontWeight.bold,)
-                                  ],
-                                ),
-                                onPressed: () {
-                                },
-                              ),
-                              SizedBox(height: SizeConfig.blockSizeVertical!*3.5,),
-                              Divider(color: greyline,thickness: 1,),
-                              SizedBox(height: SizeConfig.blockSizeVertical!*2.5,),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  CustomText(text: "Contact Details",size: SizeConfig.screenWidth!*medium_text,color: textgrey,weight: FontWeight.bold,),
-                                  Icon(Icons.keyboard_arrow_down_rounded)
-                                ],
-                              ),
-                              SizedBox(height: SizeConfig.blockSizeVertical!*2.5,),
-                              TextField(
-                                decoration: InputDecoration(
-                                    hintStyle: TextStyle(color: Colors.blue),
-                                    hintText: "Mobile No."
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
+                              ],
+                            ),
+                          ))
                     ],
                   ),
                 )
               ],
-            ),
-          ),
-          Container(
-            color: primary_blue,
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Expanded(flex:1,
-                    child: Padding(
-                      padding: EdgeInsets.only(top: SizeConfig.blockSizeVertical!*1.8,bottom: SizeConfig.blockSizeVertical!*1.8,left: SizeConfig.blockSizeHorizontal!*3),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          CustomText(text: "Total Amount",size: SizeConfig.screenWidth!*small_text,color: secondary_blue,),
-                          SizedBox(height: SizeConfig.blockSizeVertical!*1,),
-                          CustomText(text: "AED 653.00",
-                            weight: FontWeight.bold,size: SizeConfig.screenWidth!*large_text_extra,color: Colors.white,),
-                        ],
-                      ),
-                    )
-                ),
-                Expanded(flex:1,
-                    child: Padding(
-                      padding: EdgeInsets.only(top: SizeConfig.blockSizeVertical!*1.8,bottom: SizeConfig.blockSizeVertical!*1.8,left: SizeConfig.blockSizeHorizontal!*3),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          Align(
-                            alignment: Alignment.center,
-                            child: MaterialButton(
-                              minWidth: SizeConfig.blockSizeHorizontal! * 40,
-                              height: SizeConfig.blockSizeVertical! * 5,
-                              padding: const EdgeInsets.only(
-                                  left: 30, right: 30, top: 14, bottom: 14),
-                              child: CustomText(text: "Proceed",size: SizeConfig.screenWidth!*medium_text,color: primary_blue,weight: FontWeight.bold,),
-                              color: Colors.white,
-                              textColor: primary_blue,
-                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
-                              onPressed: () {
-
-                              },
-                            ),
-                          ),
-                        ],
-                      ),
-                    )
-                )
-              ],
-            ),
-          )
-        ],
+            );
+          },
+        ),
       ),
     );
   }
 
   //FareDetails PopUp
-  PopupFareDetails(context,HostCheckRS HSRes) async {
+  PopupFareDetails(context,HostCheckRS HSRes,List<AirCodeRS> airCodeRS) async {
 
 
     final SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -560,6 +1113,7 @@ class _PassengerScreenState extends State<PassengerScreen> {
                                      return Padding(
                                        padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal!*1),
                                        child: FlightDetailsCardAll(
+                                         Cityname: Utilities.cityname(airCodeRS[index].citySEARCHNAME!),
                                          carrierCode: HSRes.lMFlights![index].platingCarrier,
                                          carriername: HSRes.lMFlights![index].airlineName,
                                          depCity: HSRes.lMFlights![index].origin,
@@ -569,6 +1123,10 @@ class _PassengerScreenState extends State<PassengerScreen> {
                                          depDateTime: HSRes.lMFlights![index].departureDateTime,
                                          arrDateTime: HSRes.lMFlights![index].arrivalDateTime,
                                          flytime: HSRes.lMFlights![index].flyingTime,
+                                         arrCityname: Utilities.cityname(airCodeRS[index+1].citySEARCHNAME!),
+                                         startTerminal: Utilities.terminals(airCodeRS[index].cityName!),
+                                         endTerminal: Utilities.terminals(airCodeRS[index+1].cityName!),
+
                                        ),
                                      );
                                    }),

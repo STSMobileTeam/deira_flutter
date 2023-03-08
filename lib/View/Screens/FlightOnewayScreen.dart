@@ -689,7 +689,7 @@ class _OnewayScreenState extends State<OnewayScreen> {
                                 ],
                               )
                             ],
-                          ),
+                          ),  
                           SizedBox(
                             height: SizeConfig.blockSizeVertical! * 1.5,
                           ),

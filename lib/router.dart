@@ -113,7 +113,7 @@ class PageBuilder {
   static Widget buildPassenger(RouteSettings settings) {
     HostCheckRS hsres = settings.arguments as HostCheckRS;
     return BlocProvider(
-      create: (BuildContext context) => PassengerBloc(),
+      create: (BuildContext context) => PassengerBloc()..add(PassengerInitialEvent()),
       child: PassengerScreen(HSRes: hsres,),
     );
   }

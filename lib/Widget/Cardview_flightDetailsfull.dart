@@ -17,9 +17,14 @@ class FlightDetailsCardAll extends StatelessWidget {
   final String? depDateTime;
   final String? arrDateTime;
   final String? flytime;
+  final String? Cityname;
+  final String? arrCityname;
+  final String? startTerminal;
+  final String? endTerminal;
 
   const FlightDetailsCardAll({Key? key,this.carriername,this.depCity,
-    this.carrierCode,this.journeyHrs,this.arrCity,this.flightno,this.depDateTime,this.arrDateTime,this.flytime}) : super(key: key);
+    this.carrierCode,this.journeyHrs,this.arrCity,this.flightno,this.depDateTime,this.arrDateTime,this.flytime,this.Cityname,this.arrCityname,
+    this.startTerminal,this.endTerminal}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -64,13 +69,13 @@ class FlightDetailsCardAll extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            CustomText(text: "Dubai",weight: FontWeight.bold,color: Colors.black87,size: SizeConfig.screenWidth!*0.050,),
+                            CustomText(text: Cityname,weight: FontWeight.bold,color: Colors.black87,size: SizeConfig.screenWidth!*0.050,),
                             SizedBox(height: SizeConfig.blockSizeVertical!*0.8,),
                             CustomText(text: depDateTime,weight: FontWeight.normal,color: Colors.black87,size: SizeConfig.screenWidth!*small_text,),
                             SizedBox(height: SizeConfig.blockSizeVertical!*0.8,),
                             CustomText(text: depCity,weight: FontWeight.bold,color: Colors.black87,size: SizeConfig.screenWidth!*small_text,),
                             SizedBox(height: SizeConfig.blockSizeVertical!*0.8,),
-                            CustomText(text: "Internation Airport",weight: FontWeight.normal,color: textgrey,size: SizeConfig.screenWidth!*small_text,),
+                            CustomText(text: startTerminal,weight: FontWeight.normal,color: textgrey,size: SizeConfig.screenWidth!*tiny_text,),
                           ],
                         )),
                     Expanded(flex:3,
@@ -97,14 +102,14 @@ class FlightDetailsCardAll extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.end,
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
-                            CustomText(text: "Bombay",weight: FontWeight.bold,color: Colors.black87,size: SizeConfig.screenWidth!*0.050,),
+                            CustomText(text: arrCityname,weight: FontWeight.bold,color: Colors.black87,size: SizeConfig.screenWidth!*0.050,),
                             SizedBox(height: SizeConfig.blockSizeVertical!*0.8,),
                             CustomText(text: arrDateTime,weight: FontWeight.normal,color: Colors.black87,
                               size: SizeConfig.screenWidth!*small_text,textAlign: TextAlign.right),
                             SizedBox(height: SizeConfig.blockSizeVertical!*0.8,),
                             CustomText(text: arrCity,weight: FontWeight.bold,color: textgrey,size: SizeConfig.screenWidth!*0.035,textAlign: TextAlign.right,),
                             SizedBox(height: SizeConfig.blockSizeVertical!*0.8,),
-                            CustomText(text: "Internation Airport",weight: FontWeight.normal,color: textgrey,size: SizeConfig.screenWidth!*small_text,
+                            CustomText(text: endTerminal,weight: FontWeight.normal,color: textgrey,size: SizeConfig.screenWidth!*tiny_text,
                             textAlign: TextAlign.right),
                           ],
                         ))
