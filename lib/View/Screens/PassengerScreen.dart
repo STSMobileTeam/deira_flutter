@@ -1,3 +1,4 @@
+import 'package:deira_flutter/View/Screens/paxOperationScreen.dart';
 import 'package:deira_flutter/View/bloc/passengerscreenbloc/passenger_bloc.dart';
 import 'package:deira_flutter/Widget/Cardview_flightDetailsfull.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +12,7 @@ import '../../Helper/size_config.dart';
 import '../../Helper/utilities.dart';
 import '../../Models/CitySearch.dart';
 import '../../Models/HostCheck.dart';
+import '../../Widget/Cardview_Passenger.dart';
 import '../widgets/customtext.dart';
 
 class PassengerScreen extends StatefulWidget {
@@ -25,6 +27,8 @@ class _PassengerScreenState extends State<PassengerScreen> {
 
   late PassengerBloc bloc;
   String AdtCount="",ChdCount="",InfCount="";
+  String FromCode="",ToCode="";
+
 
   @override
   void initState() {
@@ -130,18 +134,20 @@ class _PassengerScreenState extends State<PassengerScreen> {
                                                   2),
                                           child: Column(
                                             children: [
-                                              Row(
+                                              Visibility(
+                                                visible: bloc.IsResponceCame,
+                                                child:  Row(
                                                 children: [
                                                   CustomText(
-                                                    text: bloc.IsResponceCame ? 'Dubai' : 'Ggsg',
+                                                    text: bloc.IsResponceCame?Utilities.cityname(bloc.List_AirCode[0].citySEARCHNAME!):"",
                                                     weight: FontWeight.bold,
                                                     size: SizeConfig
-                                                            .screenWidth! *
+                                                        .screenWidth! *
                                                         0.045,
                                                   ),
                                                   SizedBox(
                                                     width: SizeConfig
-                                                            .blockSizeHorizontal! *
+                                                        .blockSizeHorizontal! *
                                                         1.2,
                                                   ),
                                                   Icon(
@@ -150,17 +156,28 @@ class _PassengerScreenState extends State<PassengerScreen> {
                                                   ),
                                                   SizedBox(
                                                     width: SizeConfig
-                                                            .blockSizeHorizontal! *
+                                                        .blockSizeHorizontal! *
                                                         1.2,
                                                   ),
                                                   CustomText(
-                                                    text: 'Bombay',
+                                                    text:  bloc.IsResponceCame?Utilities.cityname(bloc.List_AirCode[bloc.List_AirCode.length-1].citySEARCHNAME!):"",
                                                     weight: FontWeight.bold,
-                                                    size: SizeConfig
-                                                            .screenWidth! *
-                                                        0.045,
+                                                    size: SizeConfig.screenWidth! * 0.045,
                                                   )
                                                 ],
+                                              ),
+                                              ),
+                                              Visibility(
+                                                visible: !bloc.IsResponceCame,
+                                                child:  Row(
+                                                  children: [
+                                                    Image.asset(
+                                                        'assets/images/fetchingitern.gif',
+                                                        height: 50,
+                                                        width: 50,
+                                                        scale: 2),
+                                                  ],
+                                                ),
                                               ),
                                               SizedBox(
                                                   height: SizeConfig
@@ -335,6 +352,18 @@ class _PassengerScreenState extends State<PassengerScreen> {
                                             )),
                                       ],
                                     ),
+                                    Visibility(
+                                      visible: Utilities.AdtPaxArrayList.isEmpty?false:true,
+                                      child: ListView.builder(
+                                        physics: const NeverScrollableScrollPhysics(),
+                                        shrinkWrap: true,
+                                        itemCount: Utilities.AdtPaxArrayList.length,
+                                        itemBuilder: (context, index) {
+                                          //print('Printing the index--'+x.toString()+' '+AvailMain[index].flightsgrp![x].fare.toString());
+                                          return PassengerCard(
+                                            Name: Utilities.AdtPaxArrayList[index].firstName,
+                                          );
+                                        }),),
                                     MaterialButton(
                                       elevation: 2,
                                       minWidth:
@@ -366,7 +395,10 @@ class _PassengerScreenState extends State<PassengerScreen> {
                                           )
                                         ],
                                       ),
-                                      onPressed: () {},
+                                      onPressed: () async {
+                                        var result = await Navigator.of(context).push(MaterialPageRoute(builder: (context) => PaxOperationScreen(type: "ADT",)));
+
+                                      },
                                     ),
                                     Visibility(
                                         visible: ChdCount == "0" ? false : true,
@@ -675,28 +707,31 @@ class _PassengerScreenState extends State<PassengerScreen> {
                                                 Container(
                                                   margin:
                                                       EdgeInsets.only(top: 10),
-                                                  child: TextField(
-                                                    textAlign: TextAlign.left,
-                                                    decoration: InputDecoration(
-                                                      labelText: "Code",
-                                                      labelStyle: TextStyle(
-                                                        color: Colors.grey,
-                                                      ),
-                                                      border:
-                                                          OutlineInputBorder(
-                                                        borderRadius:
-                                                            new BorderRadius
-                                                                .circular(5.0),
-                                                        borderSide: BorderSide(
-                                                            color: textgrey),
-                                                      ),
-                                                      focusedBorder:
-                                                          OutlineInputBorder(
-                                                        borderRadius:
-                                                            new BorderRadius
-                                                                .circular(5.0),
-                                                        borderSide: BorderSide(
-                                                            color: textgrey),
+                                                  child: SizedBox(
+                                                    height: SizeConfig.blockSizeVertical!*5.5,
+                                                    child: TextField(
+                                                      textAlign: TextAlign.left,
+                                                      decoration: InputDecoration(
+                                                        labelText: "Code",
+                                                        labelStyle: TextStyle(
+                                                          color: Colors.grey,
+                                                        ),
+                                                        border:
+                                                            OutlineInputBorder(
+                                                          borderRadius:
+                                                              new BorderRadius
+                                                                  .circular(5.0),
+                                                          borderSide: BorderSide(
+                                                              color: textgrey),
+                                                        ),
+                                                        focusedBorder:
+                                                            OutlineInputBorder(
+                                                          borderRadius:
+                                                              new BorderRadius
+                                                                  .circular(5.0),
+                                                          borderSide: BorderSide(
+                                                              color: textgrey),
+                                                        ),
                                                       ),
                                                     ),
                                                   ),
@@ -720,28 +755,31 @@ class _PassengerScreenState extends State<PassengerScreen> {
                                                 Container(
                                                   margin:
                                                       EdgeInsets.only(top: 10),
-                                                  child: TextField(
-                                                    textAlign: TextAlign.left,
-                                                    decoration: InputDecoration(
-                                                      labelText: "Mobile No.",
-                                                      labelStyle: TextStyle(
-                                                        color: Colors.grey,
-                                                      ),
-                                                      border:
-                                                          OutlineInputBorder(
-                                                        borderRadius:
-                                                            new BorderRadius
-                                                                .circular(5.0),
-                                                        borderSide: BorderSide(
-                                                            color: textgrey),
-                                                      ),
-                                                      focusedBorder:
-                                                          OutlineInputBorder(
-                                                        borderRadius:
-                                                            new BorderRadius
-                                                                .circular(5.0),
-                                                        borderSide: BorderSide(
-                                                            color: textgrey),
+                                                  child: SizedBox(
+                                                    height: SizeConfig.blockSizeVertical!*5.5,
+                                                    child: TextField(
+                                                      textAlign: TextAlign.left,
+                                                      decoration: InputDecoration(
+                                                        labelText: "Mobile No.",
+                                                        labelStyle: TextStyle(
+                                                          color: Colors.grey,
+                                                        ),
+                                                        border:
+                                                            OutlineInputBorder(
+                                                          borderRadius:
+                                                              new BorderRadius
+                                                                  .circular(5.0),
+                                                          borderSide: BorderSide(
+                                                              color: textgrey),
+                                                        ),
+                                                        focusedBorder:
+                                                            OutlineInputBorder(
+                                                          borderRadius:
+                                                              new BorderRadius
+                                                                  .circular(5.0),
+                                                          borderSide: BorderSide(
+                                                              color: textgrey),
+                                                        ),
                                                       ),
                                                     ),
                                                   ),
@@ -766,27 +804,30 @@ class _PassengerScreenState extends State<PassengerScreen> {
                                         children: <Widget>[
                                           Container(
                                             margin: EdgeInsets.only(top: 5),
-                                            child: TextField(
-                                              textAlign: TextAlign.left,
-                                              decoration: InputDecoration(
-                                                labelText: "Email ID",
-                                                labelStyle: TextStyle(
-                                                  color: Colors.grey,
-                                                ),
-                                                border: OutlineInputBorder(
-                                                  borderRadius:
-                                                      new BorderRadius.circular(
-                                                          5.0),
-                                                  borderSide: BorderSide(
-                                                      color: textgrey),
-                                                ),
-                                                focusedBorder:
-                                                    OutlineInputBorder(
-                                                  borderRadius:
-                                                      new BorderRadius.circular(
-                                                          5.0),
-                                                  borderSide: BorderSide(
-                                                      color: textgrey),
+                                            child: SizedBox(
+                                              height: SizeConfig.blockSizeVertical!*5.5,
+                                              child: TextField(
+                                                textAlign: TextAlign.left,
+                                                decoration: InputDecoration(
+                                                  labelText: "Email ID",
+                                                  labelStyle: TextStyle(
+                                                    color: Colors.grey,
+                                                  ),
+                                                  border: OutlineInputBorder(
+                                                    borderRadius:
+                                                        new BorderRadius.circular(
+                                                            5.0),
+                                                    borderSide: BorderSide(
+                                                        color: textgrey),
+                                                  ),
+                                                  focusedBorder:
+                                                      OutlineInputBorder(
+                                                    borderRadius:
+                                                        new BorderRadius.circular(
+                                                            5.0),
+                                                    borderSide: BorderSide(
+                                                        color: textgrey),
+                                                  ),
                                                 ),
                                               ),
                                             ),
@@ -853,27 +894,30 @@ class _PassengerScreenState extends State<PassengerScreen> {
                                         children: <Widget>[
                                           Container(
                                             margin: EdgeInsets.only(top: 10),
-                                            child: TextField(
-                                              textAlign: TextAlign.left,
-                                              decoration: InputDecoration(
-                                                labelText: "Code",
-                                                labelStyle: TextStyle(
-                                                  color: Colors.grey,
-                                                ),
-                                                border: OutlineInputBorder(
-                                                  borderRadius:
-                                                      new BorderRadius.circular(
-                                                          5.0),
-                                                  borderSide: BorderSide(
-                                                      color: textgrey),
-                                                ),
-                                                focusedBorder:
-                                                    OutlineInputBorder(
-                                                  borderRadius:
-                                                      new BorderRadius.circular(
-                                                          5.0),
-                                                  borderSide: BorderSide(
-                                                      color: textgrey),
+                                            child: SizedBox(
+                                              height: SizeConfig.blockSizeVertical!*5.5,
+                                              child: TextField(
+                                                textAlign: TextAlign.left,
+                                                decoration: InputDecoration(
+                                                  labelText: "Code",
+                                                  labelStyle: TextStyle(
+                                                    color: Colors.grey,
+                                                  ),
+                                                  border: OutlineInputBorder(
+                                                    borderRadius:
+                                                        new BorderRadius.circular(
+                                                            5.0),
+                                                    borderSide: BorderSide(
+                                                        color: textgrey),
+                                                  ),
+                                                  focusedBorder:
+                                                      OutlineInputBorder(
+                                                    borderRadius:
+                                                        new BorderRadius.circular(
+                                                            5.0),
+                                                    borderSide: BorderSide(
+                                                        color: textgrey),
+                                                  ),
                                                 ),
                                               ),
                                             ),
@@ -987,6 +1031,8 @@ class _PassengerScreenState extends State<PassengerScreen> {
     AdtCount = prefs.getString("AdtCount")!;
     ChdCount = prefs.getString("ChdCount")!;
     InfCount = prefs.getString("InfCount")!;
+    FromCode = prefs.getString("FromCode")!;
+    ToCode = prefs.getString("ToCode")!;
 
 
     return showModalBottomSheet(
@@ -1072,11 +1118,11 @@ class _PassengerScreenState extends State<PassengerScreen> {
                                          mainAxisAlignment: MainAxisAlignment.center,
                                          crossAxisAlignment: CrossAxisAlignment.center,
                                          children: [
-                                           CustomText(text: "DXB",color: Colors.white, weight: FontWeight.bold,size: SizeConfig.screenWidth!*large_text,),
+                                           CustomText(text: FromCode,color: Colors.white, weight: FontWeight.bold,size: SizeConfig.screenWidth!*large_text,),
                                            SizedBox(width: SizeConfig.blockSizeHorizontal!*1,),
                                            Icon(Icons.arrow_forward,color: Colors.white,),
                                            SizedBox(width: SizeConfig.blockSizeHorizontal!*1,),
-                                           CustomText(text: "BOM",color: Colors.white,weight: FontWeight.bold,size: SizeConfig.screenWidth!*large_text,)
+                                           CustomText(text: ToCode,color: Colors.white,weight: FontWeight.bold,size: SizeConfig.screenWidth!*large_text,)
                                          ],
                                        ),
                                        SizedBox(height: SizeConfig.blockSizeVertical!*1,),

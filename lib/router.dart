@@ -7,11 +7,13 @@ import 'package:deira_flutter/View/Screens/PassengerScreen.dart';
 import 'package:deira_flutter/View/Screens/calendarScreen.dart';
 import 'package:deira_flutter/View/Screens/homescreen.dart';
 import 'package:deira_flutter/View/Screens/login.dart';
+import 'package:deira_flutter/View/Screens/paxOperationScreen.dart';
 import 'package:deira_flutter/View/bloc/calendarScreenbloc/calendar_bloc.dart';
 import 'package:deira_flutter/View/bloc/citysearchbloc/citysearch_bloc.dart';
 import 'package:deira_flutter/View/bloc/loginscreenbloc/login_screen_bloc.dart';
 import 'package:deira_flutter/View/bloc/onewayscreenbloc/oneway_bloc.dart';
 import 'package:deira_flutter/View/bloc/passengerscreenbloc/passenger_bloc.dart';
+import 'package:deira_flutter/View/bloc/paxscreenbloc/pax_operation_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -31,7 +33,6 @@ class AppRoutes {
   static const String oneway = "Oneway";
   static const String dummy = "DummyOne";
   static const String passenger = "Passenger";
-
 }
 
 Route<dynamic> getRoute(RouteSettings settings) {
@@ -50,6 +51,7 @@ Route<dynamic> getRoute(RouteSettings settings) {
       return _buildOneway(settings);
     case AppRoutes.passenger:
       return _buildPassenger(settings);
+
   }
   return _buildLoginScreen(settings);
 }
@@ -81,7 +83,6 @@ Route<dynamic> _buildOneway(RouteSettings settings) {
 Route<dynamic> _buildPassenger(RouteSettings settings) {
   return CustomPageRoute(child: PageBuilder.buildPassenger(settings));
 }
-
 
 
 class PageBuilder {
@@ -130,4 +131,5 @@ class PageBuilder {
       child: const OnewayScreen(),
     );
   }
+
 }

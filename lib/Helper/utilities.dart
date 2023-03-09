@@ -1,3 +1,6 @@
+import 'dart:ffi';
+
+import 'package:deira_flutter/Models/PaxModel.dart';
 import 'package:flutter/material.dart';
 
 import 'package:fluttertoast/fluttertoast.dart';
@@ -18,6 +21,11 @@ const double tiny_text= 0.030;
 
 
 class Utilities {
+
+  static List<PaxModel> AdtPaxArrayList = [];
+  static List<PaxModel> ChdPaxArrayList = [];
+  static List<PaxModel> InfPaxArrayList = [];
+
 
   static String noDataMsg(String moduleName) {
     return 'No $moduleName Found';
