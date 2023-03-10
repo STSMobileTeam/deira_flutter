@@ -40,6 +40,8 @@ class _PassengerScreenState extends State<PassengerScreen> {
 
     bloc.HSRes = widget.HSRes;
 
+    Utilities.AdtPaxArrayList.clear();
+
   }
 
   final List<Widget> widgets = List.unmodifiable(() sync* {
@@ -359,11 +361,22 @@ class _PassengerScreenState extends State<PassengerScreen> {
                                         shrinkWrap: true,
                                         itemCount: Utilities.AdtPaxArrayList.length,
                                         itemBuilder: (context, index) {
-                                          //print('Printing the index--'+x.toString()+' '+AvailMain[index].flightsgrp![x].fare.toString());
-                                          return PassengerCard(
-                                            Name: Utilities.AdtPaxArrayList[index].firstName,
+                                          return InkWell(
+                                            onTap: () async {
+                                              var result = await Navigator.of(context).push(MaterialPageRoute(builder: (context) => PaxOperationScreen(type: "ADT",isEdit: true,index: index,)));
+                                              if(result != null){
+                                                setState(() {
+                                                });
+                                              }
+                                            },
+                                            child: PassengerCard(
+                                              FirstName: Utilities.AdtPaxArrayList[index].firstName,
+                                              LastName: Utilities.AdtPaxArrayList[index].lastName,
+                                            ),
                                           );
-                                        }),),
+                                        }),
+                                    ),
+                                    SizedBox(height: SizeConfig.blockSizeVertical!*2,),
                                     MaterialButton(
                                       elevation: 2,
                                       minWidth:
@@ -396,8 +409,11 @@ class _PassengerScreenState extends State<PassengerScreen> {
                                         ],
                                       ),
                                       onPressed: () async {
-                                        var result = await Navigator.of(context).push(MaterialPageRoute(builder: (context) => PaxOperationScreen(type: "ADT",)));
-
+                                        var result = await Navigator.of(context).push(MaterialPageRoute(builder: (context) => PaxOperationScreen(type: "ADT",isEdit: false,index: 0,)));
+                                        if(result != null){
+                                          setState(() {
+                                          });
+                                        }
                                       },
                                     ),
                                     Visibility(

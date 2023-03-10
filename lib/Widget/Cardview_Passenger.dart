@@ -8,14 +8,15 @@ import '../View/widgets/customtext.dart';
 
 class PassengerCard extends StatelessWidget {
 
-  final String? Name;
+  final String? FirstName;
+  final String? LastName;
 
-  const PassengerCard({Key? key,this.Name}) : super(key: key);
+  const PassengerCard({Key? key,this.FirstName,this.LastName}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Card(
-      elevation: 2,
+      elevation: 0.5,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10.0),
       ),
@@ -23,10 +24,16 @@ class PassengerCard extends StatelessWidget {
       child: Container(
           child: Padding(
             padding: EdgeInsets.symmetric(vertical: SizeConfig.blockSizeVertical!*2.0,horizontal: SizeConfig.blockSizeHorizontal!*2.0),
-            child: Column(
+            child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                CustomText(text: Name,)
+                Icon(Icons.person,color: Colors.blueGrey,),
+                SizedBox(width: SizeConfig.blockSizeHorizontal!*2,),
+                CustomText(text: FirstName,weight: FontWeight.bold,color: textgrey,),
+                SizedBox(width: SizeConfig.blockSizeHorizontal!*1,),
+                CustomText(text: LastName,weight: FontWeight.bold,color: textgrey),
+                Spacer(),
+                Icon(Icons.edit_note_rounded,color: Colors.blueGrey,),
               ],
             ),
           )),

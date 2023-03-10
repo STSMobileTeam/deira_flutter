@@ -20,7 +20,7 @@ class OnewayBloc extends Bloc<OnewayEvent, OnewayState> {
   List<PXR> pXRArray = [];
   List<AVR> aVRArray = [];
 
-  List<dynamic> FLOarray = ["UAI","OSC","NPC","NPCN","FY","G8","SG","AI"];
+  List<dynamic> FLOarray = ["UAI","OSC","NPC","NPCN","FY","G8","SG","AI","IX"];
 
 
   ApiService apiService = ApiService();

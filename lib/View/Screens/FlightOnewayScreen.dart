@@ -388,8 +388,35 @@ class _OnewayScreenState extends State<OnewayScreen> {
                   ),
                   Expanded(
                       child: Container(
-                          color: grayBg,
-                          child: AvailMain.isNotEmpty
+                          color: Colors.white,
+                          child: !IsAllResCame & AvailMain.isEmpty ? Column(
+                            children: [
+                              SizedBox(height: SizeConfig.blockSizeVertical!*4,),
+                              Image.asset(
+                                "assets/images/noflightfound.png",
+                                scale: 1.0,
+                              ),
+                              SizedBox(height: SizeConfig.blockSizeVertical!*1,),
+                              CustomText(text: "No flights found, Modify your search",color: primary_blue,weight: FontWeight.bold,size: SizeConfig.screenWidth!*medium_text,),
+                              SizedBox(height: SizeConfig.blockSizeVertical!*3,),
+                              MaterialButton(
+                                minWidth: SizeConfig.blockSizeHorizontal! * 40,
+                                height: SizeConfig.blockSizeVertical! * 5,
+                                padding: const EdgeInsets.only(
+                                    left: 30, right: 30, top: 14, bottom: 14),
+                                child: Text(
+                                  'Modify Search',
+                                  style: TextStyle(fontSize: SizeConfig.screenWidth!*medium_text),
+                                ),
+                                color: primary_blue,
+                                textColor: Colors.white,
+                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                              )
+                            ],
+                          ) : AvailMain.isNotEmpty
                               ? ListView.builder(
                                   padding: const EdgeInsets.only(
                                       bottom: kFloatingActionButtonMargin + 48),
@@ -513,7 +540,9 @@ class _OnewayScreenState extends State<OnewayScreen> {
                                       ),
                                     ),
                                   ],
-                                )))
+                                )
+                      )
+                  )
                 ],
               );
             },

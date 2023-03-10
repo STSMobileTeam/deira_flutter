@@ -1,5 +1,4 @@
 class PaxModel {
-  String? sNO;
   String? paxRefNumber;
   String? title;
   String? firstName;
@@ -12,11 +11,10 @@ class PaxModel {
   String? passportExpiry;
   String? placeOfBirth;
   String? infantRef;
-  String? isSelected;
   String? issuedContry;
 
   PaxModel(
-      {this.sNO,
+      {
         this.paxRefNumber,
         this.title,
         this.firstName,
@@ -29,11 +27,9 @@ class PaxModel {
         this.passportExpiry,
         this.placeOfBirth,
         this.infantRef,
-        this.isSelected,
         this.issuedContry});
 
   PaxModel.fromJson(Map<String, dynamic> json) {
-    sNO = json['SNO'];
     paxRefNumber = json['PaxRefNumber'];
     title = json['Title'];
     firstName = json['FirstName'];
@@ -46,13 +42,11 @@ class PaxModel {
     passportExpiry = json['PassportExpiry'];
     placeOfBirth = json['PlaceOfBirth'];
     infantRef = json['InfantRef'];
-    isSelected = json['IsSelected'];
     issuedContry = json['IssuedContry'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['SNO'] = this.sNO;
     data['PaxRefNumber'] = this.paxRefNumber;
     data['Title'] = this.title;
     data['FirstName'] = this.firstName;
@@ -65,7 +59,6 @@ class PaxModel {
     data['PassportExpiry'] = this.passportExpiry;
     data['PlaceOfBirth'] = this.placeOfBirth;
     data['InfantRef'] = this.infantRef;
-    data['IsSelected'] = this.isSelected;
     data['IssuedContry'] = this.issuedContry;
     return data;
   }
