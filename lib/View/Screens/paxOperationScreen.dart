@@ -8,7 +8,9 @@ import 'package:flutter_holo_date_picker/flutter_holo_date_picker.dart';
 
 import '../../Helper/Colors.dart';
 import '../../Helper/size_config.dart';
-import '../widgets/customtextfield.dart';
+import 'package:permission_handler/permission_handler.dart';
+
+import 'mrzScreen.dart';
 
 class PaxOperationScreen extends StatefulWidget {
   String type ;
@@ -36,7 +38,7 @@ class _PaxOperationScreenState extends State<PaxOperationScreen> {
   TextEditingController isscountryController = TextEditingController();
 
   final countryPicker =  FlCountryCodePicker(
-    favorites: ['IN','UAE'],
+    favorites: ['AE','IN'],
     showDialCode: true,
     showSearchBar: true,
   );
@@ -106,17 +108,47 @@ class _PaxOperationScreenState extends State<PaxOperationScreen> {
                         SizedBox(height: SizeConfig.blockSizeVertical!*2,),
                         Align(
                           alignment: Alignment.centerLeft,
-                          child: Container(
-                            padding: EdgeInsets.symmetric(vertical: SizeConfig.blockSizeVertical!*0.8,horizontal: SizeConfig.blockSizeHorizontal!*2.5),
-                            child: CustomText(
-                              text:
-                              widget.isEdit && widget.type == "ADT" ? "Adult ${widget.index+1}" :
-                              !widget.isEdit && widget.type == "ADT" ? "Adult ${Utilities.AdtPaxArrayList.length+1}" : "XXXX",
-                              color: Colors.white,
-                              size: SizeConfig.screenWidth!*small_text,),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(25.0),
-                              color: primary_blue,
+                          child: InkWell(
+                            onTap: () {
+                              FutureBuilder<PermissionStatus>(
+                                future: Permission.camera.request(),
+                                builder: (context, snapshot) {
+                                  if (snapshot.hasData && snapshot.data == PermissionStatus.granted) {
+                                    return CameraSettings();
+                                  }
+                                  if (snapshot.data == PermissionStatus.permanentlyDenied) {
+                                    openAppSettings();
+                                  }
+                                  return Scaffold(
+                                    body: Center(
+                                      child: Column(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          const CircularProgressIndicator(),
+                                          const Padding(
+                                            padding: EdgeInsets.all(8.0),
+                                            child: Text('Awaiting for permissions'),
+                                          ),
+                                          Text('Current status: ${snapshot.data?.toString()}'),
+                                        ],
+                                      ),
+                                    ),
+                                  );
+                                },
+                              );
+                            },
+                            child: Container(
+                              padding: EdgeInsets.symmetric(vertical: SizeConfig.blockSizeVertical!*0.8,horizontal: SizeConfig.blockSizeHorizontal!*2.5),
+                              child: CustomText(
+                                text:
+                                widget.isEdit && widget.type == "ADT" ? "Adult ${widget.index+1}" :
+                                !widget.isEdit && widget.type == "ADT" ? "Adult ${Utilities.AdtPaxArrayList.length+1}" : "XXXX",
+                                color: Colors.white,
+                                size: SizeConfig.screenWidth!*small_text,),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(25.0),
+                                color: primary_blue,
+                              ),
                             ),
                           ),
                         ),
@@ -337,11 +369,11 @@ class _PaxOperationScreenState extends State<PaxOperationScreen> {
 
                               final code = await countryPicker.showPicker(context: context);
                               // Null check
-                              if (code != null) print(code);
-
-                              setState(() {
-                                nationalityController.text = code!.name.toString();
-                              });
+                              if (code != null) {
+                                setState(() {
+                                  nationalityController.text = code!.name.toString();
+                                });
+                              }
 
                             },
                             child: IgnorePointer(
@@ -367,8 +399,7 @@ class _PaxOperationScreenState extends State<PaxOperationScreen> {
                                     borderSide: BorderSide(
                                         color: textgrey),
                                   ),
-                                  focusedBorder:
-                                  OutlineInputBorder(
+                                  focusedBorder: OutlineInputBorder(
                                     borderRadius:
                                     new BorderRadius.circular(
                                         5.0),
@@ -462,33 +493,49 @@ class _PaxOperationScreenState extends State<PaxOperationScreen> {
                         SizedBox(height: SizeConfig.blockSizeVertical!*2.5,),
                         SizedBox(
                           height: SizeConfig.blockSizeVertical!*5.5,
-                          child: TextFormField(
-                            validator: (value) {
-                              if (value!.isEmpty) {
-                                return '';
+                          child: GestureDetector(
+                            behavior: HitTestBehavior.opaque,
+                            onTap: () async {
+                              final code = await countryPicker.showPicker(context: context);
+                              // Null check
+                              if (code != null) {
+                                setState(() {
+                                  isscountryController.text =
+                                      code.name.toString();
+                                });
                               }
+
                             },
-                            controller: isscountryController,
-                            textAlign: TextAlign.left,
-                            decoration: InputDecoration(
-                              errorStyle: const TextStyle(fontSize: 0.01),
-                              labelText: "Issued Country",
-                              labelStyle: TextStyle(
-                                color: Colors.grey,
-                              ),
-                              border: OutlineInputBorder(
-                                borderRadius: new BorderRadius.circular(5.0),
-                                borderSide: BorderSide(color: textgrey),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius:
-                                new BorderRadius.circular(
-                                    5.0),
-                                borderSide: BorderSide(
-                                    color: textgrey),
-                              ),
-                              suffixIcon:Container(
-                                child: Icon(Icons.arrow_drop_down_sharp),
+                            child: IgnorePointer(
+                              child: TextFormField(
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return '';
+                                  }
+                                },
+                                controller: isscountryController,
+                                textAlign: TextAlign.left,
+                                decoration: InputDecoration(
+                                  errorStyle: const TextStyle(fontSize: 0.01),
+                                  labelText: "Issued Country",
+                                  labelStyle: TextStyle(
+                                    color: Colors.grey,
+                                  ),
+                                  border: OutlineInputBorder(
+                                    borderRadius: new BorderRadius.circular(5.0),
+                                    borderSide: BorderSide(color: textgrey),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderRadius:
+                                    new BorderRadius.circular(
+                                        5.0),
+                                    borderSide: BorderSide(
+                                        color: textgrey),
+                                  ),
+                                  suffixIcon:Container(
+                                    child: Icon(Icons.arrow_drop_down_sharp),
+                                  ),
+                                ),
                               ),
                             ),
                           ),
