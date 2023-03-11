@@ -8,10 +8,11 @@ import '../View/widgets/customtext.dart';
 
 class PassengerCard extends StatelessWidget {
 
+  final String? Title;
   final String? FirstName;
   final String? LastName;
 
-  const PassengerCard({Key? key,this.FirstName,this.LastName}) : super(key: key);
+  const PassengerCard({Key? key,this.Title,this.FirstName,this.LastName}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -29,6 +30,8 @@ class PassengerCard extends StatelessWidget {
               children: [
                 Icon(Icons.person,color: Colors.blueGrey,),
                 SizedBox(width: SizeConfig.blockSizeHorizontal!*2,),
+                CustomText(text: Title,weight: FontWeight.bold,color: textgrey,),
+                SizedBox(width: SizeConfig.blockSizeHorizontal!*1,),
                 CustomText(text: FirstName,weight: FontWeight.bold,color: textgrey,),
                 SizedBox(width: SizeConfig.blockSizeHorizontal!*1,),
                 CustomText(text: LastName,weight: FontWeight.bold,color: textgrey),

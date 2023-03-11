@@ -807,12 +807,14 @@ class _OnewayScreenState extends State<OnewayScreen> {
 
                                   },
                                   child: FareCardAvail(
-                                    farecode: Availgrp[pos].flightsgrp![index].flights![0].fareTypeDescription,
+                                    farecode: Availgrp[pos].flightsgrp![index].flights![0].fareBasisCode,
                                     faredesc: Availgrp[pos].flightsgrp![index].flights![0].fareTypeDescription,
                                     amount: Utilities.Actual_fare_Avail(A,C,I,Availgrp[pos].flightsgrp![index].flights![0].grossFare!,Availgrp[pos].flightsgrp![index].flights![0].paxType!).toStringAsFixed(2),
                                     token: Availgrp[pos].flightsgrp![index].flights![0].refNum,
                                     selectedIndex: selectedIndex,
+                                    faretype: Availgrp[pos].flightsgrp![index].flights![0].fareType,
                                     index: index,
+                                    baggage: Availgrp[pos].flightsgrp![index].flights![0].baggage,
                                   ),
                                 );
                               }),

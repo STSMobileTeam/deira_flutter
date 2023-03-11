@@ -1,6 +1,7 @@
 import 'package:deira_flutter/View/Screens/paxOperationScreen.dart';
 import 'package:deira_flutter/View/bloc/passengerscreenbloc/passenger_bloc.dart';
 import 'package:deira_flutter/Widget/Cardview_flightDetailsfull.dart';
+import 'package:fl_country_code_picker/fl_country_code_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -26,9 +27,21 @@ class PassengerScreen extends StatefulWidget {
 class _PassengerScreenState extends State<PassengerScreen> {
 
   late PassengerBloc bloc;
-  String AdtCount="",ChdCount="",InfCount="";
+  String AdtCount="0",ChdCount="0",InfCount="0";
   String FromCode="",ToCode="";
+  int TotPax = 0;
 
+  TextEditingController ContryCodeController = TextEditingController();
+  TextEditingController MobileNoController = TextEditingController();
+  TextEditingController EmailIDController = TextEditingController();
+  TextEditingController RefferCodeController = TextEditingController();
+
+  final countryPicker =  FlCountryCodePicker(
+      favorites: ['AE','IN'],
+      showDialCode: true,
+      showSearchBar: true,
+      favoritesIcon: Icon(Icons.flag_outlined)
+  );
 
   @override
   void initState() {
@@ -41,6 +54,12 @@ class _PassengerScreenState extends State<PassengerScreen> {
     bloc.HSRes = widget.HSRes;
 
     Utilities.AdtPaxArrayList.clear();
+    Utilities.ChdPaxArrayList.clear();
+    Utilities.InfPaxArrayList.clear();
+
+    ContryCodeController.text = "971";
+
+
 
   }
 
@@ -211,7 +230,7 @@ class _PassengerScreenState extends State<PassengerScreen> {
                                                           0.5,
                                                     ),
                                                     CustomText(
-                                                      text: '1 Traveller(s)',
+                                                      text: '${TotPax} Traveller(s)',
                                                       weight: FontWeight.bold,
                                                       color: textgrey,
                                                       size: SizeConfig
@@ -262,9 +281,7 @@ class _PassengerScreenState extends State<PassengerScreen> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    SizedBox(
-                                      height: SizeConfig.blockSizeVertical! * 1,
-                                    ),
+                                    SizedBox(height: SizeConfig.blockSizeVertical! * 1,),
                                     CustomText(
                                       text: "Traveller Details",
                                       color: textgrey,
@@ -326,18 +343,12 @@ class _PassengerScreenState extends State<PassengerScreen> {
                                                   MainAxisAlignment.end,
                                               children: [
                                                 CustomText(
-                                                  text: "0/1",
-                                                  size:
-                                                      SizeConfig.screenWidth! *
-                                                          small_text,
+                                                  text: Utilities.AdtPaxArrayList.isEmpty?"0/1":"${Utilities.AdtPaxArrayList.length}"+"/"+AdtCount,
+                                                  size: SizeConfig.screenWidth! * small_text,
                                                   color: Colors.black87,
                                                   weight: FontWeight.bold,
                                                 ),
-                                                SizedBox(
-                                                  width: SizeConfig
-                                                          .blockSizeHorizontal! *
-                                                      0.9,
-                                                ),
+                                                SizedBox(width: SizeConfig.blockSizeHorizontal! * 0.9,),
                                                 CustomText(
                                                   text: "Added",
                                                   size:
@@ -370,51 +381,51 @@ class _PassengerScreenState extends State<PassengerScreen> {
                                               }
                                             },
                                             child: PassengerCard(
+                                              Title: Utilities.AdtPaxArrayList[index].title,
                                               FirstName: Utilities.AdtPaxArrayList[index].firstName,
                                               LastName: Utilities.AdtPaxArrayList[index].lastName,
                                             ),
                                           );
                                         }),
                                     ),
-                                    SizedBox(height: SizeConfig.blockSizeVertical!*2,),
-                                    MaterialButton(
-                                      elevation: 2,
-                                      minWidth:
-                                          SizeConfig.blockSizeHorizontal! * 100,
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(5)),
-                                      height: 50,
-                                      color: Colors.white,
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
+                                    Visibility(
+                                      visible: Utilities.AdtPaxArrayList.length >= int.parse(AdtCount) ? false : true,
+                                      child: Column(
                                         children: [
-                                          Icon(
-                                            Icons.add,
-                                            color: primary_blue,
-                                          ),
-                                          SizedBox(
-                                            width: SizeConfig
-                                                    .blockSizeHorizontal! *
-                                                1,
-                                          ),
-                                          CustomText(
-                                            text: 'ADD NEW ADULT',
-                                            size: SizeConfig.screenWidth! *
-                                                small_text,
-                                            color: primary_blue,
-                                            weight: FontWeight.bold,
+                                          SizedBox(height: SizeConfig.blockSizeVertical!*2,),
+                                          MaterialButton(
+                                            elevation: 2,
+                                            minWidth: SizeConfig.blockSizeHorizontal! * 100,
+                                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+                                            height: 50,
+                                            color: Colors.white,
+                                            child: Row(mainAxisAlignment: MainAxisAlignment.center,
+                                              children: [
+                                                Icon(
+                                                  Icons.add,
+                                                  color: primary_blue,
+                                                ),
+                                                SizedBox(
+                                                  width: SizeConfig.blockSizeHorizontal! * 1,
+                                                ),
+                                                CustomText(
+                                                  text: 'ADD NEW ADULT',
+                                                  size: SizeConfig.screenWidth! * small_text,
+                                                  color: primary_blue,
+                                                  weight: FontWeight.bold,
+                                                )
+                                              ],
+                                            ),
+                                            onPressed: () async {
+                                              var result = await Navigator.of(context).push(MaterialPageRoute(builder: (context) => PaxOperationScreen(type: "ADT",isEdit: false,index: 0,)));
+                                              if(result != null){
+                                                setState(() {
+                                                });
+                                              }
+                                            },
                                           )
                                         ],
                                       ),
-                                      onPressed: () async {
-                                        var result = await Navigator.of(context).push(MaterialPageRoute(builder: (context) => PaxOperationScreen(type: "ADT",isEdit: false,index: 0,)));
-                                        if(result != null){
-                                          setState(() {
-                                          });
-                                        }
-                                      },
                                     ),
                                     Visibility(
                                         visible: ChdCount == "0" ? false : true,
@@ -477,75 +488,107 @@ class _PassengerScreenState extends State<PassengerScreen> {
                                                     flex: 1,
                                                     child: Row(
                                                       mainAxisAlignment:
-                                                          MainAxisAlignment.end,
+                                                      MainAxisAlignment.end,
                                                       children: [
                                                         CustomText(
-                                                          text: "0/1",
-                                                          size: SizeConfig
-                                                                  .screenWidth! *
-                                                              small_text,
+                                                          text: Utilities.ChdPaxArrayList.isEmpty?"0/1":"${Utilities.ChdPaxArrayList.length}"+"/"+ChdCount,
+                                                          size: SizeConfig.screenWidth! * small_text,
                                                           color: Colors.black87,
-                                                          weight:
-                                                              FontWeight.bold,
+                                                          weight: FontWeight.bold,
                                                         ),
-                                                        SizedBox(
-                                                          width: SizeConfig
-                                                                  .blockSizeHorizontal! *
-                                                              0.9,
-                                                        ),
+                                                        SizedBox(width: SizeConfig.blockSizeHorizontal! * 0.9,),
                                                         CustomText(
                                                           text: "Added",
-                                                          size: SizeConfig
-                                                                  .screenWidth! *
+                                                          size:
+                                                          SizeConfig.screenWidth! *
                                                               tiny_text,
                                                           color: textgrey,
                                                         ),
                                                         SizedBox(
                                                           width: SizeConfig
-                                                                  .blockSizeHorizontal! *
+                                                              .blockSizeHorizontal! *
                                                               1.9,
                                                         ),
                                                       ],
-                                                    )),
+                                                    )
+                                                ),
                                               ],
                                             ),
-                                            MaterialButton(
-                                              elevation: 2,
-                                              minWidth: SizeConfig
-                                                      .blockSizeHorizontal! *
-                                                  100,
-                                              shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(5)),
-                                              height: 50,
-                                              color: Colors.white,
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
+                                            Visibility(
+                                              visible: Utilities.ChdPaxArrayList.isEmpty?false:true,
+                                              child: ListView.builder(
+                                                  physics: const NeverScrollableScrollPhysics(),
+                                                  shrinkWrap: true,
+                                                  itemCount: Utilities.ChdPaxArrayList.length,
+                                                  itemBuilder: (context, index) {
+                                                    return InkWell(
+                                                      onTap: () async {
+                                                        var result = await Navigator.of(context).push(MaterialPageRoute(builder: (context) => PaxOperationScreen(type: "CHD",isEdit: true,index: index,)));
+                                                        if(result != null){
+                                                          setState(() {
+                                                          });
+                                                        }
+                                                      },
+                                                      child: PassengerCard(
+                                                        Title: Utilities.ChdPaxArrayList[index].title,
+                                                        FirstName: Utilities.ChdPaxArrayList[index].firstName,
+                                                        LastName: Utilities.ChdPaxArrayList[index].lastName,
+                                                      ),
+                                                    );
+                                                  }),
+                                            ),
+                                            Visibility(
+                                              visible: Utilities.ChdPaxArrayList.length >= int.parse(ChdCount) ? false : true,
+                                              child: Column(
                                                 children: [
-                                                  Icon(
-                                                    Icons.add,
-                                                    color: primary_blue,
+                                                  SizedBox(height: SizeConfig.blockSizeVertical!*2,),
+                                                  MaterialButton(
+                                                    elevation: 2,
+                                                    minWidth: SizeConfig
+                                                        .blockSizeHorizontal! *
+                                                        100,
+                                                    shape: RoundedRectangleBorder(
+                                                        borderRadius:
+                                                        BorderRadius.circular(5)),
+                                                    height: 50,
+                                                    color: Colors.white,
+                                                    child: Row(
+                                                      mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                      children: [
+                                                        Icon(
+                                                          Icons.add,
+                                                          color: primary_blue,
+                                                        ),
+                                                        SizedBox(
+                                                          width: SizeConfig
+                                                              .blockSizeHorizontal! *
+                                                              1,
+                                                        ),
+                                                        CustomText(
+                                                          text: 'ADD NEW CHILD',
+                                                          size: SizeConfig
+                                                              .screenWidth! *
+                                                              small_text,
+                                                          color: primary_blue,
+                                                          weight: FontWeight.bold,
+                                                        )
+                                                      ],
+                                                    ),
+                                                    onPressed: () async {
+                                                      var result = await Navigator.of(context).push(MaterialPageRoute(builder: (context) => PaxOperationScreen(type: "CHD",isEdit: false,index: 0,)));
+                                                      if(result != null){
+                                                        setState(() {
+                                                        });
+                                                      }
+                                                    },
                                                   ),
-                                                  SizedBox(
-                                                    width: SizeConfig
-                                                            .blockSizeHorizontal! *
-                                                        1,
-                                                  ),
-                                                  CustomText(
-                                                    text: 'ADD NEW CHILD',
-                                                    size: SizeConfig
-                                                            .screenWidth! *
-                                                        small_text,
-                                                    color: primary_blue,
-                                                    weight: FontWeight.bold,
-                                                  )
                                                 ],
                                               ),
-                                              onPressed: () {},
                                             ),
                                           ],
-                                        )),
+                                        )
+                                    ),
                                     Visibility(
                                         visible: InfCount == "0" ? false : true,
                                         child: Column(
@@ -607,75 +650,104 @@ class _PassengerScreenState extends State<PassengerScreen> {
                                                     flex: 1,
                                                     child: Row(
                                                       mainAxisAlignment:
-                                                          MainAxisAlignment.end,
+                                                      MainAxisAlignment.end,
                                                       children: [
                                                         CustomText(
-                                                          text: "0/1",
-                                                          size: SizeConfig
-                                                                  .screenWidth! *
-                                                              small_text,
+                                                          text: Utilities.InfPaxArrayList.isEmpty?"0/1":"${Utilities.InfPaxArrayList.length}"+"/"+InfCount,
+                                                          size: SizeConfig.screenWidth! * small_text,
                                                           color: Colors.black87,
-                                                          weight:
-                                                              FontWeight.bold,
+                                                          weight: FontWeight.bold,
                                                         ),
-                                                        SizedBox(
-                                                          width: SizeConfig
-                                                                  .blockSizeHorizontal! *
-                                                              0.9,
-                                                        ),
+                                                        SizedBox(width: SizeConfig.blockSizeHorizontal! * 0.9,),
                                                         CustomText(
                                                           text: "Added",
-                                                          size: SizeConfig
-                                                                  .screenWidth! *
-                                                              tiny_text,
+                                                          size:
+                                                          SizeConfig.screenWidth! * tiny_text,
                                                           color: textgrey,
                                                         ),
                                                         SizedBox(
-                                                          width: SizeConfig
-                                                                  .blockSizeHorizontal! *
-                                                              1.9,
+                                                          width: SizeConfig.blockSizeHorizontal! * 1.9,
                                                         ),
                                                       ],
-                                                    )),
+                                                    )
+                                                ),
                                               ],
                                             ),
-                                            MaterialButton(
-                                              elevation: 2,
-                                              minWidth: SizeConfig
-                                                      .blockSizeHorizontal! *
-                                                  100,
-                                              shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(5)),
-                                              height: 50,
-                                              color: Colors.white,
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
+                                            Visibility(
+                                              visible: Utilities.InfPaxArrayList.isEmpty?false:true,
+                                              child: ListView.builder(
+                                                  physics: const NeverScrollableScrollPhysics(),
+                                                  shrinkWrap: true,
+                                                  itemCount: Utilities.InfPaxArrayList.length,
+                                                  itemBuilder: (context, index) {
+                                                    return InkWell(
+                                                      onTap: () async {
+                                                        var result = await Navigator.of(context).push(MaterialPageRoute(builder: (context) => PaxOperationScreen(type: "INF",isEdit: true,index: index,)));
+                                                        if(result != null){
+                                                          setState(() {
+                                                          });
+                                                        }
+                                                      },
+                                                      child: PassengerCard(
+                                                        Title: Utilities.InfPaxArrayList[index].title,
+                                                        FirstName: Utilities.InfPaxArrayList[index].firstName,
+                                                        LastName: Utilities.InfPaxArrayList[index].lastName,
+                                                      ),
+                                                    );
+                                                  }),
+                                            ),
+                                            Visibility(
+                                              visible: Utilities.InfPaxArrayList.length >= int.parse(InfCount) ? false : true,
+                                              child: Column(
                                                 children: [
-                                                  Icon(
-                                                    Icons.add,
-                                                    color: primary_blue,
+                                                  SizedBox(height: SizeConfig.blockSizeVertical!*2,),
+                                                  MaterialButton(
+                                                    elevation: 2,
+                                                    minWidth: SizeConfig
+                                                        .blockSizeHorizontal! *
+                                                        100,
+                                                    shape: RoundedRectangleBorder(
+                                                        borderRadius:
+                                                        BorderRadius.circular(5)),
+                                                    height: 50,
+                                                    color: Colors.white,
+                                                    child: Row(
+                                                      mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                      children: [
+                                                        Icon(
+                                                          Icons.add,
+                                                          color: primary_blue,
+                                                        ),
+                                                        SizedBox(
+                                                          width: SizeConfig
+                                                              .blockSizeHorizontal! *
+                                                              1,
+                                                        ),
+                                                        CustomText(
+                                                          text: 'ADD NEW INFANT',
+                                                          size: SizeConfig
+                                                              .screenWidth! *
+                                                              small_text,
+                                                          color: primary_blue,
+                                                          weight: FontWeight.bold,
+                                                        )
+                                                      ],
+                                                    ),
+                                                    onPressed: () async {
+                                                      var result = await Navigator.of(context).push(MaterialPageRoute(builder: (context) => PaxOperationScreen(type: "INF",isEdit: false,index: 0,)));
+                                                      if(result != null){
+                                                        setState(() {
+                                                        });
+                                                      }
+                                                    },
                                                   ),
-                                                  SizedBox(
-                                                    width: SizeConfig
-                                                            .blockSizeHorizontal! *
-                                                        1,
-                                                  ),
-                                                  CustomText(
-                                                    text: 'ADD NEW INFANT',
-                                                    size: SizeConfig
-                                                            .screenWidth! *
-                                                        small_text,
-                                                    color: primary_blue,
-                                                    weight: FontWeight.bold,
-                                                  )
                                                 ],
                                               ),
-                                              onPressed: () {},
                                             ),
                                           ],
-                                        )),
+                                        )
+                                    ),
                                     SizedBox(
                                       height:
                                           SizeConfig.blockSizeVertical! * 3.5,
@@ -709,44 +781,45 @@ class _PassengerScreenState extends State<PassengerScreen> {
                                     Row(
                                       children: [
                                         Expanded(
-                                          flex: 1,
+                                          flex: 2,
                                           child: Container(
-                                            decoration: BoxDecoration(
-                                                color: Colors.white),
-                                            padding: EdgeInsets.symmetric(
-                                              horizontal: SizeConfig
-                                                      .blockSizeHorizontal! *
-                                                  1,
-                                            ),
+                                            decoration: BoxDecoration(color: Colors.white),
+                                            padding: EdgeInsets.symmetric(horizontal: SizeConfig.blockSizeHorizontal! * 1,),
                                             child: Stack(
                                               children: <Widget>[
                                                 Container(
-                                                  margin:
-                                                      EdgeInsets.only(top: 10),
+                                                  margin: EdgeInsets.only(top: 10),
                                                   child: SizedBox(
                                                     height: SizeConfig.blockSizeVertical!*5.5,
-                                                    child: TextField(
-                                                      textAlign: TextAlign.left,
-                                                      decoration: InputDecoration(
-                                                        labelText: "Code",
-                                                        labelStyle: TextStyle(
-                                                          color: Colors.grey,
-                                                        ),
-                                                        border:
-                                                            OutlineInputBorder(
-                                                          borderRadius:
-                                                              new BorderRadius
-                                                                  .circular(5.0),
-                                                          borderSide: BorderSide(
-                                                              color: textgrey),
-                                                        ),
-                                                        focusedBorder:
-                                                            OutlineInputBorder(
-                                                          borderRadius:
-                                                              new BorderRadius
-                                                                  .circular(5.0),
-                                                          borderSide: BorderSide(
-                                                              color: textgrey),
+                                                    child: GestureDetector(
+                                                      behavior: HitTestBehavior.opaque,
+                                                      onTap: () async {
+                                                        final code = await countryPicker.showPicker(context: context);
+                                                        // Null check
+                                                        if (code != null) {
+                                                          setState(() {
+                                                            ContryCodeController.text = code.dialCode.toString();
+                                                          });
+                                                        }
+                                                      },
+                                                      child: IgnorePointer(
+                                                        child: TextFormField(
+                                                          controller: ContryCodeController,
+                                                          textAlign: TextAlign.center,
+                                                          readOnly: true,
+                                                          style: TextStyle(fontSize: SizeConfig.screenWidth!*medium_text),
+                                                          decoration: InputDecoration(
+                                                            labelText: "Code",
+                                                            labelStyle: TextStyle(color: Colors.grey,),
+                                                            border: OutlineInputBorder(
+                                                              borderRadius: new BorderRadius.circular(5.0),
+                                                              borderSide: BorderSide(color: textgrey),
+                                                            ),
+                                                            focusedBorder: OutlineInputBorder(
+                                                              borderRadius: new BorderRadius.circular(5.0),
+                                                              borderSide: BorderSide(color: textgrey),
+                                                            ),
+                                                          ),
                                                         ),
                                                       ),
                                                     ),
@@ -757,7 +830,7 @@ class _PassengerScreenState extends State<PassengerScreen> {
                                           ),
                                         ),
                                         Expanded(
-                                          flex: 4,
+                                          flex: 6,
                                           child: Container(
                                             decoration: BoxDecoration(
                                                 color: Colors.white),
@@ -979,7 +1052,7 @@ class _PassengerScreenState extends State<PassengerScreen> {
                                   height: SizeConfig.blockSizeVertical! * 1,
                                 ),
                                 CustomText(
-                                  text: "AED 653.00",
+                                  text: "AED "+Utilities.Actual_fare_Avail_(int.parse(AdtCount), int.parse(ChdCount), int.parse(InfCount), widget.HSRes.lMFlights![0].grossFare!, "ADT|CHD|INF").toStringAsFixed(2),
                                   weight: FontWeight.bold,
                                   size: SizeConfig.screenWidth! *
                                       large_text_extra,
@@ -1001,8 +1074,7 @@ class _PassengerScreenState extends State<PassengerScreen> {
                                 Align(
                                   alignment: Alignment.center,
                                   child: MaterialButton(
-                                    minWidth:
-                                        SizeConfig.blockSizeHorizontal! * 40,
+                                    minWidth: SizeConfig.blockSizeHorizontal! * 40,
                                     height: SizeConfig.blockSizeVertical! * 5,
                                     padding: const EdgeInsets.only(
                                         left: 30,
@@ -1011,17 +1083,16 @@ class _PassengerScreenState extends State<PassengerScreen> {
                                         bottom: 14),
                                     child: CustomText(
                                       text: "Proceed",
-                                      size:
-                                          SizeConfig.screenWidth! * medium_text,
+                                      size: SizeConfig.screenWidth! * medium_text,
                                       color: primary_blue,
                                       weight: FontWeight.bold,
                                     ),
                                     color: Colors.white,
                                     textColor: primary_blue,
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(15.0)),
-                                    onPressed: () {},
+                                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
+                                    onPressed: () {
+
+                                    },
                                   ),
                                 ),
                               ],
@@ -1050,6 +1121,7 @@ class _PassengerScreenState extends State<PassengerScreen> {
     FromCode = prefs.getString("FromCode")!;
     ToCode = prefs.getString("ToCode")!;
 
+    TotPax = int.parse(AdtCount) + int.parse(ChdCount) + int.parse(InfCount) ;
 
     return showModalBottomSheet(
         context: context,

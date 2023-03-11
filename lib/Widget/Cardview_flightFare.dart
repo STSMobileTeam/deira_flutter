@@ -14,8 +14,12 @@ class FareCardAvail extends StatelessWidget {
   final String? token;
   final int? selectedIndex;
   final int? index;
+  final String? faretype;
+  final String? baggage;
 
-  const FareCardAvail({Key? key,this.farecode,this.faredesc,this.amount,this.token,this.selectedIndex,this.index}) : super(key: key);
+
+
+  const FareCardAvail({Key? key,this.baggage,this.faretype,this.farecode,this.faredesc,this.amount,this.token,this.selectedIndex,this.index}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -51,14 +55,15 @@ class FareCardAvail extends StatelessWidget {
                             borderRadius: BorderRadius.circular(100),
                             color: Colors.cyan ,
                           ),
-                          child: Center(child: farecode!.length > 1 ? CustomText(text: farecode![0],color: Colors.white,size: SizeConfig.screenWidth!*0.035,weight: FontWeight.bold,)
-                          :CustomText(text: farecode,color: Colors.white,size: SizeConfig.screenWidth!*0.035,weight: FontWeight.bold,)),
+                          child: Center(child: farecode!.length > 1 ?
+                          CustomText(text: farecode![0],color: Colors.white,size: SizeConfig.screenWidth!*0.035,weight: FontWeight.bold,) :
+                          CustomText(text: farecode,color: Colors.white,size: SizeConfig.screenWidth!*0.035,weight: FontWeight.bold,)),
                         ),
                         SizedBox(width: SizeConfig.blockSizeHorizontal!*1.5,),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            CustomText(text: Utilities.farename(farecode!,faredesc!),size: SizeConfig.screenWidth!*medium_text,weight: FontWeight.w800,color: Colors.black87,),
+                            CustomText(text: Utilities.farename(faretype!,faredesc!),size: SizeConfig.screenWidth!*medium_text,weight: FontWeight.w800,color: Colors.black87,),
                             SizedBox(height: SizeConfig.blockSizeVertical!*0.5,),
                             CustomText(text: "Fare offered by Airline",size: SizeConfig.screenWidth!*small_text,weight: FontWeight.normal,color: Colors.black87,),
                           ],
@@ -98,7 +103,7 @@ class FareCardAvail extends StatelessWidget {
                                 SizedBox(width: SizeConfig.blockSizeHorizontal!*0.5,),
                                 CustomText(text: 'Check-in bag',color: textgrey,size: SizeConfig.screenWidth!*small_text,),
                                 SizedBox(width: SizeConfig.blockSizeHorizontal!*1.5,),
-                                CustomText(text: '85 Kg',color: textgrey,size: SizeConfig.screenWidth!*small_text,weight: FontWeight.bold,),
+                                CustomText(text: baggage,color: textgrey,size: SizeConfig.screenWidth!*small_text,weight: FontWeight.bold,),
                               ],
                             ),
                           ],
