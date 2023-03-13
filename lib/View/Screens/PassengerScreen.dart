@@ -3,6 +3,7 @@ import 'package:deira_flutter/View/bloc/passengerscreenbloc/passenger_bloc.dart'
 import 'package:deira_flutter/Widget/Cardview_flightDetailsfull.dart';
 import 'package:fl_country_code_picker/fl_country_code_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_svg/svg.dart';
@@ -59,9 +60,160 @@ class _PassengerScreenState extends State<PassengerScreen> {
 
     ContryCodeController.text = "971";
 
-
-
   }
+
+  showFareBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+        context: context,
+        isDismissible: false,
+        isScrollControlled: true,
+        builder: (context) => StatefulBuilder(
+          builder: (BuildContext context, setState) => Container(
+            color: Colors.white,
+            child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: SizeConfig.blockSizeHorizontal!*1.5),
+                    child: Column(
+                      children: [
+                        SizedBox(height: SizeConfig.blockSizeVertical!*2,),
+                        Align(alignment: Alignment.centerLeft,child: CustomText(text: "Payment Details",color: primary_blue,weight: FontWeight.bold,size: SizeConfig.screenWidth!*medium_text,)),
+                        SizedBox(height: SizeConfig.blockSizeVertical!*2,),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            CustomText(text: "Total Ticket Amount",color: textgrey,weight: FontWeight.normal,size: SizeConfig.screenWidth!*small_text,),
+                            CustomText(text: "AED "+Utilities.Actual_fare_Avail_(int.parse(AdtCount), int.parse(ChdCount), int.parse(InfCount), widget.HSRes.lMFlights![0].grossFare!, "ADT|CHD|INF").toStringAsFixed(2),
+                              color: textgrey,weight: FontWeight.normal,size: SizeConfig.screenWidth!*small_text,),
+                          ],
+                        ),
+                        SizedBox(height: SizeConfig.blockSizeVertical!*1,),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            CustomText(text: "Total Insurance Amount",color: textgrey,weight: FontWeight.normal,size: SizeConfig.screenWidth!*small_text,),
+                            CustomText(text: "AED 0.00",color: textgrey,weight: FontWeight.normal,size: SizeConfig.screenWidth!*small_text,),
+                          ],
+                        ),
+                        SizedBox(height: SizeConfig.blockSizeVertical!*1,),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            CustomText(text: "Total Meals Amount",color: textgrey,weight: FontWeight.normal,size: SizeConfig.screenWidth!*small_text,),
+                            CustomText(text: "AED 0.00",color: textgrey,weight: FontWeight.normal,size: SizeConfig.screenWidth!*small_text,),
+                          ],
+                        ),
+                        SizedBox(height: SizeConfig.blockSizeVertical!*1,),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            CustomText(text: "Total Baggage Amount",color: textgrey,weight: FontWeight.normal,size: SizeConfig.screenWidth!*small_text,),
+                            CustomText(text: "AED 0.00",color: textgrey,weight: FontWeight.normal,size: SizeConfig.screenWidth!*small_text,),
+                          ],
+                        ),
+                        SizedBox(height: SizeConfig.blockSizeVertical!*1.5,),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            CustomText(text: "Total Seat Amount",color: textgrey,weight: FontWeight.normal,size: SizeConfig.screenWidth!*small_text,),
+                            CustomText(text: "AED 0.00",color: textgrey,weight: FontWeight.normal,size: SizeConfig.screenWidth!*small_text,),
+                          ],
+                        ),
+                        SizedBox(height: SizeConfig.blockSizeVertical!*1.5,),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            CustomText(text: "Total Other SSR Amount",color: textgrey,weight: FontWeight.normal,size: SizeConfig.screenWidth!*small_text,),
+                            CustomText(text: "AED 0.00",color: textgrey,weight: FontWeight.normal,size: SizeConfig.screenWidth!*small_text,),
+                          ],
+                        ),
+                        SizedBox(height: SizeConfig.blockSizeVertical!*1.5,),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    color: primary_blue,
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Expanded(
+                            flex: 1,
+                            child: Padding(
+                              padding: EdgeInsets.only(
+                                  top: SizeConfig.blockSizeVertical! * 1.8,
+                                  bottom: SizeConfig.blockSizeVertical! * 1.8,
+                                  left: SizeConfig.blockSizeHorizontal! * 3),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  CustomText(
+                                    text: "Total Amount",
+                                    size: SizeConfig.screenWidth! * small_text,
+                                    color: secondary_blue,
+                                  ),
+                                  SizedBox(
+                                    height: SizeConfig.blockSizeVertical! * 1,
+                                  ),
+                                  CustomText(
+                                    text: "AED "+Utilities.Actual_fare_Avail_(int.parse(AdtCount), int.parse(ChdCount), int.parse(InfCount), widget.HSRes.lMFlights![0].grossFare!, "ADT|CHD|INF").toStringAsFixed(2),
+                                    weight: FontWeight.bold,
+                                    size: SizeConfig.screenWidth! *
+                                        large_text_extra,
+                                    color: Colors.white,
+                                  ),
+                                ],
+                              ),
+                            )),
+                        Expanded(
+                            flex: 1,
+                            child: Padding(
+                              padding: EdgeInsets.only(
+                                  top: SizeConfig.blockSizeVertical! * 1.8,
+                                  bottom: SizeConfig.blockSizeVertical! * 1.8,
+                                  left: SizeConfig.blockSizeHorizontal! * 3),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  Align(
+                                    alignment: Alignment.center,
+                                    child: MaterialButton(
+                                      minWidth: SizeConfig.blockSizeHorizontal! * 40,
+                                      height: SizeConfig.blockSizeVertical! * 5,
+                                      padding: const EdgeInsets.only(
+                                          left: 30,
+                                          right: 30,
+                                          top: 14,
+                                          bottom: 14),
+                                      child: CustomText(
+                                        text: "Proceed",
+                                        size: SizeConfig.screenWidth! * medium_text,
+                                        color: primary_blue,
+                                        weight: FontWeight.bold,
+                                      ),
+                                      color: Colors.white,
+                                      textColor: primary_blue,
+                                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ))
+                      ],
+                    ),
+                  )
+                ]
+            ),
+          ),
+        ));
+  }
+
 
   final List<Widget> widgets = List.unmodifiable(() sync* {
     for (int i = 0; i < 5; i++) {
@@ -848,6 +1000,10 @@ class _PassengerScreenState extends State<PassengerScreen> {
                                                     height: SizeConfig.blockSizeVertical!*5.5,
                                                     child: TextField(
                                                       textAlign: TextAlign.left,
+                                                      keyboardType: TextInputType.phone,
+                                                      inputFormatters: <TextInputFormatter>[
+                                                        FilteringTextInputFormatter.digitsOnly
+                                                      ],
                                                       decoration: InputDecoration(
                                                         labelText: "Mobile No.",
                                                         labelStyle: TextStyle(
@@ -897,6 +1053,7 @@ class _PassengerScreenState extends State<PassengerScreen> {
                                               height: SizeConfig.blockSizeVertical!*5.5,
                                               child: TextField(
                                                 textAlign: TextAlign.left,
+                                                keyboardType: TextInputType.emailAddress,
                                                 decoration: InputDecoration(
                                                   labelText: "Email ID",
                                                   labelStyle: TextStyle(
@@ -909,14 +1066,7 @@ class _PassengerScreenState extends State<PassengerScreen> {
                                                     borderSide: BorderSide(
                                                         color: textgrey),
                                                   ),
-                                                  focusedBorder:
-                                                      OutlineInputBorder(
-                                                    borderRadius:
-                                                        new BorderRadius.circular(
-                                                            5.0),
-                                                    borderSide: BorderSide(
-                                                        color: textgrey),
-                                                  ),
+                                                  focusedBorder: OutlineInputBorder(borderRadius: new BorderRadius.circular(5.0), borderSide: BorderSide(color: textgrey),),
                                                 ),
                                               ),
                                             ),
@@ -1049,14 +1199,28 @@ class _PassengerScreenState extends State<PassengerScreen> {
                                   color: secondary_blue,
                                 ),
                                 SizedBox(
-                                  height: SizeConfig.blockSizeVertical! * 1,
+                                  height: SizeConfig.blockSizeVertical! * 0.01,
                                 ),
-                                CustomText(
-                                  text: "AED "+Utilities.Actual_fare_Avail_(int.parse(AdtCount), int.parse(ChdCount), int.parse(InfCount), widget.HSRes.lMFlights![0].grossFare!, "ADT|CHD|INF").toStringAsFixed(2),
-                                  weight: FontWeight.bold,
-                                  size: SizeConfig.screenWidth! *
-                                      large_text_extra,
-                                  color: Colors.white,
+                                Row(
+                                  children: [
+                                    CustomText(
+                                      text: "AED "+Utilities.Actual_fare_Avail_(int.parse(AdtCount), int.parse(ChdCount), int.parse(InfCount), widget.HSRes.lMFlights![0].grossFare!, "ADT|CHD|INF").toStringAsFixed(2),
+                                      weight: FontWeight.bold,
+                                      size: SizeConfig.screenWidth! *
+                                          large_text_extra,
+                                      color: Colors.white,
+                                    ),
+                                    IconButton(
+                                      color: Colors.white,
+                                      icon:  Icon(
+                                        Icons.info_outline,
+                                        color: Colors.white,
+                                      ),
+                                      onPressed: () {
+                                        showFareBottomSheet(context);
+                                      },
+                                    )
+                                  ],
                                 ),
                               ],
                             ),

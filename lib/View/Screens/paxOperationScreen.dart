@@ -38,6 +38,11 @@ class _PaxOperationScreenState extends State<PaxOperationScreen> {
   TextEditingController passportExpController = TextEditingController();
   TextEditingController isscountryController = TextEditingController();
 
+
+  int curryear = 2022;
+  int currmonth = 3;
+  int currday = 3;
+
   final countryPicker =  FlCountryCodePicker(
     favorites: ['AE','IN'],
     showDialCode: true,
@@ -50,6 +55,13 @@ class _PaxOperationScreenState extends State<PaxOperationScreen> {
     // TODO: implement initState
 
     super.initState();
+
+    DateTime now = new DateTime.now();
+    DateTime date = new DateTime(now.year, now.month, now.day);
+
+    curryear = date.year;
+    currmonth = date.month;
+    currday = date.day;
 
     if(widget.isEdit) {
 
@@ -323,14 +335,16 @@ class _PaxOperationScreenState extends State<PaxOperationScreen> {
                               child: GestureDetector(
                                 behavior: HitTestBehavior.opaque,
                                 onTap: () async {
+
+
                                   var datePicked = await DatePicker.showSimpleDatePicker(
                                     context,
-                                    initialDate: DateTime(1994),
+                                    initialDate: DateTime(curryear-12,currmonth,currday),
                                     firstDate: DateTime(1960),
-                                    lastDate: DateTime(2012),
+                                    lastDate: DateTime(curryear-12,currmonth,currday),
                                     dateFormat: "dd-MMMM-yyyy",
                                     locale: DateTimePickerLocale.en_us,
-                                    looping: true,
+                                    looping: false,
                                   );
                                   setState(() {
                                     dobController.text = Utilities.dateconversion('dd/MM/yyyy',datePicked.toString());;
@@ -477,12 +491,12 @@ class _PaxOperationScreenState extends State<PaxOperationScreen> {
                                 onTap: () async {
                                   var datePicked = await DatePicker.showSimpleDatePicker(
                                     context,
-                                    initialDate: DateTime(1994),
-                                    firstDate: DateTime(1960),
-                                    lastDate: DateTime(2012),
+                                    initialDate: DateTime(curryear,currmonth,currday),
+                                    firstDate: DateTime(curryear,currmonth,currday),
+                                    lastDate: DateTime(2100),
                                     dateFormat: "dd-MMMM-yyyy",
                                     locale: DateTimePickerLocale.en_us,
-                                    looping: true,
+                                    looping: false,
                                   );
                                   setState(() {
                                     passportExpController.text = Utilities.dateconversion('dd/MM/yyyy',datePicked.toString());;
@@ -824,12 +838,12 @@ class _PaxOperationScreenState extends State<PaxOperationScreen> {
                                 onTap: () async {
                                   var datePicked = await DatePicker.showSimpleDatePicker(
                                     context,
-                                    initialDate: DateTime(1994),
-                                    firstDate: DateTime(1960),
-                                    lastDate: DateTime(2012),
+                                    initialDate: DateTime(curryear-12,currmonth,currday),
+                                    firstDate: DateTime(curryear-12,currmonth,currday),
+                                    lastDate: DateTime(curryear-2,currmonth,currday),
                                     dateFormat: "dd-MMMM-yyyy",
                                     locale: DateTimePickerLocale.en_us,
-                                    looping: true,
+                                    looping: false,
                                   );
                                   setState(() {
                                     dobController.text = Utilities.dateconversion('dd/MM/yyyy',datePicked.toString());;
@@ -976,12 +990,12 @@ class _PaxOperationScreenState extends State<PaxOperationScreen> {
                                 onTap: () async {
                                   var datePicked = await DatePicker.showSimpleDatePicker(
                                     context,
-                                    initialDate: DateTime(1994),
-                                    firstDate: DateTime(1960),
-                                    lastDate: DateTime(2012),
+                                    initialDate: DateTime(curryear,currmonth,currday),
+                                    firstDate: DateTime(curryear,currmonth,currday),
+                                    lastDate: DateTime(2100),
                                     dateFormat: "dd-MMMM-yyyy",
                                     locale: DateTimePickerLocale.en_us,
-                                    looping: true,
+                                    looping: false,
                                   );
                                   setState(() {
                                     passportExpController.text = Utilities.dateconversion('dd/MM/yyyy',datePicked.toString());;
@@ -1321,14 +1335,16 @@ class _PaxOperationScreenState extends State<PaxOperationScreen> {
                               child: GestureDetector(
                                 behavior: HitTestBehavior.opaque,
                                 onTap: () async {
+
+
                                   var datePicked = await DatePicker.showSimpleDatePicker(
                                     context,
-                                    initialDate: DateTime(1994),
-                                    firstDate: DateTime(1960),
-                                    lastDate: DateTime(2012),
+                                    initialDate: DateTime(curryear,currmonth,currday),
+                                    firstDate: DateTime(curryear-2,currmonth,currday),
+                                    lastDate: DateTime(curryear,currmonth,currday),
                                     dateFormat: "dd-MMMM-yyyy",
                                     locale: DateTimePickerLocale.en_us,
-                                    looping: true,
+                                    looping: false,
                                   );
                                   setState(() {
                                     dobController.text = Utilities.dateconversion('dd/MM/yyyy',datePicked.toString());;
@@ -1475,12 +1491,12 @@ class _PaxOperationScreenState extends State<PaxOperationScreen> {
                                 onTap: () async {
                                   var datePicked = await DatePicker.showSimpleDatePicker(
                                     context,
-                                    initialDate: DateTime(1994),
-                                    firstDate: DateTime(1960),
-                                    lastDate: DateTime(2012),
+                                    initialDate: DateTime(curryear,currmonth,currday),
+                                    firstDate: DateTime(curryear,currmonth,currday),
+                                    lastDate: DateTime(2100),
                                     dateFormat: "dd-MMMM-yyyy",
                                     locale: DateTimePickerLocale.en_us,
-                                    looping: true,
+                                    looping: false,
                                   );
                                   setState(() {
                                     passportExpController.text = Utilities.dateconversion('dd/MM/yyyy',datePicked.toString());;

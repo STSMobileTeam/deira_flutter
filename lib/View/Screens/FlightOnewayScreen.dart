@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../Helper/Colors.dart';
@@ -88,7 +89,7 @@ class _OnewayScreenState extends State<OnewayScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: smokewhite,
       appBar: AppBar(
         backgroundColor: primary_blue,
         iconTheme: const IconThemeData(color: Colors.blueAccent),
@@ -211,8 +212,8 @@ class _OnewayScreenState extends State<OnewayScreen> {
         centerTitle: false,
       ),
       body: Container(
+        color: smokewhite,
         child: BlocListener<OnewayBloc, OnewayState>(
-          
           listener: (context, state) {
             // TODO: implement listener
 
@@ -388,7 +389,7 @@ class _OnewayScreenState extends State<OnewayScreen> {
                   ),
                   Expanded(
                       child: Container(
-                          color: Colors.white,
+                          color: smokewhite,
                           child: !IsAllResCame & AvailMain.isEmpty ? Column(
                             children: [
                               SizedBox(height: SizeConfig.blockSizeVertical!*4,),
@@ -416,79 +417,237 @@ class _OnewayScreenState extends State<OnewayScreen> {
                                 },
                               )
                             ],
-                          ) : AvailMain.isNotEmpty
-                              ? ListView.builder(
-                                  padding: const EdgeInsets.only(
-                                      bottom: kFloatingActionButtonMargin + 48),
-                                  shrinkWrap: true,
-                                  itemCount: AvailMain.length,
-                                  itemBuilder: (context, index) {
-                                    return InkWell(
-                                      onTap: () async {
-                                        print('Printing the index--' +
-                                            index.toString());
-                                        print('AvailMain flights grp length--' +
-                                            AvailMain[index]
-                                                .flights!
-                                                .length
-                                                .toString());
-                                        print('AvailMain length--' +
-                                            AvailMain.length.toString());
-
-                                        PopupFareDetails(context, index,
-                                            AvailMain[index].flights!,AvailMain);
-
-                                        for (int x = 0; x < AvailMain[index].flightsgrp!.length; x++) {
-
-                                          print('Printing the token--' + x.toString() + ' ' +
-                                              AvailMain[index].flightsgrp![x].flights![0].refNum.toString());
-
-                                        }
-
-                                      },
-                                      child: OnewayAvilCard(
-                                        carrierCode: AvailMain[index]
-                                            .flights![0]
-                                            .platingCarrier,
-                                        carriername: AvailMain[index]
-                                            .flights![0]
-                                            .airlineName,
-                                        depTime: AvailMain[index]
-                                            .flights![0]
-                                            .departureTime,
-                                        depCity:
-                                            AvailMain[index].flights![0].origin,
-                                        journeyHrs: Utilities.durationToString(
-                                            AvailMain[index].journeyTime),
-                                        stops: AvailMain[index]
-                                            .flights![AvailMain[index]
-                                                    .flights!
-                                                    .length -
-                                                1]
-                                            .stops,
-                                        arrTime: AvailMain[index]
-                                            .flights![AvailMain[index]
-                                                    .flights!
-                                                    .length -
-                                                1]
-                                            .arrivalTime,
-                                        arrCity: AvailMain[index]
-                                            .flights![AvailMain[index]
-                                                    .flights!
-                                                    .length -
-                                                1]
-                                            .destination,
-                                        amount: Utilities.Actual_fare_Avail(A,C,I,AvailMain[index].fare!,AvailMain[index].flights![0].paxType!).toStringAsFixed(2),
-                                        seatCount: AvailMain[index]
-                                            .flights![0]
-                                            .availSeat,
-                                        baggage: AvailMain[index]
-                                            .flights![0]
-                                            .baggage,
-                                        refund: 'N',
+                          ) :
+                          AvailMain.isNotEmpty
+                              ? Stack(
+                                children: [
+                                  Align(
+                                    alignment: Alignment.bottomCenter,
+                                    child: Container(
+                                      margin: EdgeInsets.symmetric(horizontal: SizeConfig.blockSizeVertical!*2, vertical: SizeConfig.blockSizeVertical!*4),
+                                      height: SizeConfig.blockSizeVertical!*6,
+                                      decoration: new BoxDecoration(
+                                        borderRadius: new BorderRadius.circular(10.0),
+                                        shape: BoxShape.rectangle,
+                                        color: Colors.black.withOpacity(0.5),
+                                        boxShadow: <BoxShadow>[
+                                          new BoxShadow(
+                                            color: Colors.black26,
+                                            blurRadius: 5.0,
+                                            offset: new Offset(5.0, 5.0),
+                                          ),
+                                        ],
                                       ),
-                                    );
-                                  })
+                                      child: Row(
+                                        children: [
+                                          Expanded(
+                                              flex:1,
+                                              child: CustomText(size: SizeConfig.screenWidth!*tiny_text,textAlign: TextAlign.center,text: 'SORT\nBY',color: Colors.white,weight: FontWeight.bold,)
+                                          ),
+                                          Expanded(
+                                              flex:5,
+                                              child: ListView(
+                                                scrollDirection: Axis.horizontal,
+                                                children: [
+                                                  SizedBox(width: SizeConfig.blockSizeHorizontal!*1.5,),
+                                                  Padding(
+                                                    padding: EdgeInsets.symmetric(vertical: SizeConfig.blockSizeVertical!*0.8),
+                                                    child: Container(
+                                                      width: SizeConfig.blockSizeHorizontal!*20,
+                                                      decoration: BoxDecoration(
+                                                        color: Colors.white,
+                                                        border: Border.all(color: Colors.white),
+                                                        borderRadius: BorderRadius.all(
+                                                            Radius.circular(8)),
+                                                      ),
+                                                      child: Center(
+                                                        child: CustomText(
+                                                          text: "Cheapest\nFirst",
+                                                          color: textgrey,
+                                                          textAlign: TextAlign.center,
+                                                          weight: FontWeight.bold,
+                                                          size: SizeConfig.screenWidth!*0.030,
+                                                        ),
+                                                      ),
+                                                      padding: EdgeInsets.all(2),
+                                                    ),
+                                                  ),
+                                                  SizedBox(width: SizeConfig.blockSizeHorizontal!*1.5,),
+                                                  Padding(
+                                                    padding: EdgeInsets.symmetric(vertical: SizeConfig.blockSizeVertical!*0.8),
+                                                    child: Container(
+                                                      width: SizeConfig.blockSizeHorizontal!*20,
+                                                      decoration: BoxDecoration(
+                                                        color: blackblue,
+                                                        border: Border.all(color: blackblue),
+                                                        borderRadius: BorderRadius.all(
+                                                            Radius.circular(8)),
+                                                      ),
+                                                      child: Center(
+                                                        child: CustomText(
+                                                          text: "Highest\nFirst",
+                                                          color: Colors.white,
+                                                          textAlign: TextAlign.center,
+                                                          weight: FontWeight.bold,
+                                                          size: SizeConfig.screenWidth!*0.030,
+                                                        ),
+                                                      ),
+                                                      padding: EdgeInsets.all(2),
+                                                    ),
+                                                  ),
+                                                  SizedBox(width: SizeConfig.blockSizeHorizontal!*1.5,),
+                                                  Padding(
+                                                    padding: EdgeInsets.symmetric(vertical: SizeConfig.blockSizeVertical!*0.8),
+                                                    child: Container(
+                                                      width: SizeConfig.blockSizeHorizontal!*20,
+                                                      decoration: BoxDecoration(
+                                                        color: blackblue,
+                                                        border: Border.all(color: blackblue),
+                                                        borderRadius: BorderRadius.all(
+                                                            Radius.circular(8)),
+                                                      ),
+                                                      child: Center(
+                                                        child: CustomText(
+                                                          text: "Earliest\nFirst",
+                                                          color: Colors.white,
+                                                          textAlign: TextAlign.center,
+                                                          weight: FontWeight.bold,
+                                                          size: SizeConfig.screenWidth!*0.030,
+                                                        ),
+                                                      ),
+                                                      padding: EdgeInsets.all(2),
+                                                    ),
+                                                  ),
+                                                  SizedBox(width: SizeConfig.blockSizeHorizontal!*1.5,),
+                                                  Padding(
+                                                    padding: EdgeInsets.symmetric(vertical: SizeConfig.blockSizeVertical!*0.8),
+                                                    child: Container(
+                                                      width: SizeConfig.blockSizeHorizontal!*20,
+                                                      decoration: BoxDecoration(
+                                                        color: blackblue,
+                                                        border: Border.all(color: blackblue),
+                                                        borderRadius: BorderRadius.all(
+                                                            Radius.circular(8)),
+                                                      ),
+                                                      child: Center(
+                                                        child: CustomText(
+                                                          text: "Fastest\nFirst",
+                                                          color: Colors.white,
+                                                          textAlign: TextAlign.center,
+                                                          weight: FontWeight.bold,
+                                                          size: SizeConfig.screenWidth!*0.030,
+                                                        ),
+                                                      ),
+                                                      padding: EdgeInsets.all(2),
+                                                    ),
+                                                  ),
+                                                ],
+                                              )
+                                          ),
+                                          Expanded(
+                                              flex:1,
+                                              child: Container(
+                                                padding: EdgeInsets.all(12),
+                                                height: double.infinity,
+                                                decoration: BoxDecoration(
+                                                  gradient: LinearGradient(
+                                                      colors: [
+                                                        const Color(0xFF3366FF),
+                                                        const Color(0xFF00CCFF),
+                                                      ],
+                                                      begin: const FractionalOffset(0.0, 0.0),
+                                                      end: const FractionalOffset(1.0, 0.0),
+                                                      stops: [0.0, 1.0],
+                                                      tileMode: TileMode.clamp),
+                                                  borderRadius: BorderRadius.only(topRight: Radius.circular(10), bottomRight: Radius.circular(10)),
+                                                ),
+                                                child: SvgPicture.asset(
+                                                  'assets/images/filterfilled.svg',
+                                                  width: 5.0,
+                                                  height: 5.0,
+                                                  color: Colors.white,
+                                                ),
+                                              )
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                  ListView.builder(
+                                      padding: const EdgeInsets.only(
+                                          bottom: kFloatingActionButtonMargin + 48),
+                                      shrinkWrap: true,
+                                      itemCount: AvailMain.length,
+                                      itemBuilder: (context, index) {
+                                        return InkWell(
+                                          onTap: () async {
+                                            print('Printing the index--' +
+                                                index.toString());
+                                            print('AvailMain flights grp length--' +
+                                                AvailMain[index]
+                                                    .flights!
+                                                    .length
+                                                    .toString());
+                                            print('AvailMain length--' +
+                                                AvailMain.length.toString());
+
+                                            PopupFareDetails(context, index,
+                                                AvailMain[index].flights!,AvailMain);
+
+                                            for (int x = 0; x < AvailMain[index].flightsgrp!.length; x++) {
+
+                                              print('Printing the token--' + x.toString() + ' ' +
+                                                  AvailMain[index].flightsgrp![x].flights![0].refNum.toString());
+
+                                            }
+
+                                          },
+                                          child: OnewayAvilCard(
+                                            carrierCode: AvailMain[index]
+                                                .flights![0]
+                                                .platingCarrier,
+                                            carriername: AvailMain[index]
+                                                .flights![0]
+                                                .airlineName,
+                                            depTime: AvailMain[index]
+                                                .flights![0]
+                                                .departureTime,
+                                            depCity:
+                                            AvailMain[index].flights![0].origin,
+                                            journeyHrs: Utilities.durationToString(
+                                                AvailMain[index].journeyTime),
+                                            stops: AvailMain[index]
+                                                .flights![AvailMain[index]
+                                                .flights!
+                                                .length -
+                                                1]
+                                                .stops,
+                                            arrTime: AvailMain[index]
+                                                .flights![AvailMain[index]
+                                                .flights!
+                                                .length -
+                                                1]
+                                                .arrivalTime,
+                                            arrCity: AvailMain[index]
+                                                .flights![AvailMain[index]
+                                                .flights!
+                                                .length -
+                                                1]
+                                                .destination,
+                                            amount: Utilities.Actual_fare_Avail(A,C,I,AvailMain[index].fare!,AvailMain[index].flights![0].paxType!).toStringAsFixed(2),
+                                            seatCount: AvailMain[index]
+                                                .flights![0]
+                                                .availSeat,
+                                            baggage: AvailMain[index]
+                                                .flights![0]
+                                                .baggage,
+                                            refund: 'N',
+                                          ),
+                                        );
+                                      }),
+
+                                ],
+                              )
                               : Column(
                                   children: [
                                     Expanded(
